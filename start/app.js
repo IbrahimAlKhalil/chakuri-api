@@ -1,4 +1,4 @@
-'use strict'
+const path = require('path')
 
 /*
 |--------------------------------------------------------------------------
@@ -11,11 +11,11 @@
 |
 */
 const providers = [
-  '@adonisjs/framework/providers/AppProvider',
-  '@adonisjs/auth/providers/AuthProvider',
-  '@adonisjs/bodyparser/providers/BodyParserProvider',
-  '@adonisjs/cors/providers/CorsProvider',
-  '@adonisjs/lucid/providers/LucidProvider'
+    '@adonisjs/framework/providers/AppProvider',
+    '@adonisjs/bodyparser/providers/BodyParserProvider',
+    '@adonisjs/cors/providers/CorsProvider',
+    '@adonisjs/lucid/providers/LucidProvider',
+    '@adonisjs/validator/providers/ValidatorProvider'
 ]
 
 /*
@@ -28,7 +28,7 @@ const providers = [
 |
 */
 const aceProviders = [
-  '@adonisjs/lucid/providers/MigrationsProvider'
+    '@adonisjs/lucid/providers/MigrationsProvider'
 ]
 
 /*
@@ -55,4 +55,4 @@ const aliases = {}
 */
 const commands = []
 
-module.exports = { providers, aceProviders, aliases, commands }
+module.exports = {providers, aceProviders, aliases, commands}

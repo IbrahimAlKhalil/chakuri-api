@@ -17,5 +17,8 @@
 const Route = use('Route')
 
 Route.get('/', () => {
-  return { greeting: 'Hello world in JSON' }
+    return {greeting: 'Hello world in JSON'}
 })
+
+Route.post('/register', 'UserController.register').middleware('guest')
+Route.post('/login', 'UserController.login').middleware('guest')

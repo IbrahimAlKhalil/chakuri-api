@@ -1,6 +1,7 @@
 'use strict'
 
-const truncateMobile = require('../helpers').truncateMobile
+const {truncateMobile} = require('../helpers')
+
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
 
@@ -10,6 +11,14 @@ const Hash = use('Hash')
 class User extends Model {
     setMobile(mobile) {
         return truncateMobile(mobile)
+    }
+
+    tokens() {
+        return this.hasMany('Token')
+    }
+
+    roles() {
+        return this.belongsToMany('Role')
     }
 
     static boot() {

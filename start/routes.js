@@ -16,9 +16,9 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-Route.get('/', () => {
-    return {greeting: 'Hello world in JSON'}
-})
-
 Route.post('/register', 'UserController.register').middleware('guest')
-Route.post('/login', 'UserController.login').middleware('guest')
+
+
+/******* Validation ********/
+Route.post('/mobile-exists', 'UserController.userExists')
+Route.post('/email-exists', 'UserController.userExistsByEmail')

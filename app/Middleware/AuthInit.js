@@ -4,20 +4,21 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
-class Auth {
+const AuthManager = use('App/AuthManager')
+
+class AuthInit {
     /**
      * @param {object} ctx
      * @param {Request} ctx.request
      * @param {Function} next
      */
-    async handle({request, auth, response}, next) {
-        if (!auth.authenticated) {
-            return response.status(401).send('')
-        }
+    async handle(ctx, next) {
+        ctx.auth = new AuthManager(ctx)
+        await ctx.auth.init()
 
         // call next to advance the request
         await next()
     }
 }
 
-module.exports = Auth
+module.exports = AuthInit

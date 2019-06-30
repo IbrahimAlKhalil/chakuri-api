@@ -50,6 +50,10 @@ class ProductionSeeder {
             {
                 name: 'admin',
                 display_name: 'Admin'
+            },
+            {
+                name: 'moderator',
+                display_name: 'Moderator'
             }
         ])
 
@@ -78,6 +82,7 @@ class ProductionSeeder {
             }
         ])
 
+
         /**** Create admin account ****/
         const user = new User
         user.user_type_id = 3
@@ -85,6 +90,26 @@ class ProductionSeeder {
         user.email = 'hm.ibrahimalkhalil@gmail.com'
         user.password = '12345678'
         await user.save()
+
+        await db.from('role_user').insert([
+            {
+                user_id: user.id,
+                role_id: 1
+            }
+        ])
+
+        await db.from('permissions').insert([
+            {
+                name: 'all'
+            }
+        ])
+
+        await db.from('role_permission').insert([
+            {
+                role_id: 1,
+                permission_id: 1
+            }
+        ])
 
         await generateToken(user.id, true)
     }

@@ -12,6 +12,7 @@ class JobsSchema extends Schema {
                 .references('id')
                 .inTable('institutions').notNullable()
             table.string('position')
+            table.date('deadline')
             table.timestamps()
         })
     }

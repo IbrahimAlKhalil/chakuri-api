@@ -19,6 +19,10 @@ class InstitutionsSchema extends Schema {
                 .unsigned()
                 .references('id')
                 .inTable('villages').notNullable()
+            table.integer('logo')
+                .unsigned()
+                .references('id')
+                .inTable('files').notNullable()
             table.timestamps()
         })
     }

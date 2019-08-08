@@ -16,70 +16,76 @@ const Factory = use('Factory')
 
 const db = use('Database')
 const User = use('App/Models/User')
+const Env = use('Env')
 
 class ProductionSeeder {
     async run() {
 
-        /**** Seed user_types ****/
+        await Promise.all([
 
-        await db.from('user_types').insert([
-            {
-                name: 'employee'
-            },
-            {
-                name: 'institution'
-            },
-            {
-                name: 'moderator'
-            }
-        ])
+            /**** Seed user_types ****/
+            db.from('user_types').insert([
+                {
+                    name: 'employee'
+                },
+                {
+                    name: 'institution'
+                },
+                {
+                    name: 'moderator'
+                }
+            ]),
 
-        /**** Insert clients ****/
+            /**** Insert clients ****/
 
-        await db.from('clients').insert([
-            {
-                name: 'web'
-            },
-            {
-                name: 'mobile'
-            }
-        ])
+            db.from('clients').insert([
+                {
+                    name: 'web'
+                },
+                {
+                    name: 'mobile'
+                }
+            ]),
 
-        /**** Insert roles ****/
-        await db.from('roles').insert([
-            {
-                name: 'admin',
-                display_name: 'Admin'
-            },
-            {
-                name: 'moderator',
-                display_name: 'Moderator'
-            }
-        ])
+            /**** Insert roles ****/
+            db.from('roles').insert([
+                {
+                    name: 'admin',
+                    display_name: 'Admin'
+                },
+                {
+                    name: 'moderator',
+                    display_name: 'Moderator'
+                }
+            ]),
 
-        /**** Insert institution types ****/
-        await db.from('institution_types').insert([
-            {
-                name: 'governmental',
-                display_name: 'সরকারি'
-            },
-            {
-                name: 'non-governmental',
-                display_name: 'বেসরকারি'
-            }
-        ])
 
-        /*** Insert categories ***/
+            /**** Insert institution types ****/
+            db.from('institution_types').insert([
+                {
+                    name: 'governmental',
+                    display_name: 'সরকারি'
+                },
+                {
+                    name: 'non-governmental',
+                    display_name: 'বেসরকারি'
+                }
+            ]),
 
-        await db.from('categories').insert([
-            {
-                name: 'masjid',
-                display_name: 'মসজিদ'
-            },
-            {
-                name: 'madrasa',
-                display_name: 'মাদ্রাসা'
-            }
+            /*** Insert categories ***/
+
+            db.from('categories').insert([
+                {
+                    name: 'masjid',
+                    display_name: 'মসজিদ',
+                    icon: 'fas fa-mosque'
+                },
+                {
+                    name: 'madrasa',
+                    display_name: 'মাদ্রাসা',
+                    icon: 'fas fa-school'
+                }
+            ])
         ])
 
 
@@ -91,17 +97,21 @@ class ProductionSeeder {
         user.password = '12345678'
         await user.save()
 
-        await db.from('role_user').insert([
-            {
-                user_id: user.id,
-                role_id: 1
-            }
-        ])
+        await Promise.all([
+            db.from('role_user').insert([
+                {
+                    user_id: user.id,
+                    role_id: 1
+                }
+            ]),
 
-        await db.from('permissions').insert([
-            {
-                name: 'all'
-            }
+            db.from('permissions').insert([
+                {
+                    name: 'all'
+                }
+            ]),
+
+            generateToken(user.id, true)
         ])
 
         await db.from('role_permission').insert([
@@ -111,7 +121,47 @@ class ProductionSeeder {
             }
         ])
 
-        await generateToken(user.id, true)
+
+        // Insert places
+        let divisions = require('./divisions')
+        const districts = require('./districts')
+        const thanas = require('./thanas')
+
+        function clean(data) {
+            data.forEach(data => {
+                data.name = data.bn_name
+
+                delete data.bn_name
+            })
+        }
+
+        [divisions, districts, thanas].forEach(clean)
+
+        await db.from('divisions').insert(divisions)
+        await db.from('districts').insert(districts)
+        await db.from('thanas').insert(thanas)
+
+
+        // Add mysql event for deleting expired tokens
+
+
+        await Promise.all([
+            db.raw(
+                `CREATE EVENT IF NOT EXISTS AutoDeleteExpiredTokens 
+            ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 DAY 
+            ON COMPLETION PRESERVE 
+            DO 
+            DELETE FROM ${Env.get('DB_DATABASE')}.tokens WHERE updated_at < DATE_SUB(NOW(), INTERVAL 5 HOUR)`
+            ),
+
+            db.raw(`
+            CREATE EVENT IF NOT EXISTS AutoDeleteExpiredVerificationTokens 
+            ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 HOUR 
+            ON COMPLETION PRESERVE 
+            DO 
+            DELETE FROM ${Env.get('DB_DATABASE')}.verification_tokens WHERE created_at < DATE_SUB(NOW(), INTERVAL 1 HOUR)
+            `)
+        ])
     }
 }
 

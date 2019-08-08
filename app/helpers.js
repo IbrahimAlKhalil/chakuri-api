@@ -21,13 +21,15 @@ exports.putStringAt = function (source, str, index) {
     return `${source.slice(0, index)}${str}${source.slice(index)}`
 }
 
-exports.zeroPrefix = function (num) {
+const zeroPrefix = function (num) {
     if (num < 10) {
         return `0${num}`
     }
 
     return num.toString()
 }
+
+exports.zeroPrefix = zeroPrefix
 
 exports.formatJwt = function (userId, token) {
     return {
@@ -72,3 +74,24 @@ exports.generateToken = async function (userId, newUser) {
 
     return key
 }
+
+exports.enToBn = function (enNums) {
+    const str = enNums.toString()
+    const translations = {
+        0: '০',
+        1: '১',
+        2: '২',
+        3: '৩',
+        4: '৪',
+        5: '৫',
+        6: '৬',
+        7: '৭',
+        8: '৮',
+        9: '৯',
+    }
+
+    return str.replace(/\d/gm, (match) => {
+        return translations[match]
+    })
+}
+

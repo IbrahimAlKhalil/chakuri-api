@@ -1,7 +1,18 @@
 'use strict'
 
 const User = use('App/Models/User')
+const db = use('Database')
+const VerificationToken = use('App/Models/VerificationToken')
+const Resume = use('App/Models/Resume')
+const crypto = require('crypto')
 const {validate} = use('Validator')
+const Hash = use('Hash')
+const Env = use('Env')
+const Route = use('Route')
+const Mail = use('Mail')
+const emailTemplate = require('../../../templates/email-verification')
+const {truncateMobile} = require('../../helpers')
+const sharp = require('sharp')
 
 class UserController {
 
@@ -10,7 +21,7 @@ class UserController {
         // Validate only password, name. Other inputs will be validated by userExists method
         const validation = await validate(request.only(['password', 'name']), {
             password: 'required|min:8',
-            name: 'required'
+            name: 'required|string|max:190'
         })
 
 
@@ -24,6 +35,13 @@ class UserController {
         const user = await User.create(
             request.only(['user_type_id', 'mobile', 'email', 'password', 'name'])
         )
+
+        await Resume.create({
+            user_id: user.id,
+            name: user.name,
+            mobile: user.mobile,
+            email: user.email
+        })
 
         // Attempt to login
         return await auth.login(
@@ -39,7 +57,7 @@ class UserController {
 
         const validation = await validate(
             request.only(['user_type_id', 'mobile', 'email']), {
-                user_type_id: 'required|in:1,2',
+                user_type_id: 'required|in:1,2,3',
                 mobile: 'required|mobile',
                 email: 'email'
             })
@@ -87,6 +105,361 @@ class UserController {
         }
 
         return await UserController.exists('email', request)
+    }
+
+    async updateName({request, auth, response}) {
+        const validation = await validate(request.only(['name']), {
+            name: 'required|max: 190'
+        })
+
+        if (validation.fails()) {
+            return response.status(422).send('')
+        }
+
+        await User.query()
+            .update({name: request.input('name')})
+            .where('id', auth.id)
+
+        return ''
+    }
+
+    async updateEmail({request, auth, response}) {
+        const validation = await validate(request.only(['email', 'password']), {
+            email: 'required|email',
+            password: 'required|min:8'
+        })
+
+        // Validate user input
+        if (validation.fails()) {
+            return response.status(422).send('দুঃখিত, কিছু ভুল হয়েছে দয়া করে আবার চেষ্টা করুন')
+        }
+
+        const email = request.input('email')
+
+        const oldToken = await db.raw(`
+          select payload, type
+          from verification_tokens
+          where user_id = ?
+            and created_at >= date_sub(NOW(), interval 1 hour)
+            and type = 'email'
+        `, [auth.id])
+
+        // User should request twice
+        if (oldToken[0].length > 0) {
+            return response.status(422).send('')
+        }
+
+        // Fetch user instance
+        const user = await User.query()
+            .select('password', 'email')
+            .where('id', auth.id)
+            .first()
+
+        // Check whether user exists
+        if (!user) {
+            return response.status(422).send('দুঃখিত, কিছু ভুল হয়েছে দয়া করে আবার চেষ্টা করুন')
+        }
+
+        // New and previous email should be different
+        if (user.email === email) {
+            return response.status(422).send('')
+        }
+
+        // Verify password
+        const verified = await Hash.verify(request.input('password'), user.password)
+
+        // exit if password is not correct
+        if (!verified) {
+            return response.status(422).send('দুঃখিত, পাসওয়ার্ডটি সঠিক নয় ')
+        }
+
+
+        // Create verification token
+        const verification = new VerificationToken
+        verification.user_id = auth.id
+        verification.type = 'email'
+        verification.payload = email
+        await verification.save()
+
+        verification.token = crypto.randomBytes(20).toString('hex') + 1/*verification.id*/
+        await verification.save()
+
+        const action = Route.url('email-verification', {
+            token: verification.token
+        })
+
+        // Send email
+        const template = emailTemplate({
+            company: 'Bahech',
+            message: 'Thanks for signing up! We\'re excited to have you as an early user.',
+            action: 'http://' + request.header('host') + action,
+            address: 'Kajla, Vangapress, Jatrabari, Dhaka 1236, Bangladesh'
+        })
+
+        await Mail.raw(template, message => {
+            message.to(email)
+            message.subject('Email verification')
+        })
+
+        return ''
+    }
+
+    async verifyEmail({params, response}) {
+        const token = params.token
+        const sorry = `
+            <h1>Sorry this token is expired</h1>
+            `
+
+        // Fetch token
+        const verified = await VerificationToken.query()
+            .where('id', token.charAt(token.length - 1))
+            .first()
+
+        // Check whether exists
+        if (!verified) {
+            return response.send(sorry)
+        }
+
+        // Match token
+        if (verified.token !== token) {
+            return response.send(sorry)
+        }
+
+        // Issued date
+        const issued = new Date(verified.updated_at.toString())
+        const createdAgo = Date.now() - issued.getTime()
+
+        // Token cannot be expired
+        if (createdAgo >= Env.get('VERIFY_TOKEN_LIFETIME')) {
+            return response.send(sorry)
+        }
+
+        // Delete token
+        await verified.delete()
+
+        // Update user data
+        await User.query()
+            .update({
+                email: verified.payload
+            })
+            .where('id', verified.user_id)
+
+        return `
+        <h1>Success!</h1>
+        `
+    }
+
+    async getEmailAndMobile({request, auth}) {
+        const pending = await db.raw(`
+          select payload, type
+          from verification_tokens
+          where (user_id = ? and created_at >= date_sub(NOW(), interval 1 hour))
+            and (type = 'email' or type = 'mobile')
+        `, [auth.id])
+
+        const data = {
+            email: [],
+            mobile: []
+        }
+
+        pending[0].forEach(item => {
+            data[item.type].push({
+                value: item.payload,
+                verified: false
+            })
+        })
+
+        return data
+    }
+
+    async updateMobile({request, auth, response}) {
+        const validation = await validate(request.only(['mobile', 'password']), {
+            mobile: 'required|mobile',
+            password: 'required|min:8'
+        })
+
+        // Validate user input
+        if (validation.fails()) {
+            return response.status(422).send('দুঃখিত, কিছু ভুল হয়েছে দয়া করে আবার চেষ্টা করুন')
+        }
+
+        const mobile = request.input('mobile')
+
+        const oldToken = await db.raw(`
+          select payload, type
+          from verification_tokens
+          where user_id = ?
+            and created_at >= date_sub(NOW(), interval 1 hour)
+            and type = 'mobile'
+        `, [auth.id])
+
+        // User should not request twice
+        if (oldToken[0].length > 0) {
+            return response.status(422).send('')
+        }
+
+        // Fetch user instance
+        const user = await User.query()
+            .select('password', 'mobile')
+            .where('id', auth.id)
+            .first()
+
+        // Check whether user exists
+        if (!user) {
+            return response.status(422).send('দুঃখিত, কিছু ভুল হয়েছে দয়া করে আবার চেষ্টা করুন')
+        }
+
+        // New and previous email should be different
+        if (user.mobile === mobile) {
+            return response.status(422).send('')
+        }
+
+        // Verify password
+        const verified = await Hash.verify(request.input('password'), user.password)
+
+        // exit if password is not correct
+        if (!verified) {
+            return response.status(422).send('দুঃখিত, পাসওয়ার্ডটি সঠিক নয় ')
+        }
+
+
+        // Create verification token
+        const verification = new VerificationToken
+        verification.user_id = auth.id
+        verification.type = 'mobile'
+        verification.payload = mobile
+        await verification.save()
+
+        verification.token = Math.floor(100000 + Math.random() * 900000)
+        await verification.save()
+
+
+        // Send message
+
+        return ''
+    }
+
+    async verifyMobile({params, response, auth}) {
+        const token = params.token
+
+        // Fetch token
+        const verified = await VerificationToken.query()
+            .where('user_id', auth.id)
+            .where('type', 'mobile')
+            .first()
+
+        // Check whether exists
+        if (!verified) {
+            return response.status(422).send({
+                message: 'কোডের মেয়াদ উত্তীর্ণ হয়ে গেছে',
+                status: 'expired'
+            })
+        }
+
+        if (verified.try > 5) {
+            return response.status(422).send({
+                message: 'দুঃখিত, আপনি পাঁচ বারের বেশি ভুল কোড দিয়েছেন। আপনার অনুরোধটি বাতিল বলে গণ্য হয়েছে, অনুগ্রহ করে  ১ ঘন্টা পর আবার চেষ্টা করুন ',
+                status: 'maximum-reached'
+            })
+        }
+
+
+        // Match token
+        if (verified.token !== token) {
+            verified.try = verified.try + 1
+            await verified.save()
+
+            return response.status(422).send({
+                message: `দুঃখিত কোডটি সঠিক নয়। পাঁচ বারের বেশি ভুল কোড দিলে অনুরোধটি বাতিল বলে গণ্য হবে, এবং এক ঘন্টার আগে মোবাইল নাম্বার পরিবর্তন করতে পারবেন না`,
+                status: 'wrong'
+            })
+        }
+
+
+        // Issued date
+        const issued = new Date(verified.updated_at.toString())
+        const createdAgo = Date.now() - issued.getTime()
+
+        // Token cannot be expired
+        if (createdAgo >= Env.get('VERIFY_TOKEN_LIFETIME')) {
+            return expired
+        }
+
+        // Delete token
+        await verified.delete()
+
+        // Update user data
+        await User.query()
+            .update({
+                mobile: truncateMobile(verified.payload)
+            })
+            .where('id', auth.id)
+
+        return ''
+    }
+
+    async updatePassword({request, auth, response}) {
+        const validation = await validate(request.only(['pass']), {
+            pass: 'required|min:8'
+        })
+
+        // Validate new password
+        if (validation.fails()) {
+            return response.status(422).send('সর্বনিম্ন আটটি অক্ষর হতে হবে')
+        }
+
+        // Fetch user instance
+        const user = await User.query()
+            .select('password')
+            .where('id', auth.id)
+            .first()
+
+
+        // Verify old password
+        const verified = await Hash.verify(request.input('password'), user.password)
+
+        // Validate new password
+        if (!verified) {
+            return response.status(422).send('দুঃখিত, পাসওয়ার্ডটি সঠিক নয়')
+        }
+
+
+        await User.query()
+            .update({password: request.input('pass')})
+            .where('id', auth.id)
+
+        return ''
+    }
+
+    async updatePhoto({request, auth, response}) {
+        const data = request.all()
+        data.photo = await request.file('photo')
+
+        const validation = await validate(data, {
+            x: 'required|integer',
+            y: 'required|integer',
+            photo: 'required|file|file_ext:png,jpg,jpeg|file_size:5mb|file_types:image'
+        })
+
+        if (validation.fails()) {
+            return response.status(422).send('')
+        }
+
+
+        request.multipart.file('photo', {}, async file => {
+            sharp(file)
+                .extract({
+                    left: Number(data.x),
+                    top: Number(data.y),
+                    width: 300,
+                    height: 350
+                })
+                .toFile(`asdfasdf.${data.photo.extname}`, function (err) {
+                    console.log(err)
+                })
+        })
+
+        return ''
     }
 
     static async exists(column, request) {

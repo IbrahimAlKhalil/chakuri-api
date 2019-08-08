@@ -7,7 +7,7 @@ class ClientsSchema extends Schema {
     up() {
         this.create('clients', (table) => {
             table.increments()
-            table.string('name', 100)
+            table.string('name', 20)
             table.string('redirect_uri', 190)
             table.timestamps()
         })

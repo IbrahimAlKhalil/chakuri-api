@@ -3,23 +3,25 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
 
-class JobsSchema extends Schema {
+class FileUserSchema extends Schema {
     up() {
-        this.create('jobs', (table) => {
+        this.create('file_users', (table) => {
             table.increments()
             table.integer('user_id')
                 .unsigned()
                 .references('id')
                 .inTable('users').notNullable()
-            table.string('position')
-            table.date('deadline')
+            table.integer('file_id')
+                .unsigned()
+                .references('id')
+                .inTable('files').notNullable()
             table.timestamps()
         })
     }
 
     down() {
-        this.drop('jobs')
+        this.drop('file_users')
     }
 }
 
-module.exports = JobsSchema
+module.exports = FileUserSchema

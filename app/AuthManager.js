@@ -1,4 +1,5 @@
 const User = use('App/Models/User')
+const db = use('Database')
 const Token = use('App/Models/Token')
 const Hash = use('Hash')
 const Env = use('Env')
@@ -15,7 +16,7 @@ class AuthManager {
     constructor({request, response}) {
         this.request = request
         this.response = response
-        this.userId = null
+        this.id = null
         this.token = null
         // Cache the user model
         this.cache = null
@@ -49,7 +50,7 @@ class AuthManager {
                     this.response.header('X-refresh-token', jwt.access_token)
                 }
 
-                this.userId = auth.userId
+                this.id = auth.userId
                 this.token = jwt.access_token
             }
 
@@ -72,7 +73,7 @@ class AuthManager {
 
         const validation = await validate(request.all(), {
             password: 'required|min:8',
-            user_type_id: 'required|in:1,2',
+            user_type_id: 'required|in:1,2,3',
             // Check whether username is mobile or email
             // if it's mobile then validate it with mobile's validation rule,
             // otherwise email's validation rule
@@ -113,21 +114,25 @@ class AuthManager {
 
         const auth = await AuthManager.auth(userId, null, !checkCredentials)
 
-        this.userId = userId
+        this.id = userId
         this.token = auth.jwt.access_token
         this.authenticated = true
 
         return auth.jwt
     }
 
-    async user() {
+    async user(cols = []) {
         if (!this.authenticated) {
             return null
         }
 
+        const columns = ['u.name', 'u.email', 'u.mobile', 'u.user_type_id as type', 'f.path as photo', ...cols]
+
         if (!this.cache) {
-            this.cache = await User.query()
-                .select('name', 'email', 'mobile', 'dob')
+            this.cache = await db.table('users as u')
+                .select(columns)
+                .leftJoin('files as f', 'f.id', 'u.photo')
+                .where('u.id', this.id)
                 .first()
         }
 

@@ -4,21 +4,15 @@
 const Schema = use('Schema')
 
 class EmployeesSchema extends Schema {
-  up () {
-    this.create('employees', (table) => {
-      table.increments()
-        table.integer('user_id')
-            .unsigned()
-            .references('id')
-            .inTable('users').notNullable()
-        table.date('dob')
-      table.timestamps()
-    })
-  }
+    up() {
+        this.create('employees', (table) => {
+            table.increments()
+        })
+    }
 
-  down () {
-    this.drop('employees')
-  }
+    down() {
+        this.drop('employees')
+    }
 }
 
 module.exports = EmployeesSchema

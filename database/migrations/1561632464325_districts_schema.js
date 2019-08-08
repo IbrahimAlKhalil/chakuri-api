@@ -12,7 +12,6 @@ class DistrictsSchema extends Schema {
                 .references('id')
                 .inTable('divisions').notNullable()
             table.string('name')
-            table.timestamps()
         })
     }
 

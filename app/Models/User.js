@@ -14,11 +14,11 @@ class User extends Model {
     }
 
     tokens() {
-        return this.hasMany('Token')
+        return this.hasMany('App/Models/Token')
     }
 
     roles() {
-        return this.belongsToMany('Role')
+        return this.belongsToMany('App/Models/Role')
     }
 
     static boot() {

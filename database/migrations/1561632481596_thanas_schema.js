@@ -7,11 +7,11 @@ class ThanasSchema extends Schema {
     up() {
         this.create('thanas', (table) => {
             table.increments()
-            table.integer('districts_id')
+            table.integer('district_id')
                 .unsigned()
                 .references('id')
                 .inTable('districts').notNullable()
-            table.timestamps()
+            table.string('name')
         })
     }
 

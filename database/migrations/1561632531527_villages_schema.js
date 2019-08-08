@@ -11,7 +11,6 @@ class VillagesSchema extends Schema {
                 .unsigned()
                 .references('id')
                 .inTable('thanas').notNullable()
-            table.timestamps()
         })
     }
 

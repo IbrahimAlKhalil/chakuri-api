@@ -9,6 +9,7 @@ class CategoriesSchema extends Schema {
             table.increments()
             table.string('name', 50)
             table.string('display_name', 70)
+            table.string('icon', 30)
             table.timestamps()
         })
     }

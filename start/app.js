@@ -12,10 +12,13 @@ const path = require('path')
 */
 const providers = [
     '@adonisjs/framework/providers/AppProvider',
+    '@adonisjs/framework/providers/ViewProvider',
+    '@adonisjs/drive/providers/DriveProvider',
     '@adonisjs/bodyparser/providers/BodyParserProvider',
     '@adonisjs/cors/providers/CorsProvider',
     '@adonisjs/lucid/providers/LucidProvider',
     '@adonisjs/validator/providers/ValidatorProvider',
+    '@adonisjs/mail/providers/MailProvider',
     path.join(__dirname, '../providers/AuthProvider'),
     path.join(__dirname, '../providers/AppProvider')
 ]

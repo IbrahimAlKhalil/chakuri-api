@@ -8,7 +8,6 @@ class DivisionsSchema extends Schema {
         this.create('divisions', (table) => {
             table.increments()
             table.string('name', 40)
-            table.timestamps()
         })
     }
 

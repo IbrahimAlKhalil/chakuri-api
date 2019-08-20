@@ -51,11 +51,23 @@ class ProductionSeeder {
             db.from('roles').insert([
                 {
                     name: 'admin',
-                    display_name: 'Admin'
+                    display_name: 'Admin',
+                    priority: 1
                 },
                 {
                     name: 'moderator',
-                    display_name: 'Moderator'
+                    display_name: 'Moderator',
+                    priority: 2
+                },
+                {
+                    name: 'employee',
+                    display_name: 'Employee',
+                    priority: 3
+                },
+                {
+                    name: 'institution',
+                    display_name: 'Institution',
+                    priority: 3
                 }
             ]),
 

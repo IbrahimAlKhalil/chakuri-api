@@ -11,10 +11,10 @@ class ApplicationsSchema extends Schema {
                 .unsigned()
                 .references('id')
                 .inTable('jobs').notNullable()
-            table.integer('employee_id')
+            table.integer('user_id')
                 .unsigned()
                 .references('id')
-                .inTable('employees').notNullable()
+                .inTable('users').notNullable()
             table.timestamps()
         })
     }

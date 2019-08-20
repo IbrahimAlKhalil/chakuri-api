@@ -39,6 +39,8 @@ Route.group(() => {
     Route.post('update-mobile', 'UserController.updateMobile')
     Route.post('update-pass', 'UserController.updatePassword')
     Route.post('update-photo', 'UserController.updatePhoto')
+    Route.post('update-description', 'UserController.updateDescription').middleware('institute')
+    Route.post('update-address', 'UserController.updateAddress').middleware('institute')
 
     Route.get('mobile-verification/:token', 'UserController.verifyMobile').as('mobile-verification')
 

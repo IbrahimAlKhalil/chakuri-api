@@ -4,8 +4,8 @@
 const Model = use('Model')
 
 class File extends Model {
-    user() {
-        return this.belongsTo('App/Models/User')
+    fileUser() {
+        return this.belongsTo('App/Models/FileUser')
     }
 }
 

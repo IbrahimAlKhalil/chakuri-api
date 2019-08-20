@@ -1,6 +1,9 @@
 'use strict'
 
 const User = use('App/Models/User')
+const File = use('App/Models/File')
+const Helpers = use('Helpers')
+const Drive = use('Drive')
 const db = use('Database')
 const VerificationToken = use('App/Models/VerificationToken')
 const Resume = use('App/Models/Resume')
@@ -12,7 +15,6 @@ const Route = use('Route')
 const Mail = use('Mail')
 const emailTemplate = require('../../../templates/email-verification')
 const {truncateMobile} = require('../../helpers')
-const sharp = require('sharp')
 
 class UserController {
 
@@ -27,7 +29,7 @@ class UserController {
 
         // Validate password and name
         // mobile, user_type_id and email will be validated by userExists method
-        if (validation.fails() || await this.userExists({request})) {
+        if (validation.fails() || await this.userExists({request}, true)) {
             return response.status(422).send('')
         }
 
@@ -36,11 +38,25 @@ class UserController {
             request.only(['user_type_id', 'mobile', 'email', 'password', 'name'])
         )
 
-        await Resume.create({
-            user_id: user.id,
-            name: user.name,
-            mobile: user.mobile,
-            email: user.email
+        const type = Number(request.input('user_type_id'))
+
+        // Create a resume for employee
+        if (type === 1) {
+            await Resume.create({
+                user_id: user.id,
+                name: user.name,
+                mobile: user.mobile,
+                email: user.email
+            })
+        } else if (type === 2) {
+            await db.table('institutions')
+                .insert({user_id: user.id})
+        }
+
+        // Give the user a role
+        await db.table('role_user').insert({
+            role_id: type === 1 ? 3 : 4,
+            user_id: user.id
         })
 
         // Attempt to login
@@ -53,11 +69,11 @@ class UserController {
         )
     }
 
-    async userExists({request, response}) {
+    async userExists({request, response}, register = false) {
 
         const validation = await validate(
             request.only(['user_type_id', 'mobile', 'email']), {
-                user_type_id: 'required|in:1,2,3',
+                user_type_id: 'required|in:1,2' + (!register ? ',3' : ''),
                 mobile: 'required|mobile',
                 email: 'email'
             })
@@ -192,7 +208,7 @@ class UserController {
         const template = emailTemplate({
             company: 'Bahech',
             message: 'Thanks for signing up! We\'re excited to have you as an early user.',
-            action: 'http://' + request.header('host') + action,
+            action: request.protocol() + '://' + request.header('host') + action,
             address: 'Kajla, Vangapress, Jatrabari, Dhaka 1236, Bangladesh'
         })
 
@@ -432,34 +448,84 @@ class UserController {
     }
 
     async updatePhoto({request, auth, response}) {
-        const data = request.all()
-        data.photo = await request.file('photo')
+        const photo = await request.file('photo')
 
-        const validation = await validate(data, {
-            x: 'required|integer',
-            y: 'required|integer',
-            photo: 'required|file|file_ext:png,jpg,jpeg|file_size:5mb|file_types:image'
+        const validation = await validate({photo}, {
+            photo: 'required|file|file_types:image'
         })
 
+        // Photo should be included
         if (validation.fails()) {
             return response.status(422).send('')
         }
 
 
-        request.multipart.file('photo', {}, async file => {
-            sharp(file)
-                .extract({
-                    left: Number(data.x),
-                    top: Number(data.y),
-                    width: 300,
-                    height: 350
+        // Validate extensions
+        const ext = ['png', 'jpg', 'jpeg']
+        if (!ext.includes(photo.subtype)) {
+            return response.status(422).send('Sorry! only png and jpeg format supported')
+        }
+
+        // Validate size
+        if (photo.size > 1e+6) {
+            return response.status(422).send('দুঃখিত! ছবি ১ মেগাবাইট এর চেয়ে বড় হতে পারবে না')
+        }
+
+        const name = `${new Date().getTime()}.${photo.subtype}`
+        await photo.move(Helpers.publicPath(`files/${auth.id}`), {name})
+
+        const file = new File
+        file.name = name
+        file.mime_type = photo.headers['content-type']
+        await file.save()
+
+        const oldFile = await db.table('users as u')
+            .select('f.id', 'f.name as name')
+            .join('files as f', 'f.id', 'u.photo')
+            .where('u.id', auth.id)
+            .first()
+
+
+        await Promise.all([
+            db.table('file_user')
+                .insert({
+                    user_id: auth.id,
+                    file_id: file.id
+                }),
+            db.table('users')
+                .update({
+                    photo: file.id
                 })
-                .toFile(`asdfasdf.${data.photo.extname}`, function (err) {
-                    console.log(err)
-                })
-        })
+        ])
+
+        // Delete previous file
+        if (oldFile) {
+            await Promise.all([
+                db.table('files')
+                    .where('id', oldFile.id)
+                    .delete(),
+
+                Drive.delete(`files/${auth.id}/${oldFile.name}`)
+            ])
+        }
+
 
         return ''
+    }
+
+    async updateDescription({request, auth, response}) {
+        const validation = await validate({photo}, {
+            photo: 'required|file|file_types:image'
+        })
+
+        // Photo should be included
+        if (validation.fails()) {
+            return response.status(422).send('')
+        }
+    }
+
+    async updateAddress({request, auth, response}) {
+
     }
 
     static async exists(column, request) {

@@ -1,3 +1,5 @@
-You were trying crop profile picture with sharp. You didn't know whether the cropping was working or not, but you know that you couldn't save the image after the cropping process. You added drive service provider to save cropped image buffer as file.
-
-That's it.
+TODO: 1. Review migration varchar length
+TODO: 2. Keep object properties short
+TODO: 3. Remove unnecessary css scope (Vue css scope)
+TODO: 4. Reduce request to the api server
+TODO: 5. Remove unnecessary timestamp from migrations

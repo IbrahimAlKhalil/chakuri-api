@@ -5,22 +5,26 @@ const Schema = use('Schema')
 
 class FileUserSchema extends Schema {
     up() {
-        this.create('file_users', (table) => {
+        this.create('file_user', (table) => {
             table.increments()
             table.integer('user_id')
                 .unsigned()
+                .notNullable()
                 .references('id')
-                .inTable('users').notNullable()
+                .inTable('users')
+                .onDelete('CASCADE')
             table.integer('file_id')
                 .unsigned()
+                .notNullable()
                 .references('id')
-                .inTable('files').notNullable()
+                .inTable('files')
+                .onDelete('CASCADE')
             table.timestamps()
         })
     }
 
     down() {
-        this.drop('file_users')
+        this.drop('file_user')
     }
 }
 

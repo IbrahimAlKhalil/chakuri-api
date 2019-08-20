@@ -5,6 +5,7 @@ const Hash = use('Hash')
 const Env = use('Env')
 const Encryption = use('Encryption')
 const {validate} = use('Validator')
+const Helpers = use('Helpers')
 
 const jwt = require('jsonwebtoken')
 
@@ -126,14 +127,20 @@ class AuthManager {
             return null
         }
 
-        const columns = ['u.name', 'u.email', 'u.mobile', 'u.user_type_id as type', 'f.path as photo', ...cols]
+        const columns = ['u.name', 'u.email', 'u.mobile', 'u.user_type_id as type', 'f.name as photo', 'i.description', 'i.address', ...cols]
 
         if (!this.cache) {
             this.cache = await db.table('users as u')
                 .select(columns)
                 .leftJoin('files as f', 'f.id', 'u.photo')
+                .leftJoin('institutions as i', 'i.user_id', 'u.id')
                 .where('u.id', this.id)
                 .first()
+
+            const {photo} = this.cache
+            if (photo) {
+                this.cache.photo = `${this.request.protocol()}://${this.request.header('host')}/files/${this.id}/${this.cache.photo}`
+            }
         }
 
         return this.cache

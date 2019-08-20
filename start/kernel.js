@@ -38,7 +38,8 @@ const globalMiddleware = [
 const namedMiddleware = {
     auth: 'App/Middleware/Auth',
     guest: 'App/Middleware/Guest',
-    employee: 'App/Middleware/Employee'
+    employee: 'App/Middleware/Employee',
+    institute: 'App/Middleware/Institute'
 }
 
 /*
@@ -52,7 +53,7 @@ const namedMiddleware = {
 |
 */
 const serverMiddleware = [
-    // 'Adonis/Middleware/Static',
+    'Adonis/Middleware/Static',
     'Adonis/Middleware/Cors'
 ]
 

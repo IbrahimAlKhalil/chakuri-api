@@ -7,7 +7,7 @@ class FilesSchema extends Schema {
     up() {
         this.create('files', (table) => {
             table.increments()
-            table.text('path', 'mediumtext')
+            table.text('name', 'mediumtext')
             table.string('mime_type', 50)
             table.timestamps()
         })

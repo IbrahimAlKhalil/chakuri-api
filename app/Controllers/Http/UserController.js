@@ -26,7 +26,6 @@ class UserController {
             name: 'required|string|max:190'
         })
 
-
         // Validate password and name
         // mobile, user_type_id and email will be validated by userExists method
         if (validation.fails() || await this.userExists({request}, true)) {
@@ -95,11 +94,20 @@ class UserController {
             return true
         }
 
-        const existsByMobile = await UserController.exists('mobile', request)
+        const type = request.input('user_type_id')
+        const existsByMobile = await UserController.exists(
+            'mobile',
+            truncateMobile(request.input('mobile')),
+            type
+        )
 
         // Check user's existence by email, though it's optional field in the registration form
         // exists method will check whether it's present in the request
-        const existsByEmail = await UserController.exists('email', request)
+        const existsByEmail = await UserController.exists(
+            'email',
+            request.input('email'),
+            type
+        )
 
         return existsByMobile || existsByEmail
     }
@@ -514,33 +522,122 @@ class UserController {
     }
 
     async updateDescription({request, auth, response}) {
-        const validation = await validate({photo}, {
-            photo: 'required|file|file_types:image'
+        const validation = await validate(request.only(['description']), {
+            description: 'required|max: 3000'
         })
 
-        // Photo should be included
         if (validation.fails()) {
             return response.status(422).send('')
         }
+
+        await db.table('institutions')
+            .update({description: request.input('description')})
+            .where('user_id', auth.id)
+
+        return ''
     }
 
     async updateAddress({request, auth, response}) {
+        const validation = await validate(request.only(['address']), {
+            address: 'required|max: 3000'
+        })
 
+        if (validation.fails()) {
+            return response.status(422).send('')
+        }
+
+        await db.table('institutions')
+            .update({address: request.input('address')})
+            .where('user_id', auth.id)
+
+        return ''
     }
 
-    static async exists(column, request) {
+    async getCategoryAndType({request, auth}) {
+        const data = await Promise.all([
+            db.from('institutions as i')
+                .select(
+                    'i.category_id',
+                    'i.institution_type_id as type_id',
+                    'c.display_name as category',
+                    't.display_name as type'
+                )
+                .leftJoin('categories as c', 'i.category_id', 'c.id')
+                .leftJoin('institution_types as t', 'i.institution_type_id', 't.id')
+                .first(),
+            db.from('categories')
+                .select('id', 'display_name as name'),
+            db.from('institution_types')
+                .select('id', 'display_name as name')
+        ])
+
+        return {
+            category: {
+                options: data[1],
+                selected: data[0].category_id ? {
+                    id: data[0].category_id,
+                    name: data[0].category
+                } : null
+            },
+            type: {
+                options: data[2],
+                selected: data[0].type_id ? {
+                    id: data[0].type_id,
+                    name: data[0].type
+                } : null
+            }
+        }
+    }
+
+    async updateCategory({request, auth, response}) {
+        const data = request.only(['category'])
+
+        const validation = await validate(data, {
+            category: 'required|integer|exists:categories,id'
+        })
+
+        if (validation.fails()) {
+            return response.status(422).send('দুঃখিত আপনার তথ্যে ভুল আছে')
+        }
+
+        await db.from('institutions')
+            .update({category_id: data.category})
+            .where('user_id', auth.id)
+
+        return ''
+    }
+
+    async updateType({request, auth, response}) {
+        const data = request.only(['type'])
+
+        const validation = await validate(data, {
+            type: 'required|integer|exists:institution_types,id'
+        })
+
+        if (validation.fails()) {
+            return response.status(422).send('দুঃখিত আপনার তথ্যে ভুল আছে')
+        }
+
+        await db.from('institutions')
+            .update({institution_type_id: data.type})
+            .where('user_id', auth.id)
+
+        return ''
+    }
+
+    static async exists(column, value, type) {
         // If trying to check existence by email then it's presence is must
         // and email is an optional field in the registration form
         // if it's not here then user will be considered as not existed, and
         // when user will try to add his/her email in the dashboard, program will
         // check the email that time
-        if (!request.input(column)) {
+        if (!value) {
             return false
         }
 
         const count = await User.query()
-            .where(column, request.input(column))
-            .where('user_type_id', request.input('user_type_id'))
+            .where(column, value)
+            .where('user_type_id', type)
             .count('id as total')
 
         return !!count[0].total

@@ -16,8 +16,29 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
+// Get timestamp
+Route.get('/time', () => {
+    return Date.now()
+})
+
+// Registration
 Route.post('/register', 'UserController.register').middleware('guest')
 
+/**************** Positions ******************/
+Route.resource('/positions', 'PositionController')
+    .only(['store', 'destroy', 'update'])
+    .middleware('auth')
+Route.get('/positions', 'PositionController.index')
+
+
+/****************** Job ******************/
+Route.resource('/jobs', 'JobController')
+    .only(['store', 'destroy', 'update', 'index'])
+    .middleware('auth')
+    .middleware('institute')
+
+
+/***************** Resume ******************/
 Route.group(() => {
     Route.resource('personal', 'PersonalController').only(['index', 'store'])
 
@@ -33,6 +54,7 @@ Route.group(() => {
     .prefix('/resume')
 
 
+/**************** User profile ******************/
 Route.group(() => {
     Route.post('update-email', 'UserController.updateEmail')
     Route.post('update-name', 'UserController.updateName')
@@ -41,6 +63,10 @@ Route.group(() => {
     Route.post('update-photo', 'UserController.updatePhoto')
     Route.post('update-description', 'UserController.updateDescription').middleware('institute')
     Route.post('update-address', 'UserController.updateAddress').middleware('institute')
+
+    Route.get('category-and-type', 'UserController.getCategoryAndType').middleware('institute')
+    Route.post('update-type', 'UserController.updateType').middleware('institute')
+    Route.post('update-category', 'UserController.updateCategory').middleware('institute')
 
     Route.get('mobile-verification/:token', 'UserController.verifyMobile').as('mobile-verification')
 

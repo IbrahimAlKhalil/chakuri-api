@@ -101,6 +101,62 @@ class ProductionSeeder {
         ])
 
 
+        await db.from('positions').insert([
+            {
+                category_id: 1,
+                name: 'খতিব'
+            },
+            {
+                category_id: 1,
+                name: 'ইমাম'
+            },
+            {
+                category_id: 1,
+                name: 'মুয়াজ্জিন'
+            },
+            {
+                category_id: 1,
+                name: 'হাফেজ সাহেব (তারাবি)'
+            },
+            {
+                category_id: 1,
+                name: 'খাদেম'
+            },
+            {
+                category_id: 2,
+                name: 'কারি সাহেব'
+            },
+            {
+                category_id: 2,
+                name: 'শিক্ষক (হিফজ বিভাগ)'
+            },
+            {
+                category_id: 2,
+                name: 'শিক্ষক (হিফজ বিভাগ)'
+            },
+            {
+                category_id: 2,
+                name: 'হিসাব রক্ষক'
+            },
+            {
+                category_id: 2,
+                name: 'শিক্ষক (কিতাব বিভাগ)'
+            },
+            {
+                category_id: 2,
+                name: 'জেনারেল শিক্ষক'
+            },
+            {
+                category_id: 2,
+                name: 'শিক্ষক (ইফতা বিভাগ)'
+            },
+            {
+                category_id: 2,
+                name: 'নাজিমে তালিমাত'
+            },
+        ])
+
+
         /**** Create admin account ****/
         const user = new User
         user.user_type_id = 3

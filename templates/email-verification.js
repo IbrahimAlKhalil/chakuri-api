@@ -149,7 +149,9 @@ module.exports = function (data) {
       background-color: #FF3665;
     }
     .button--blue {
-      background-color: #414EF9;
+      background-color: #3d7fff;
+      padding: 10px;
+      color: #fff;
     }
     /*Media Queries ------------------------------ */
     @media only screen and (max-width: 600px) {
@@ -236,5 +238,5 @@ module.exports = function (data) {
   </table>
 </body>
 </html>
-    `
-}
+    `;
+};

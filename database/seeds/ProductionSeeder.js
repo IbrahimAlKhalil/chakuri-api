@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /*
 |--------------------------------------------------------------------------
@@ -10,13 +10,13 @@
 |
 */
 
-const generateToken = require('../../app/helpers').generateToken
+const generateToken = require('../../app/helpers').generateToken;
 /** @type {import('@adonisjs/lucid/src/Factory')} */
-const Factory = use('Factory')
+const Factory = use('Factory');
 
-const db = use('Database')
-const User = use('App/Models/User')
-const Env = use('Env')
+const db = use('Database');
+const User = use('App/Models/User');
+const Env = use('Env');
 
 class ProductionSeeder {
     async run() {
@@ -50,24 +50,8 @@ class ProductionSeeder {
             /**** Insert roles ****/
             db.from('roles').insert([
                 {
-                    name: 'admin',
-                    display_name: 'Admin',
-                    priority: 1
-                },
-                {
-                    name: 'moderator',
-                    display_name: 'Moderator',
-                    priority: 2
-                },
-                {
-                    name: 'employee',
-                    display_name: 'Employee',
-                    priority: 3
-                },
-                {
-                    name: 'institution',
-                    display_name: 'Institution',
-                    priority: 3
+                    name: 'Admin',
+                    writable: false
                 }
             ]),
 
@@ -98,9 +82,10 @@ class ProductionSeeder {
                     icon: 'fas fa-school'
                 }
             ])
-        ])
+        ]);
 
 
+        /****** Positions ******/
         await db.from('positions').insert([
             {
                 category_id: 1,
@@ -154,16 +139,17 @@ class ProductionSeeder {
                 category_id: 2,
                 name: 'নাজিমে তালিমাত'
             },
-        ])
+        ]);
 
 
         /**** Create admin account ****/
-        const user = new User
-        user.user_type_id = 3
-        user.mobile = '01923615718'
-        user.email = 'hm.ibrahimalkhalil@gmail.com'
-        user.password = '12345678'
-        await user.save()
+        const user = new User;
+        user.user_type_id = 3;
+        user.name = 'Ibrahim Al Khalil';
+        user.mobile = '01923615718';
+        user.email = 'hm.ibrahimalkhalil@gmail.com';
+        user.password = '12345678';
+        await user.save();
 
         await Promise.all([
             db.from('role_user').insert([
@@ -175,39 +161,96 @@ class ProductionSeeder {
 
             db.from('permissions').insert([
                 {
-                    name: 'all'
+                    name: 'all',
+                    display_name: 'All'
+                },
+                {
+                    name: 'job-requests',
+                    display_name: 'Review And Approve/Reject Job Request'
+                },
+                {
+                    name: 'moderators',
+                    display_name: 'Add/Modify Moderators'
+                },
+                {
+                    name: 'roles',
+                    display_name: 'Add/Modify Roles'
+                },
+                {
+                    name: 'posts',
+                    display_name: 'Creating Posts/Pages'
+                },
+                {
+                    name: 'menu',
+                    display_name: 'Add/Modify Menu Items'
+                },
+                {
+                    name: 'categories',
+                    display_name: 'Add/Modify Job Categories And Positions'
+                },
+                {
+                    name: 'geolocation',
+                    display_name: 'Add/Modify Geolocation'
+                },
+                {
+                    name: 'settings',
+                    display_name: 'Modify Application\'s Settings'
+                },
+                {
+                    name: 'files',
+                    display_name: 'Upload/Delete Files'
+                },
+                {
+                    name: 'institution-types',
+                    display_name: 'Add/Modify Institution Types'
                 }
             ]),
 
-            generateToken(user.id, true)
-        ])
+            generateToken(user.id, true),
+
+            db.from('file_types').insert([
+                {
+                    name: 'profile_pic',
+                },
+                {
+                    name: 'resume'
+                },
+                {
+                    name: 'post'
+                }
+            ])
+        ]);
 
         await db.from('role_permission').insert([
             {
                 role_id: 1,
                 permission_id: 1
             }
-        ])
+        ]);
 
 
         // Insert places
-        let divisions = require('./divisions')
-        const districts = require('./districts')
-        const thanas = require('./thanas')
+        let divisions = require('./divisions');
+        const districts = require('./districts');
+        const thanas = require('./thanas');
 
         function clean(data) {
             data.forEach(data => {
-                data.name = data.bn_name
+                data.name = data.bn_name;
 
-                delete data.bn_name
-            })
+                delete data.bn_name;
+            });
         }
 
-        [divisions, districts, thanas].forEach(clean)
+        [divisions, districts, thanas].forEach(clean);
 
-        await db.from('divisions').insert(divisions)
-        await db.from('districts').insert(districts)
-        await db.from('thanas').insert(thanas)
+        await db.from('divisions').insert(divisions);
+        await db.from('districts').insert(districts);
+        await db.from('thanas').insert(thanas);
+
+        // Enable event scheduler
+
+        await db.raw(`SET GLOBAL event_scheduler = ON;`);
 
 
         // Add mysql event for deleting expired tokens
@@ -227,10 +270,10 @@ class ProductionSeeder {
             ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 HOUR 
             ON COMPLETION PRESERVE 
             DO 
-            DELETE FROM ${Env.get('DB_DATABASE')}.verification_tokens WHERE created_at < DATE_SUB(NOW(), INTERVAL 1 HOUR)
+            DELETE FROM ${Env.get('DB_DATABASE')}.verification_tokens WHERE auto_delete = 1 and created_at < DATE_SUB(NOW(), INTERVAL 1 HOUR)
             `)
-        ])
+        ]);
     }
 }
 
-module.exports = ProductionSeeder
+module.exports = ProductionSeeder;

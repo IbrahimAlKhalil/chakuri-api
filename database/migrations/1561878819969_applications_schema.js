@@ -15,6 +15,7 @@ class ApplicationsSchema extends Schema {
                 .unsigned()
                 .references('id')
                 .inTable('users').notNullable()
+            table.boolean('shortlist')
             table.timestamps()
         })
     }

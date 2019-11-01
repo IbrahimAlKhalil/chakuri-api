@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-const {ServiceProvider} = require('@adonisjs/fold')
+const {ServiceProvider} = require('@adonisjs/fold');
 
 class AuthProvider extends ServiceProvider {
     /**
@@ -24,7 +24,7 @@ class AuthProvider extends ServiceProvider {
      */
     boot() {
         /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
-        const Route = use('Route')
+        const Route = use('Route');
 
         /*** Registration authentication routes ***/
 
@@ -35,22 +35,22 @@ class AuthProvider extends ServiceProvider {
             // attempt method will return what login method returns
             // and login method returns the access token if credentials are ok
             // otherwise it will return false
-            const jwt = await auth.attempt()
+            const jwt = await auth.attempt();
 
             if (!jwt) {
 
                 // Login attempt isn't successful
-                return response.status(422).send({error: 'invalid_request'})
+                return response.status(422).send({error: 'invalid_request'});
             }
 
             // Provide access token
-            return jwt
-        }).middleware('guest')
+            return jwt;
+        }).middleware('guest');
 
         Route.get('/user', async ({auth}) => {
-            return await auth.user()
-        }).middleware('auth')
+            return await auth.user();
+        }).middleware('auth');
     }
 }
 
-module.exports = AuthProvider
+module.exports = AuthProvider;

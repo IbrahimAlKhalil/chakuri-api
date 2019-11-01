@@ -2,15 +2,50 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3573a354-37c5-443d-be4c-4aaa1b776e61" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Middleware/Moderator.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Middleware/Verified.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/start/hooks.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/start/socket.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e696f0d1-0c84-4875-91d7-d3ca1e6ce6e5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e696f0d1-0c84-4875-91d7-d3ca1e6ce6e5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/ibrahim.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/ibrahim.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.txt" beforeDir="false" afterPath="$PROJECT_DIR$/README.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/AuthManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/AuthManager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/FileController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/FileController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/JobController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/JobController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/Resume/PersonalController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/Resume/PersonalController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Controllers/Http/UserController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/UserController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/1561636095357_institutions_schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/1561636095357_institutions_schema.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/1561636099907_categories_schema.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Middleware/Auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Middleware/Auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Middleware/Employee.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Middleware/Employee.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Middleware/Guest.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Middleware/Guest.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Middleware/Institute.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Middleware/Institute.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Job.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Job.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/VerificationToken.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/VerificationToken.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/helpers.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/helpers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/1460417755866_clients_schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/1460417755866_clients_schema.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/1503250034269_files_schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/1503250034269_files_schema.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/1503250034279_users_schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/1503250034279_users_schema.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/1561628852292_roles_schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/1561628852292_roles_schema.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/1561628867771_role_user_schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/1561628867771_role_user_schema.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/1561628867773_permissions_schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/1561628867773_permissions_schema.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/1561636095361_moderators_schema.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/database/migrations/1561811923158_jobs_schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/1561811923158_jobs_schema.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/1561811923159_sections_schema.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/1561878819969_applications_schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/1561878819969_applications_schema.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/1561886296144_posts_schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/1561886296144_posts_schema.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/1563692167157_resumes_schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/1563692167157_resumes_schema.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/1564489275698_verification_tokens_schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/1564489275698_verification_tokens_schema.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/seeds/ProductionSeeder.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/ProductionSeeder.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/AppProvider.js" beforeDir="false" afterPath="$PROJECT_DIR$/providers/AppProvider.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/providers/AuthProvider.js" beforeDir="false" afterPath="$PROJECT_DIR$/providers/AuthProvider.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/start/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/start/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/start/kernel.js" beforeDir="false" afterPath="$PROJECT_DIR$/start/kernel.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/start/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/start/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/email-verification.js" beforeDir="false" afterPath="$PROJECT_DIR$/templates/email-verification.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/node_modules/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -51,27 +86,83 @@
         <item name="@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="chakuri: schema" type="76f4a085:MysqlImplModel$Schema" />
-        <item name="events" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="chakuri: schema" type="76f4a085:MysqlImplModel$Schema" />
+        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="applications: table" type="285a2a93:MysqlImplModel$Table" />
       </path>
     </expand>
     <select />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/start/routes.js">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Controllers/Http/Dashboard/ModeratorController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="237">
-              <caret line="68" column="64" selection-start-line="68" selection-start-column="64" selection-end-line="68" selection-end-column="64" />
+            <state relative-caret-position="182">
+              <caret line="7" column="37" selection-start-line="7" selection-start-column="37" selection-end-line="7" selection-end-column="37" />
+              <folding>
+                <element signature="n#!!block;n#index#0;n#ModeratorController#0" />
+                <element signature="e#270#390#0" />
+                <element signature="e#426#485#0" />
+                <element signature="n#!!block;n#count#0;n#ModeratorController#0" />
+                <element signature="n#!!block;n#store#0;n#ModeratorController#0" />
+                <element signature="n#!!block;n#destroy#0;n#ModeratorController#0" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Controllers/Http/JobController.js">
+        <entry file="file://$PROJECT_DIR$/app/AuthManager.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="15" column="58" selection-start-line="15" selection-start-column="58" selection-end-line="15" selection-end-column="58" />
+            <state relative-caret-position="3120">
+              <caret line="209" column="29" selection-start-line="209" selection-start-column="29" selection-end-line="209" selection-end-column="29" />
+              <folding>
+                <element signature="n#!!block;n#constructor#0;n#AuthManager#0" />
+                <element signature="n#!!block;n#attempt#0;n#AuthManager#0" />
+                <element signature="n#!!block;n#login#0;n#AuthManager#0" />
+                <element signature="n#!!block;n#checkCredentials#0;n#AuthManager#0" />
+                <element signature="n#!!block;n#isMobile#0;n#AuthManager#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/database/migrations/1503250034279_users_schema.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="520">
+              <caret line="20" column="39" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="39" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/helpers.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4212">
+              <caret line="164" column="32" selection-start-line="164" selection-start-column="32" selection-end-line="164" selection-end-column="32" />
+              <folding>
+                <element signature="e#601#686#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/providers/AppProvider.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="780">
+              <caret line="46" column="42" selection-start-line="46" selection-start-column="26" selection-end-line="46" selection-end-column="42" />
+              <folding>
+                <element signature="e#588#1082#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -79,51 +170,63 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Controllers/Http/UserController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="395">
-              <caret line="623" lean-forward="true" selection-start-line="623" selection-end-line="623" />
+            <state relative-caret-position="416">
+              <caret line="16" column="15" selection-start-line="16" selection-start-column="15" selection-end-line="16" selection-end-column="15" />
               <folding>
-                <element signature="n#!!block;n#register#0;n#UserController#0" />
-                <element signature="n#!!block;n#userExists#0;n#UserController#0" />
-                <element signature="n#!!block;n#userExistsByEmail#0;n#UserController#0" />
                 <element signature="n#!!block;n#updateName#0;n#UserController#0" />
                 <element signature="n#!!block;n#updateEmail#0;n#UserController#0" />
-                <element signature="n#!!block;n#verifyEmail#0;n#UserController#0" />
-                <element signature="n#!!block;n#getEmailAndMobile#0;n#UserController#0" />
                 <element signature="n#!!block;n#updateMobile#0;n#UserController#0" />
-                <element signature="n#!!block;n#verifyMobile#0;n#UserController#0" />
                 <element signature="n#!!block;n#updatePassword#0;n#UserController#0" />
                 <element signature="n#!!block;n#updatePhoto#0;n#UserController#0" />
                 <element signature="n#!!block;n#updateDescription#0;n#UserController#0" />
                 <element signature="n#!!block;n#updateAddress#0;n#UserController#0" />
+                <element signature="n#!!block;n#updateCategory#0;n#UserController#0" />
+                <element signature="n#!!block;n#updateType#0;n#UserController#0" />
                 <element signature="n#!!block;n#getCategoryAndType#0;n#UserController#0" />
+                <element signature="n#!!block;n#resetPassword#0;n#UserController#0" />
+                <element signature="n#!!block;n#forgotPassword#0;n#UserController#0" />
+                <element signature="n#!!block;n#profile#0;n#UserController#0" />
                 <element signature="n#!!block;n#exists#0;n#UserController#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/database/seeds/ProductionSeeder.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
+            <state relative-caret-position="3848">
+              <caret line="148" column="36" selection-start-line="148" selection-start-column="36" selection-end-line="148" selection-end-column="36" />
+              <folding>
+                <element signature="n#!!block;n#clean#0;n#!!block;n#run#0;n#ProductionSeeder#0" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/providers/AppProvider.js">
-          <provider selected="true" editor-type-id="text-editor" />
+        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/e696f0d1-0c84-4875-91d7-d3ca1e6ce6e5/console.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="78">
+              <caret line="3" selection-start-line="3" selection-end-line="3" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Controllers/Http/Resume/EducationController.js">
+        <entry file="file://$PROJECT_DIR$/start/routes.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1144">
-              <caret line="70" column="19" selection-start-line="70" selection-start-column="19" selection-end-line="70" selection-end-column="48" />
-              <folding>
-                <element signature="n#!!block;n#update#0;n#EducationController#0" />
-              </folding>
+            <state relative-caret-position="3666">
+              <caret line="141" column="19" lean-forward="true" selection-start-line="141" selection-start-column="19" selection-end-line="141" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Controllers/Http/Dashboard/RoleController.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1040">
+              <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
             </state>
           </provider>
         </entry>
@@ -132,36 +235,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>আপনার পাসওয়ার্ড</find>
-      <find>validate</find>
-      <find>validation</find>
-      <find>is</find>
-      <find>.is</find>
-      <find>resume_trainings</find>
-      <find>asdfasdf</find>
-      <find>group</find>
-      <find>get(</find>
-      <find>group(</find>
-      <find>get (</find>
-      <find>use</find>
-      <find>use (</find>
-      <find>group (</find>
-      <find>path</find>
-      <find>user</find>
+      <find>Env</find>
+      <find>VerificationToken</find>
+      <find>Notification</find>
+      <find>Encryption</find>
+      <find>crypto</find>
+      <find>fetch</find>
+      <find>FormData</find>
+      <find>db</find>
+      <find>Helpers.moderators</find>
+      <find>truncate</find>
+      <find>keep</find>
+      <find>helpers</find>
+      <find>this.</find>
+      <find>zeroPrefix</find>
+      <find>Token</find>
+      <find>AuthManager.checkCredentials</find>
+      <find>truncateMobile</find>
+      <find>AuthManager.isMobile</find>
+      <find>userId</find>
+      <find>cascade</find>
+      <find>jobfilter</find>
+      <find>mediu</find>
+      <find>all</find>
+      <find>moderator</find>
+      <find>admin</find>
+      <find>role</find>
+      <find>register</find>
       <find>roles</find>
-      <find>file</find>
-      <find>cascad</find>
-      <find>user_type_id</find>
-      <find>this.id</find>
-      <find>this.type</find>
-      <find>emplo</find>
-      <find>empl</find>
-      <find>console</find>
-      <find>expired</find>
-      <find>educa</find>
-      <find>position</find>
-      <find>nego</find>
-      <find>addi</find>
+      <find>mobile</find>
+      <find>user</find>
     </findStrings>
     <replaceStrings>
       <replace>InstitutionTypes</replace>
@@ -170,14 +273,29 @@
       <replace>resumes</replace>
       <replace>পাসওয়ার্ডটি</replace>
       <replace>resume_experiences</replace>
+      <replace>this.jwt</replace>
+      <replace>this.Env</replace>
+      <replace>this.Token</replace>
+      <replace>this.VerificationToken</replace>
+      <replace>this.Notification</replace>
+      <replace>this.Encryption</replace>
+      <replace>this.crypto</replace>
+      <replace>this.fetch</replace>
+      <replace>this.FormData</replace>
+      <replace>this.db</replace>
+      <replace>this.zeroPrefix</replace>
+      <replace>this.moderators</replace>
+      <replace>this.checkCredentials</replace>
+      <replace>this.isMobile</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/config</dir>
       <dir>$PROJECT_DIR$/providers</dir>
       <dir>$PROJECT_DIR$/start</dir>
-      <dir>$PROJECT_DIR$/app</dir>
       <dir>$PROJECT_DIR$/database</dir>
+      <dir>$PROJECT_DIR$/app/Controllers</dir>
       <dir>$PROJECT_DIR$/database/migrations</dir>
+      <dir>$PROJECT_DIR$/app</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -186,71 +304,72 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/Middleware/Employee.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/PlaceController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/DistrictController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/ThanaController.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1563692167157_resumes_schema.js" />
-        <option value="$PROJECT_DIR$/config/mail.js" />
-        <option value="$PROJECT_DIR$/resources/views/email-verification.edge" />
-        <option value="$PROJECT_DIR$/templates/email-verification.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1564489275698_verification_tokens_schema.js" />
-        <option value="$PROJECT_DIR$/.env" />
-        <option value="$PROJECT_DIR$/database/migrations/1564896959565_resume_madrasas_schema.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1503250034279_users_schema.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1460417755866_user_type_schema.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1564897609399_resume_careers_schema.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1564900440995_resume_educations_schema.js" />
-        <option value="$PROJECT_DIR$/app/helpers.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/ResumeController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Resume/ResumeController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Resume/PersonalController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Resume/AddressController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Resume/EducationController.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1564896972028_resume_trainings_schema.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1565160914755_resume_experiences_schema.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Resume/TrainingController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Resume/ExperienceController.js" />
-        <option value="$PROJECT_DIR$/start/app.js" />
-        <option value="$PROJECT_DIR$/app/Bla.ts" />
-        <option value="$PROJECT_DIR$/node_modules/@adonisjs/framework/src/Route/index.js" />
-        <option value="$PROJECT_DIR$/app/Controller.ts" />
-        <option value="$PROJECT_DIR$/config/drive.js" />
-        <option value="$PROJECT_DIR$/app/Models/File.js" />
-        <option value="$PROJECT_DIR$/app/Models/FileUser.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1561628852292_roles_schema.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/FileController.js" />
+        <option value="$PROJECT_DIR$/app/Models/Notification.js" />
+        <option value="$PROJECT_DIR$/database/migrations/1571633595018_user_activity_schema.js" />
+        <option value="$PROJECT_DIR$/database/migrations/1571633536952_activities_schema.js" />
+        <option value="$PROJECT_DIR$/database/migrations/1571045979281_notification_types_schema.js" />
+        <option value="$PROJECT_DIR$/database/migrations/1571045979291_notifications_schema.js" />
+        <option value="$PROJECT_DIR$/app/Models/Activity.js" />
+        <option value="$PROJECT_DIR$/app/Controllers/Http/ActivityController.js" />
         <option value="$PROJECT_DIR$/database/migrations/1503250034269_files_schema.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1503250034299_file_user_schema.js" />
-        <option value="$PROJECT_DIR$/README.txt" />
-        <option value="$PROJECT_DIR$/database/migrations/1460417755866_clients_schema.js" />
-        <option value="$PROJECT_DIR$/app/AuthManager.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1561878819969_applications_schema.js" />
-        <option value="$PROJECT_DIR$/app/Middleware/Institution.js" />
+        <option value="$PROJECT_DIR$/providers/AuthProvider.js" />
+        <option value="$PROJECT_DIR$/database/migrations/1561886296144_posts_schema.js" />
+        <option value="$PROJECT_DIR$/app/Controllers/Http/dashboard/JobController.js" />
         <option value="$PROJECT_DIR$/start/kernel.js" />
-        <option value="$PROJECT_DIR$/app/Models/User.js" />
-        <option value="$PROJECT_DIR$/database/seeds/ProductionSeeder.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/PositionController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/JobController.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1561811923158_jobs_schema.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1561636095357_institutions_schema.js" />
-        <option value="$PROJECT_DIR$/start/routes.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/UserController.js" />
+        <option value="$PROJECT_DIR$/app/Middleware/Guest.js" />
+        <option value="$PROJECT_DIR$/app/Middleware/Employee.js" />
+        <option value="$PROJECT_DIR$/app/Middleware/Institute.js" />
+        <option value="$PROJECT_DIR$/app/Middleware/Role.js" />
+        <option value="$PROJECT_DIR$/app/Models/JobRequest.js" />
+        <option value="$PROJECT_DIR$/start/app.js" />
+        <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/app/Helpers.js" />
+        <option value="$PROJECT_DIR$/app/Controllers/Http/FileController.js" />
+        <option value="$PROJECT_DIR$/app/Controllers/Http/VerificationController.js" />
+        <option value="$PROJECT_DIR$/app/Controllers/Http/NotificationController.js" />
+        <option value="$PROJECT_DIR$/start/socket.js" />
+        <option value="$PROJECT_DIR$/database/migrations/1460417755866_clients_schema.js" />
+        <option value="$PROJECT_DIR$/app/Controllers/Http/JobController.js" />
+        <option value="$PROJECT_DIR$/app/Controllers/Http/JobFilterController.js" />
+        <option value="$PROJECT_DIR$/app/Models/Job.js" />
+        <option value="$PROJECT_DIR$/database/migrations/1561811923158_jobs_schema.js" />
+        <option value="$PROJECT_DIR$/app/Models/User.js" />
+        <option value="$PROJECT_DIR$/database/migrations/1572329616626_rejected_jobs_schema.js" />
+        <option value="$PROJECT_DIR$/database/migrations/1571902119375_job_requests_schema.js" />
+        <option value="$PROJECT_DIR$/app/Controllers/Http/UserController.js" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/e696f0d1-0c84-4875-91d7-d3ca1e6ce6e5/console.sql" />
+        <option value="$PROJECT_DIR$/database/migrations/1561628867771_role_user_schema.js" />
+        <option value="$PROJECT_DIR$/app/Controllers/Http/Dashboard/JobController.js" />
+        <option value="$PROJECT_DIR$/database/migrations/1561628852292_roles_schema.js" />
+        <option value="$PROJECT_DIR$/database/migrations/1561628867773_permissions_schema.js" />
+        <option value="$PROJECT_DIR$/app/Controllers/Http/Dashboard/RoleController.js" />
+        <option value="$PROJECT_DIR$/app/Middleware/Verified.js" />
+        <option value="$PROJECT_DIR$/app/Middleware/Moderator.js" />
+        <option value="$PROJECT_DIR$/app/Middleware/Auth.js" />
+        <option value="$PROJECT_DIR$/providers/AppProvider.js" />
+        <option value="$PROJECT_DIR$/start/hooks.js" />
+        <option value="$PROJECT_DIR$/start/routes.js" />
+        <option value="$PROJECT_DIR$/database/seeds/ProductionSeeder.js" />
+        <option value="$PROJECT_DIR$/app/helpers.js" />
+        <option value="$PROJECT_DIR$/app/AuthManager.js" />
+        <option value="$PROJECT_DIR$/database/migrations/1503250034279_users_schema.js" />
+        <option value="$PROJECT_DIR$/app/Controllers/Http/Dashboard/ModeratorController.js" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="118" />
-    <option name="y" value="239" />
-    <option name="width" value="1346" />
-    <option name="height" value="583" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="229" />
+    <option name="y" value="249" />
+    <option name="width" value="1371" />
+    <option name="height" value="784" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -258,23 +377,39 @@
               <item name="chakuri-api" type="b2602c69:ProjectViewProjectNode" />
               <item name="chakuri-api" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="chakuri-api" type="b2602c69:ProjectViewProjectNode" />
+              <item name="chakuri-api" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="chakuri-api" type="b2602c69:ProjectViewProjectNode" />
+              <item name="chakuri-api" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="chakuri-api" type="b2602c69:ProjectViewProjectNode" />
+              <item name="chakuri-api" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
+              <item name="migrations" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="mariadb" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="database.console.LAST_STATE" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="8.10.0" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../wifres-api" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../chakuri-api-nest" />
     <property name="nodejs_interpreter_path" value="$USER_HOME$/.nvm/versions/node/v10.15.3/bin/node" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="yarn" />
-    <property name="settings.editor.selected.configurable" value="SQL Dialects" />
+    <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
@@ -396,22 +531,82 @@
       <workItem from="1567942756922" duration="6186000" />
       <workItem from="1568002327944" duration="6035000" />
       <workItem from="1568029984578" duration="1670000" />
-      <workItem from="1568089358462" duration="6311000" />
+      <workItem from="1568089358462" duration="13254000" />
+      <workItem from="1568262970285" duration="18915000" />
+      <workItem from="1568435685718" duration="9107000" />
+      <workItem from="1568522369235" duration="8551000" />
+      <workItem from="1568608628547" duration="12722000" />
+      <workItem from="1568694501914" duration="6000" />
+      <workItem from="1568697627083" duration="9139000" />
+      <workItem from="1568781074986" duration="1939000" />
+      <workItem from="1568791308456" duration="1622000" />
+      <workItem from="1568799795570" duration="19000" />
+      <workItem from="1568800860891" duration="6452000" />
+      <workItem from="1568867757374" duration="15126000" />
+      <workItem from="1569040330911" duration="12584000" />
+      <workItem from="1569126671442" duration="5826000" />
+      <workItem from="1569212965462" duration="3997000" />
+      <workItem from="1569228958933" duration="23000" />
+      <workItem from="1569299464009" duration="8891000" />
+      <workItem from="1569387607827" duration="1807000" />
+      <workItem from="1569643715814" duration="13070000" />
+      <workItem from="1569730612675" duration="6850000" />
+      <workItem from="1569818209113" duration="10368000" />
+      <workItem from="1569849078309" duration="2014000" />
+      <workItem from="1569905508224" duration="629000" />
+      <workItem from="1569911527904" duration="2064000" />
+      <workItem from="1569990572939" duration="20772000" />
+      <workItem from="1570077744324" duration="5003000" />
+      <workItem from="1570250369567" duration="22969000" />
+      <workItem from="1570335966963" duration="16593000" />
+      <workItem from="1570422494570" duration="1219000" />
+      <workItem from="1570426794452" duration="101000" />
+      <workItem from="1570426988085" duration="9494000" />
+      <workItem from="1570452712829" duration="566000" />
+      <workItem from="1570509003774" duration="22000" />
+      <workItem from="1570509251975" duration="11000" />
+      <workItem from="1570943412298" duration="11855000" />
+      <workItem from="1571028093082" duration="16742000" />
+      <workItem from="1571112711519" duration="15707000" />
+      <workItem from="1571200243185" duration="693000" />
+      <workItem from="1571229366244" duration="657000" />
+      <workItem from="1571285799468" duration="3625000" />
+      <workItem from="1571372459973" duration="707000" />
+      <workItem from="1571631715525" duration="10062000" />
+      <workItem from="1571653584649" duration="5615000" />
+      <workItem from="1571717815859" duration="5734000" />
+      <workItem from="1571804583008" duration="14157000" />
+      <workItem from="1571890794392" duration="22076000" />
+      <workItem from="1572066444610" duration="314000" />
+      <workItem from="1572067801772" duration="3759000" />
+      <workItem from="1572087399075" duration="4968000" />
+      <workItem from="1572149979142" duration="17897000" />
+      <workItem from="1572236284459" duration="3684000" />
+      <workItem from="1572257387923" duration="4059000" />
+      <workItem from="1572322418919" duration="11242000" />
+      <workItem from="1572343337647" duration="1006000" />
+      <workItem from="1572353930961" duration="340000" />
+      <workItem from="1572409260605" duration="2837000" />
+      <workItem from="1572417390187" duration="14438000" />
+      <workItem from="1572495650806" duration="11144000" />
+      <workItem from="1572520606430" duration="374000" />
+      <workItem from="1572521467783" duration="6648000" />
+      <workItem from="1572581265650" duration="1964000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="429428000" />
+    <option name="totallyTimeSpent" value="857146000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="27" width="1533" height="873" extended-state="6" />
+    <frame x="67" y="27" width="1533" height="873" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21654338" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14122394" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.50409836" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -420,14 +615,15 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.21991701" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.07377049" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="bottom" id="TypeScript" order="12" />
       <window_info anchor="bottom" id="GraphQL" order="13" />
+      <window_info anchor="bottom" id="Database Console" order="14" weight="0.3319672" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Database" order="3" weight="0.32952252" />
+      <window_info anchor="right" id="Database" order="3" weight="0.2400807" />
     </layout>
     <layout-to-restore>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25722983" />
@@ -456,264 +652,403 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Models/FileUser.js">
+    <entry file="file://$PROJECT_DIR$/database/migrations/1571633536952_activities_schema.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="11" column="25" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
+        <state relative-caret-position="390">
+          <caret line="15" column="19" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/drive.js">
+    <entry file="file://$PROJECT_DIR$/app/Models/Activity.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="27" column="29" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="29" />
+        <state relative-caret-position="130">
+          <caret line="5" column="30" selection-start-line="5" selection-start-column="30" selection-end-line="5" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/FileController.js">
+    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/VerificationController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        <state relative-caret-position="1014">
+          <caret line="243" column="13" selection-start-line="243" selection-start-column="13" selection-end-line="243" selection-end-column="13" />
+          <folding>
+            <element signature="n#!!block;n#email#0;n#VerificationController#0" />
+            <element signature="n#!!block;n#mobile#0;n#VerificationController#0" />
+            <element signature="n#!!block;n#resendMobile#0;n#VerificationController#0" />
+            <element signature="n#!!block;n#resendEmail#0;n#VerificationController#0" />
+            <element signature="n#!!block;n#updatePayload#0;n#VerificationController#0" />
+            <element signature="n#!!block;n#sendMail#0;n#VerificationController#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/ActivityController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="9" column="33" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/1503250034269_files_schema.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="9" column="44" lean-forward="true" selection-start-line="9" selection-start-column="44" selection-end-line="9" selection-end-column="44" />
+        <state relative-caret-position="156">
+          <caret line="6" column="3" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/files/2/1566198800196.png" />
-    <entry file="file://$PROJECT_DIR$/public/files/2/1566198661950.png" />
-    <entry file="file://$PROJECT_DIR$/public/files/2/1566198542419.png" />
-    <entry file="file://$PROJECT_DIR$/public/files/2/1566209465082.png" />
-    <entry file="file://$PROJECT_DIR$/database/migrations/1503250034299_file_user_schema.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="15" column="36" selection-start-line="15" selection-start-column="36" selection-end-line="15" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/files/2/1566209985590.png" />
-    <entry file="file://$PROJECT_DIR$/public/files/2/1566210175301.jpeg" />
-    <entry file="file://$PROJECT_DIR$/public/files/2/1566210398027.jpeg" />
-    <entry file="file://$PROJECT_DIR$/public/files/2/1566211947642.png" />
-    <entry file="file://$PROJECT_DIR$/public/files/2/1566212604129.png" />
-    <entry file="file://$PROJECT_DIR$/public/files/2/1566212655891.jpeg" />
-    <entry file="file://$PROJECT_DIR$/public/files/2/1566212735475.jpeg" />
-    <entry file="file://$PROJECT_DIR$/public/files/2/1566212766235.png" />
-    <entry file="file://$PROJECT_DIR$/public/files/2/1566212804941.png" />
-    <entry file="file://$PROJECT_DIR$/public/files/2/1566281600746.jpeg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/files/2/1566212854689.jpeg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor />
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.txt">
+    <entry file="file://$PROJECT_DIR$/database/migrations/1561636095361_moderators_schema.js" />
+    <entry file="file://$PROJECT_DIR$/start/kernel.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="104">
-          <caret line="4" column="53" lean-forward="true" selection-start-line="4" selection-start-column="53" selection-end-line="4" selection-end-column="53" />
+          <caret line="37" column="25" lean-forward="true" selection-start-line="37" selection-start-column="25" selection-end-line="37" selection-end-column="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/1460417755866_clients_schema.js">
+    <entry file="file://$PROJECT_DIR$/app/Middleware/Guest.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="11" column="3" lean-forward="true" selection-start-line="11" selection-start-column="3" selection-end-line="11" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/1561878819969_applications_schema.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="11" column="33" lean-forward="true" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/1561628852292_roles_schema.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="12" column="51" lean-forward="true" selection-start-line="12" selection-start-column="51" selection-end-line="12" selection-end-column="51" />
+        <state relative-caret-position="208">
+          <caret line="11" column="7" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Middleware/Employee.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/1561636095351_institution_types_schema.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/1460417755866_user_type_schema.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/1503250034279_users_schema.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="18" column="16" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/1561632531527_villages_schema.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/1563692167157_resumes_schema.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/User.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="52">
-          <caret line="2" selection-start-line="2" selection-end-line="2" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/AuthManager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5642">
-          <caret line="217" selection-start-line="217" selection-end-line="217" />
-          <folding>
-            <element signature="n#!!block;n#isMobile#0;n#AuthManager#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/helpers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="754">
-          <caret line="29" column="1" selection-start-line="29" selection-start-column="1" selection-end-line="29" selection-end-column="1" />
+        <state relative-caret-position="208">
+          <caret line="17" column="37" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Middleware/Institute.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
-          <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/start/kernel.js">
-      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="312">
-          <caret line="39" column="34" lean-forward="true" selection-start-line="39" selection-start-column="34" selection-end-line="39" selection-end-column="34" />
+          <caret line="15" column="9" lean-forward="true" selection-start-line="15" selection-start-column="9" selection-end-line="15" selection-end-column="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/seeds/ProductionSeeder.js">
+    <entry file="file://$PROJECT_DIR$/app/Middleware/Role.js" />
+    <entry file="file://$PROJECT_DIR$/database/migrations/1571045979291_notifications_schema.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2210">
-          <caret line="85" selection-start-line="85" selection-end-line="85" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/DistrictController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-546" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/PositionController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="4" column="26" lean-forward="true" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
+        <state relative-caret-position="78">
+          <caret line="9" column="12" selection-start-line="9" selection-start-column="12" selection-end-line="12" selection-end-column="48" />
+          <folding>
+            <element signature="n#!!block;n#down#0;n#NotificationsSchema#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/start/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="16" column="30" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+        <state relative-caret-position="156">
+          <caret line="48" column="1" selection-start-line="48" selection-start-column="1" selection-end-line="48" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/Job.js">
+    <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="5" column="25" lean-forward="true" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/Resume/AddressController.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/providers/AppProvider.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/Resume/EducationController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1144">
-          <caret line="70" column="19" selection-start-line="70" selection-start-column="19" selection-end-line="70" selection-end-column="48" />
-          <folding>
-            <element signature="n#!!block;n#update#0;n#EducationController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/1561636095352_categories_schema.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/1561636095357_institutions_schema.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="676">
-          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/1561811923158_jobs_schema.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1">
-          <caret line="21" column="14" selection-start-line="21" selection-start-column="12" selection-end-line="24" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/start/routes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="68" column="64" selection-start-line="68" selection-start-column="64" selection-end-line="68" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/JobController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="15" column="58" selection-start-line="15" selection-start-column="58" selection-end-line="15" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/UserController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="623" lean-forward="true" selection-start-line="623" selection-end-line="623" />
-          <folding>
-            <element signature="n#!!block;n#register#0;n#UserController#0" />
-            <element signature="n#!!block;n#userExists#0;n#UserController#0" />
-            <element signature="n#!!block;n#userExistsByEmail#0;n#UserController#0" />
-            <element signature="n#!!block;n#updateName#0;n#UserController#0" />
-            <element signature="n#!!block;n#updateEmail#0;n#UserController#0" />
-            <element signature="n#!!block;n#verifyEmail#0;n#UserController#0" />
-            <element signature="n#!!block;n#getEmailAndMobile#0;n#UserController#0" />
-            <element signature="n#!!block;n#updateMobile#0;n#UserController#0" />
-            <element signature="n#!!block;n#verifyMobile#0;n#UserController#0" />
-            <element signature="n#!!block;n#updatePassword#0;n#UserController#0" />
-            <element signature="n#!!block;n#updatePhoto#0;n#UserController#0" />
-            <element signature="n#!!block;n#updateDescription#0;n#UserController#0" />
-            <element signature="n#!!block;n#updateAddress#0;n#UserController#0" />
-            <element signature="n#!!block;n#getCategoryAndType#0;n#UserController#0" />
-            <element signature="n#!!block;n#exists#0;n#UserController#0" />
-          </folding>
+        <state relative-caret-position="280">
+          <caret line="22" column="23" selection-start-line="22" selection-start-column="23" selection-end-line="22" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-166">
+          <caret line="2" column="20" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/providers/AuthProvider.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="37" column="38" selection-start-line="37" selection-start-column="38" selection-end-line="37" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Helpers.js" />
+    <entry file="file://$PROJECT_DIR$/start/socket.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="16" column="27" lean-forward="true" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Models/Notification.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="11" column="12" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="71" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/NotificationController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="458">
+          <caret line="21" column="21" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="82" />
+          <folding>
+            <element signature="n#!!block;n#unreadCount#0;n#NotificationController#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Models/JobRequest.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="3" column="27" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/1460417755866_clients_schema.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="8" column="12" lean-forward="true" selection-start-line="8" selection-start-column="12" selection-end-line="11" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Models/Job.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="3" column="26" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/1561811923158_jobs_schema.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="52" column="36" lean-forward="true" selection-start-line="52" selection-start-column="36" selection-end-line="52" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/1571902119375_job_requests_schema.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="19" column="48" selection-start-line="19" selection-start-column="48" selection-end-line="19" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/1572329616626_rejected_jobs_schema.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="7" column="38" lean-forward="true" selection-start-line="7" selection-start-column="38" selection-end-line="7" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/JobController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="4" column="34" selection-start-line="4" selection-start-column="34" selection-end-line="4" selection-end-column="34" />
+          <folding>
+            <element signature="e#224#987#0" />
+            <element signature="n#!!block;n#store#0;n#JobController#0" />
+            <element signature="n#!!block;n#index#0;n#JobController#0" />
+            <element signature="n#!!block;n#show#0;n#JobController#0" />
+            <element signature="n#!!block;n#getApplications#0;n#JobController#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/JobFilterController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5876">
+          <caret line="226" column="43" selection-start-line="226" selection-start-column="43" selection-end-line="226" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/Dashboard/JobController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="52">
+          <caret line="2" selection-start-line="2" selection-end-line="2" selection-end-column="36" />
+          <folding>
+            <element signature="n#!!block;n#index#0;n#JobController#0" />
+            <element signature="n#!!block;n#count#0;n#JobController#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/FileController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="15" column="17" lean-forward="true" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Models/User.js">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="312">
-          <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
+          <caret line="18" column="2" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/1561628867771_role_user_schema.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="14" column="36" selection-start-line="14" selection-start-column="36" selection-end-line="14" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/seeds/thanas.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/1561628867773_permissions_schema.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="7" column="45" lean-forward="true" selection-start-line="7" selection-start-column="45" selection-end-line="7" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Middleware/Verified.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="12" column="51" selection-start-line="12" selection-start-column="51" selection-end-line="12" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Middleware/Auth.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Middleware/Moderator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-52">
+          <caret line="12" column="64" selection-start-line="12" selection-start-column="64" selection-end-line="12" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/1561628852292_roles_schema.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="11" column="45" selection-start-line="11" selection-start-column="45" selection-end-line="11" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/start/hooks.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="5" column="27" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/1564489275698_verification_tokens_schema.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="22" column="31" lean-forward="true" selection-start-line="22" selection-start-column="31" selection-end-line="22" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/Dashboard/ModeratorController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="7" column="37" selection-start-line="7" selection-start-column="37" selection-end-line="7" selection-end-column="37" />
+          <folding>
+            <element signature="n#!!block;n#index#0;n#ModeratorController#0" />
+            <element signature="e#270#390#0" />
+            <element signature="e#426#485#0" />
+            <element signature="n#!!block;n#count#0;n#ModeratorController#0" />
+            <element signature="n#!!block;n#store#0;n#ModeratorController#0" />
+            <element signature="n#!!block;n#destroy#0;n#ModeratorController#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/AuthManager.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3120">
+          <caret line="209" column="29" selection-start-line="209" selection-start-column="29" selection-end-line="209" selection-end-column="29" />
+          <folding>
+            <element signature="n#!!block;n#constructor#0;n#AuthManager#0" />
+            <element signature="n#!!block;n#attempt#0;n#AuthManager#0" />
+            <element signature="n#!!block;n#login#0;n#AuthManager#0" />
+            <element signature="n#!!block;n#checkCredentials#0;n#AuthManager#0" />
+            <element signature="n#!!block;n#isMobile#0;n#AuthManager#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/1503250034279_users_schema.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="520">
+          <caret line="20" column="39" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/helpers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4212">
+          <caret line="164" column="32" selection-start-line="164" selection-start-column="32" selection-end-line="164" selection-end-column="32" />
+          <folding>
+            <element signature="e#601#686#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/providers/AppProvider.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="780">
+          <caret line="46" column="42" selection-start-line="46" selection-start-column="26" selection-end-line="46" selection-end-column="42" />
+          <folding>
+            <element signature="e#588#1082#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/UserController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="16" column="15" selection-start-line="16" selection-start-column="15" selection-end-line="16" selection-end-column="15" />
+          <folding>
+            <element signature="n#!!block;n#updateName#0;n#UserController#0" />
+            <element signature="n#!!block;n#updateEmail#0;n#UserController#0" />
+            <element signature="n#!!block;n#updateMobile#0;n#UserController#0" />
+            <element signature="n#!!block;n#updatePassword#0;n#UserController#0" />
+            <element signature="n#!!block;n#updatePhoto#0;n#UserController#0" />
+            <element signature="n#!!block;n#updateDescription#0;n#UserController#0" />
+            <element signature="n#!!block;n#updateAddress#0;n#UserController#0" />
+            <element signature="n#!!block;n#updateCategory#0;n#UserController#0" />
+            <element signature="n#!!block;n#updateType#0;n#UserController#0" />
+            <element signature="n#!!block;n#getCategoryAndType#0;n#UserController#0" />
+            <element signature="n#!!block;n#resetPassword#0;n#UserController#0" />
+            <element signature="n#!!block;n#forgotPassword#0;n#UserController#0" />
+            <element signature="n#!!block;n#profile#0;n#UserController#0" />
+            <element signature="n#!!block;n#exists#0;n#UserController#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/seeds/ProductionSeeder.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3848">
+          <caret line="148" column="36" selection-start-line="148" selection-start-column="36" selection-end-line="148" selection-end-column="36" />
+          <folding>
+            <element signature="n#!!block;n#clean#0;n#!!block;n#run#0;n#ProductionSeeder#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/e696f0d1-0c84-4875-91d7-d3ca1e6ce6e5/console.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/start/routes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3666">
+          <caret line="141" column="19" lean-forward="true" selection-start-line="141" selection-start-column="19" selection-end-line="141" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/Dashboard/RoleController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1040">
+          <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
         </state>
       </provider>
     </entry>

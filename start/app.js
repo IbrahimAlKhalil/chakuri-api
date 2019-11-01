@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('path');
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +21,7 @@ const providers = [
     '@adonisjs/mail/providers/MailProvider',
     path.join(__dirname, '../providers/AuthProvider'),
     path.join(__dirname, '../providers/AppProvider')
-]
+];
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ const providers = [
 */
 const aceProviders = [
     '@adonisjs/lucid/providers/MigrationsProvider'
-]
+];
 
 /*
 |--------------------------------------------------------------------------
@@ -48,7 +48,7 @@ const aceProviders = [
 |   { Route: 'Adonis/Src/Route' }
 |
 */
-const aliases = {}
+const aliases = {};
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +58,6 @@ const aliases = {}
 | Here you store ace commands for your package
 |
 */
-const commands = []
+const commands = [];
 
-module.exports = {providers, aceProviders, aliases, commands}
+module.exports = {providers, aceProviders, aliases, commands};

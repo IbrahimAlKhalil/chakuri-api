@@ -1,21 +1,21 @@
-'use strict'
+'use strict';
 
 /** @type {import('@adonisjs/lucid/src/Schema')} */
-const Schema = use('Schema')
+const Schema = use('Schema');
 
 class PermissionsSchema extends Schema {
     up() {
         this.create('permissions', (table) => {
-            table.increments()
-            table.string('name', 50)
-            table.string('display_name', 50)
-            table.timestamps()
-        })
+            table.increments();
+            table.string('name', 50);
+            table.string('display_name', 50);
+            table.timestamps();
+        });
     }
 
     down() {
-        this.drop('permissions')
+        this.drop('permissions');
     }
 }
 
-module.exports = PermissionsSchema
+module.exports = PermissionsSchema;

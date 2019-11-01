@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -12,12 +12,12 @@ class Auth {
      */
     async handle({request, auth, response}, next) {
         if (!auth.authenticated) {
-            return response.status(401).send('')
+            return response.status(401).send('');
         }
 
         // call next to advance the request
-        await next()
+        await next();
     }
 }
 
-module.exports = Auth
+module.exports = Auth;

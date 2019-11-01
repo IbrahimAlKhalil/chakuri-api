@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -12,18 +12,18 @@ class Employee {
      */
     async handle({request, auth, response}, next) {
         if (!auth.authenticated) {
-            return response.status(401).send('')
+            return response.status(401).send('');
         }
 
-        const user = await auth.user(['user_type_id as type'])
+        const user = await auth.user();
 
         if (user.type !== 1) {
-            return response.status(401).send('')
+            return response.status(401).send('');
         }
 
         // call next to advance the request
-        await next()
+        await next();
     }
 }
 
-module.exports = Employee
+module.exports = Employee;

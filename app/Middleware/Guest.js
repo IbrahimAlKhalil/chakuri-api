@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -13,11 +13,11 @@ class Guest {
     async handle({request, auth, response}, next) {
         // call next to advance the request
         if (auth.authenticated) {
-            return response.status(403).send('')
+            return response.status(403).send('');
         }
 
-        await next()
+        await next();
     }
 }
 
-module.exports = Guest
+module.exports = Guest;

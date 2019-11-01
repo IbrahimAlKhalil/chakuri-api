@@ -1,20 +1,22 @@
-'use strict'
+'use strict';
 
-const User = use('App/Models/User')
-const File = use('App/Models/File')
-const Helpers = use('Helpers')
-const Drive = use('Drive')
-const db = use('Database')
-const VerificationToken = use('App/Models/VerificationToken')
-const Resume = use('App/Models/Resume')
-const crypto = require('crypto')
-const {validate} = use('Validator')
-const Hash = use('Hash')
-const Env = use('Env')
-const Route = use('Route')
-const Mail = use('Mail')
-const emailTemplate = require('../../../templates/email-verification')
-const {truncateMobile} = require('../../helpers')
+const User = use('App/Models/User');
+const File = use('App/Models/File');
+const Helpers = use('Helpers');
+const PasswordReset = use('App/Models/PasswordReset');
+const Drive = use('Drive');
+const db = use('Database');
+const VerificationToken = use('App/Models/VerificationToken');
+const Resume = use('App/Models/Resume');
+const {validate} = use('Validator');
+const Hash = use('Hash');
+const Route = use('Route');
+const Mail = use('Mail');
+const crypto = require('crypto');
+const emailTemplate = require('../../../templates/email-verification');
+const {truncateMobile, generateVerification, sendSMS} = require('../../helpers');
+
+// TODO: Make use of verified middleware
 
 class UserController {
 
@@ -24,39 +26,41 @@ class UserController {
         const validation = await validate(request.only(['password', 'name']), {
             password: 'required|min:8',
             name: 'required|string|max:190'
-        })
+        });
 
         // Validate password and name
-        // mobile, user_type_id and email will be validated by userExists method
+        // mobile, user_type_id will be validated by userExists method
         if (validation.fails() || await this.userExists({request}, true)) {
-            return response.status(422).send('')
+            return response.status(422).send('');
         }
 
         // Create user
         const user = await User.create(
-            request.only(['user_type_id', 'mobile', 'email', 'password', 'name'])
-        )
+            request.only(['user_type_id', 'mobile', 'password', 'name'])
+        );
 
-        const type = Number(request.input('user_type_id'))
+        const type = Number(request.input('user_type_id'));
+        const mobile = request.input('mobile');
 
         // Create a resume for employee
         if (type === 1) {
             await Resume.create({
                 user_id: user.id,
-                name: user.name,
-                mobile: user.mobile,
-                email: user.email
-            })
+                mobile: user.mobile
+            });
         } else if (type === 2) {
             await db.table('institutions')
-                .insert({user_id: user.id})
+                .insert({user_id: user.id});
         }
 
-        // Give the user a role
-        await db.table('role_user').insert({
-            role_id: type === 1 ? 3 : 4,
-            user_id: user.id
-        })
+
+        // Generate verification token
+        const verification = await generateVerification(user.id, 'mobile', mobile, false, Math.floor(100000 + Math.random() * 900000));
+
+
+        // Send verification code
+        await sendSMS(mobile, `Your verification code from Khidmat is ${verification.token}`);
+
 
         // Attempt to login
         return await auth.login(
@@ -65,17 +69,16 @@ class UserController {
             user.user_type_id,
             false,
             user.id
-        )
+        );
     }
 
     async userExists({request, response}, register = false) {
 
         const validation = await validate(
-            request.only(['user_type_id', 'mobile', 'email']), {
+            request.only(['user_type_id', 'mobile']), {
                 user_type_id: 'required|in:1,2' + (!register ? ',3' : ''),
-                mobile: 'required|mobile',
-                email: 'email'
-            })
+                mobile: 'required|mobile'
+            });
 
         // If validation fails response with 422 status
         // If the status is 422 then the client must think that the data is invalid
@@ -88,226 +91,130 @@ class UserController {
             // method will response with status 422
 
             if (response) {
-                return response.status(422).send('')
+                return response.status(422).send('');
             }
 
-            return true
+            return true;
         }
 
-        const type = request.input('user_type_id')
-        const existsByMobile = await UserController.exists(
+        const type = request.input('user_type_id');
+
+        return await UserController.exists(
             'mobile',
             truncateMobile(request.input('mobile')),
             type
-        )
-
-        // Check user's existence by email, though it's optional field in the registration form
-        // exists method will check whether it's present in the request
-        const existsByEmail = await UserController.exists(
-            'email',
-            request.input('email'),
-            type
-        )
-
-        return existsByMobile || existsByEmail
-    }
-
-    async userExistsByEmail({request, response}) {
-        const validation = await validate(
-            request.only(['user_type_id', 'email']), {
-                user_type_id: 'required|in:1,2',
-                email: 'email'
-            })
-
-        if (validation.fails()) {
-
-            if (response) {
-                return response.status(422).send('')
-            }
-
-            return true
-        }
-
-        return await UserController.exists('email', request)
+        );
     }
 
     async updateName({request, auth, response}) {
         const validation = await validate(request.only(['name']), {
             name: 'required|max: 190'
-        })
+        });
 
         if (validation.fails()) {
-            return response.status(422).send('')
+            return response.status(422).send('');
         }
 
         await User.query()
             .update({name: request.input('name')})
-            .where('id', auth.id)
+            .where('id', auth.id);
 
-        return ''
+        return '';
     }
 
     async updateEmail({request, auth, response}) {
+
         const validation = await validate(request.only(['email', 'password']), {
             email: 'required|email',
             password: 'required|min:8'
-        })
+        });
 
         // Validate user input
         if (validation.fails()) {
-            return response.status(422).send('দুঃখিত, কিছু ভুল হয়েছে দয়া করে আবার চেষ্টা করুন')
+            return response.status(422).send('দুঃখিত, কিছু ভুল হয়েছে দয়া করে আবার চেষ্টা করুন');
         }
 
-        const email = request.input('email')
-
-        const oldToken = await db.raw(`
-          select payload, type
-          from verification_tokens
-          where user_id = ?
-            and created_at >= date_sub(NOW(), interval 1 hour)
-            and type = 'email'
-        `, [auth.id])
-
-        // User should request twice
-        if (oldToken[0].length > 0) {
-            return response.status(422).send('')
-        }
 
         // Fetch user instance
         const user = await User.query()
-            .select('password', 'email')
+            .select('password', 'email', 'user_type_id as type')
             .where('id', auth.id)
-            .first()
+            .first();
 
-        // Check whether user exists
-        if (!user) {
-            return response.status(422).send('দুঃখিত, কিছু ভুল হয়েছে দয়া করে আবার চেষ্টা করুন')
+
+        const email = request.input('email');
+
+        // Check whether email is already taken or not
+        const emailExists = await UserController.exists('email', email, user.type);
+
+        if (emailExists) {
+            return response.status(422).send('দুঃখিত, ইমেইলটি ইতোমধ্যেই কেউ ব্যবহার করছে');
+        }
+
+        // Retrieve pending verification
+        const oldToken = await db.raw(`
+          select payload, type
+          from verification_tokens
+          where user_id = ${auth.id}
+            and created_at >= date_sub(NOW(), interval 1 hour)
+            and type = 'email'
+        `);
+
+        // User should request twice
+        if (oldToken[0].length > 0) {
+            return response.status(422).send('');
         }
 
         // New and previous email should be different
         if (user.email === email) {
-            return response.status(422).send('')
+            return response.status(422).send('');
         }
 
         // Verify password
-        const verified = await Hash.verify(request.input('password'), user.password)
+        const verified = await Hash.verify(request.input('password'), user.password);
 
         // exit if password is not correct
         if (!verified) {
-            return response.status(422).send('দুঃখিত, পাসওয়ার্ডটি সঠিক নয় ')
+            return response.status(422).send('দুঃখিত, পাসওয়ার্ডটি সঠিক নয় ');
         }
 
 
         // Create verification token
-        const verification = new VerificationToken
-        verification.user_id = auth.id
-        verification.type = 'email'
-        verification.payload = email
-        await verification.save()
+        const verification = await generateVerification(auth.id, 'email', email);
 
-        verification.token = crypto.randomBytes(20).toString('hex') + 1/*verification.id*/
-        await verification.save()
-
-        const action = Route.url('email-verification', {
-            token: verification.token
-        })
+        const action = Route.url('email-verification', {token: verification.token});
 
         // Send email
         const template = emailTemplate({
-            company: 'Bahech',
-            message: 'Thanks for signing up! We\'re excited to have you as an early user.',
+            company: 'Khidmat',
+            message: 'Thanks for signing up! We\'re excited to have you as an user.',
             action: request.protocol() + '://' + request.header('host') + action,
             address: 'Kajla, Vangapress, Jatrabari, Dhaka 1236, Bangladesh'
-        })
+        });
 
-        await Mail.raw(template, message => {
-            message.to(email)
-            message.subject('Email verification')
-        })
-
-        return ''
-    }
-
-    async verifyEmail({params, response}) {
-        const token = params.token
-        const sorry = `
-            <h1>Sorry this token is expired</h1>
-            `
-
-        // Fetch token
-        const verified = await VerificationToken.query()
-            .where('id', token.charAt(token.length - 1))
-            .first()
-
-        // Check whether exists
-        if (!verified) {
-            return response.send(sorry)
+        try {
+            await Mail.raw(template, message => {
+                message.to(email);
+                message.subject('Email verification');
+            });
+        } catch (e) {
         }
 
-        // Match token
-        if (verified.token !== token) {
-            return response.send(sorry)
-        }
-
-        // Issued date
-        const issued = new Date(verified.updated_at.toString())
-        const createdAgo = Date.now() - issued.getTime()
-
-        // Token cannot be expired
-        if (createdAgo >= Env.get('VERIFY_TOKEN_LIFETIME')) {
-            return response.send(sorry)
-        }
-
-        // Delete token
-        await verified.delete()
-
-        // Update user data
-        await User.query()
-            .update({
-                email: verified.payload
-            })
-            .where('id', verified.user_id)
-
-        return `
-        <h1>Success!</h1>
-        `
-    }
-
-    async getEmailAndMobile({request, auth}) {
-        const pending = await db.raw(`
-          select payload, type
-          from verification_tokens
-          where (user_id = ? and created_at >= date_sub(NOW(), interval 1 hour))
-            and (type = 'email' or type = 'mobile')
-        `, [auth.id])
-
-        const data = {
-            email: [],
-            mobile: []
-        }
-
-        pending[0].forEach(item => {
-            data[item.type].push({
-                value: item.payload,
-                verified: false
-            })
-        })
-
-        return data
+        return '';
     }
 
     async updateMobile({request, auth, response}) {
         const validation = await validate(request.only(['mobile', 'password']), {
             mobile: 'required|mobile',
             password: 'required|min:8'
-        })
+        });
 
         // Validate user input
         if (validation.fails()) {
-            return response.status(422).send('দুঃখিত, কিছু ভুল হয়েছে দয়া করে আবার চেষ্টা করুন')
+            return response.status(422).send('দুঃখিত, কিছু ভুল হয়েছে দয়া করে আবার চেষ্টা করুন');
         }
 
-        const mobile = request.input('mobile')
+        const mobile = request.input('mobile');
 
         const oldToken = await db.raw(`
           select payload, type
@@ -315,183 +222,125 @@ class UserController {
           where user_id = ?
             and created_at >= date_sub(NOW(), interval 1 hour)
             and type = 'mobile'
-        `, [auth.id])
+        `, [auth.id]);
 
         // User should not request twice
         if (oldToken[0].length > 0) {
-            return response.status(422).send('')
+            return response.status(422).send('');
         }
 
         // Fetch user instance
         const user = await User.query()
             .select('password', 'mobile')
             .where('id', auth.id)
-            .first()
+            .first();
 
         // Check whether user exists
         if (!user) {
-            return response.status(422).send('দুঃখিত, কিছু ভুল হয়েছে দয়া করে আবার চেষ্টা করুন')
+            return response.status(422).send('দুঃখিত, কিছু ভুল হয়েছে দয়া করে আবার চেষ্টা করুন');
         }
 
         // New and previous email should be different
         if (user.mobile === mobile) {
-            return response.status(422).send('')
+            return response.status(422).send('');
         }
 
         // Verify password
-        const verified = await Hash.verify(request.input('password'), user.password)
+        const verified = await Hash.verify(request.input('password'), user.password);
 
         // exit if password is not correct
         if (!verified) {
-            return response.status(422).send('দুঃখিত, পাসওয়ার্ডটি সঠিক নয় ')
+            return response.status(422).send('দুঃখিত, পাসওয়ার্ডটি সঠিক নয় ');
         }
 
 
         // Create verification token
-        const verification = new VerificationToken
-        verification.user_id = auth.id
-        verification.type = 'mobile'
-        verification.payload = mobile
-        await verification.save()
+        const verification = new VerificationToken;
+        verification.user_id = auth.id;
+        verification.type = 'mobile';
+        verification.payload = mobile;
+        await verification.save();
 
-        verification.token = Math.floor(100000 + Math.random() * 900000)
-        await verification.save()
-
+        verification.token = Math.floor(100000 + Math.random() * 900000);
+        await verification.save();
 
         // Send message
+        await sendSMS(verification.payload, `Your verification code from Khidmat is ${verification.token}`);
 
-        return ''
-    }
-
-    async verifyMobile({params, response, auth}) {
-        const token = params.token
-
-        // Fetch token
-        const verified = await VerificationToken.query()
-            .where('user_id', auth.id)
-            .where('type', 'mobile')
-            .first()
-
-        // Check whether exists
-        if (!verified) {
-            return response.status(422).send({
-                message: 'কোডের মেয়াদ উত্তীর্ণ হয়ে গেছে',
-                status: 'expired'
-            })
-        }
-
-        if (verified.try > 5) {
-            return response.status(422).send({
-                message: 'দুঃখিত, আপনি পাঁচ বারের বেশি ভুল কোড দিয়েছেন। আপনার অনুরোধটি বাতিল বলে গণ্য হয়েছে, অনুগ্রহ করে  ১ ঘন্টা পর আবার চেষ্টা করুন ',
-                status: 'maximum-reached'
-            })
-        }
-
-
-        // Match token
-        if (verified.token !== token) {
-            verified.try = verified.try + 1
-            await verified.save()
-
-            return response.status(422).send({
-                message: `দুঃখিত কোডটি সঠিক নয়। পাঁচ বারের বেশি ভুল কোড দিলে অনুরোধটি বাতিল বলে গণ্য হবে, এবং এক ঘন্টার আগে মোবাইল নাম্বার পরিবর্তন করতে পারবেন না`,
-                status: 'wrong'
-            })
-        }
-
-
-        // Issued date
-        const issued = new Date(verified.updated_at.toString())
-        const createdAgo = Date.now() - issued.getTime()
-
-        // Token cannot be expired
-        if (createdAgo >= Env.get('VERIFY_TOKEN_LIFETIME')) {
-            return expired
-        }
-
-        // Delete token
-        await verified.delete()
-
-        // Update user data
-        await User.query()
-            .update({
-                mobile: truncateMobile(verified.payload)
-            })
-            .where('id', auth.id)
-
-        return ''
+        return '';
     }
 
     async updatePassword({request, auth, response}) {
         const validation = await validate(request.only(['pass']), {
             pass: 'required|min:8'
-        })
+        });
 
         // Validate new password
         if (validation.fails()) {
-            return response.status(422).send('সর্বনিম্ন আটটি অক্ষর হতে হবে')
+            return response.status(422).send('সর্বনিম্ন আটটি অক্ষর হতে হবে');
         }
 
         // Fetch user instance
         const user = await User.query()
             .select('password')
             .where('id', auth.id)
-            .first()
+            .first();
 
 
         // Verify old password
-        const verified = await Hash.verify(request.input('password'), user.password)
+        const verified = await Hash.verify(request.input('password'), user.password);
 
         // Validate new password
         if (!verified) {
-            return response.status(422).send('দুঃখিত, পাসওয়ার্ডটি সঠিক নয়')
+            return response.status(422).send('দুঃখিত, পাসওয়ার্ডটি সঠিক নয়');
         }
 
 
         await User.query()
             .update({password: request.input('pass')})
-            .where('id', auth.id)
+            .where('id', auth.id);
 
-        return ''
+        return '';
     }
 
     async updatePhoto({request, auth, response}) {
-        const photo = await request.file('photo')
+        const photo = await request.file('photo');
 
         const validation = await validate({photo}, {
             photo: 'required|file|file_types:image'
-        })
+        });
 
         // Photo should be included
         if (validation.fails()) {
-            return response.status(422).send('')
+            return response.status(422).send('');
         }
 
 
         // Validate extensions
-        const ext = ['png', 'jpg', 'jpeg']
+        const ext = ['png', 'jpg', 'jpeg'];
         if (!ext.includes(photo.subtype)) {
-            return response.status(422).send('Sorry! only png and jpeg format supported')
+            return response.status(422).send('Sorry! only png and jpeg format supported');
         }
 
         // Validate size
         if (photo.size > 1e+6) {
-            return response.status(422).send('দুঃখিত! ছবি ১ মেগাবাইট এর চেয়ে বড় হতে পারবে না')
+            return response.status(422).send('দুঃখিত! ছবি ১ মেগাবাইট এর চেয়ে বড় হতে পারবে না');
         }
 
-        const name = `${new Date().getTime()}.${photo.subtype}`
-        await photo.move(Helpers.publicPath(`files/${auth.id}`), {name})
+        const name = `${new Date().getTime()}.${photo.subtype}`;
+        await photo.move(Helpers.publicPath(`files/${auth.id}`), {name});
 
-        const file = new File
-        file.name = name
-        file.mime_type = photo.headers['content-type']
-        await file.save()
+        const file = new File;
+        file.name = name;
+        file.mime_type = photo.headers['content-type'];
+        file.file_type_id = 1;
+        await file.save();
 
         const oldFile = await db.table('users as u')
             .select('f.id', 'f.name as name')
             .join('files as f', 'f.id', 'u.photo')
             .where('u.id', auth.id)
-            .first()
+            .first();
 
 
         await Promise.all([
@@ -504,7 +353,8 @@ class UserController {
                 .update({
                     photo: file.id
                 })
-        ])
+                .where('id', auth.id)
+        ]);
 
         // Delete previous file
         if (oldFile) {
@@ -514,46 +364,82 @@ class UserController {
                     .delete(),
 
                 Drive.delete(`files/${auth.id}/${oldFile.name}`)
-            ])
+            ]);
         }
 
 
-        return ''
+        return file.id;
     }
 
     async updateDescription({request, auth, response}) {
         const validation = await validate(request.only(['description']), {
             description: 'required|max: 3000'
-        })
+        });
 
         if (validation.fails()) {
-            return response.status(422).send('')
+            return response.status(422).send('');
         }
 
         await db.table('institutions')
             .update({description: request.input('description')})
-            .where('user_id', auth.id)
+            .where('user_id', auth.id);
 
-        return ''
+        return '';
     }
 
     async updateAddress({request, auth, response}) {
         const validation = await validate(request.only(['address']), {
             address: 'required|max: 3000'
-        })
+        });
 
         if (validation.fails()) {
-            return response.status(422).send('')
+            return response.status(422).send('');
         }
 
         await db.table('institutions')
             .update({address: request.input('address')})
-            .where('user_id', auth.id)
+            .where('user_id', auth.id);
 
-        return ''
+        return '';
     }
 
-    async getCategoryAndType({request, auth}) {
+    async updateCategory({request, auth, response}) {
+        const data = request.only(['category']);
+
+        const validation = await validate(data, {
+            category: 'required|integer|exists:categories,id'
+        });
+
+        if (validation.fails()) {
+            return response.status(422).send('দুঃখিত আপনার তথ্যে ভুল আছে');
+        }
+
+        await db.from('institutions')
+            .update({category_id: data.category})
+            .where('user_id', auth.id);
+
+        return '';
+    }
+
+    async updateType({request, auth, response}) {
+        const data = request.only(['type']);
+
+        const validation = await validate(data, {
+            type: 'required|integer|exists:institution_types,id'
+        });
+
+        if (validation.fails()) {
+            return response.status(422).send('দুঃখিত আপনার তথ্যে ভুল আছে');
+        }
+
+        await db.from('institutions')
+            .update({institution_type_id: data.type})
+            .where('user_id', auth.id);
+
+        return '';
+    }
+
+    async getCategoryAndType() {
         const data = await Promise.all([
             db.from('institutions as i')
                 .select(
@@ -569,7 +455,7 @@ class UserController {
                 .select('id', 'display_name as name'),
             db.from('institution_types')
                 .select('id', 'display_name as name')
-        ])
+        ]);
 
         return {
             category: {
@@ -586,43 +472,166 @@ class UserController {
                     name: data[0].type
                 } : null
             }
-        }
+        };
     }
 
-    async updateCategory({request, auth, response}) {
-        const data = request.only(['category'])
+    async resetPassword({request, response}) {
+        const data = request.only(['token', 'password', 'rePassword', 'mobile', 'type']);
 
+        // TODO: Modify min password if necessary
         const validation = await validate(data, {
-            category: 'required|integer|exists:categories,id'
-        })
+            token: 'required|string',
+            password: 'required|min:8',
+            rePassword: 'required|min:8',
+            type: 'required|in:1,2,3',
+            mobile: 'required|mobile'
+        });
 
+        // Validate request
         if (validation.fails()) {
-            return response.status(422).send('দুঃখিত আপনার তথ্যে ভুল আছে')
+            // Validation failed
+            return response.status(422).send('দুঃখিত, পাসওয়ার্ড কমপক্ষে ৮টি অক্ষরের  হতে হবে');
         }
 
-        await db.from('institutions')
-            .update({category_id: data.category})
-            .where('user_id', auth.id)
+        // Confirm password
+        if (data.password !== data.rePassword) {
+            // Didn't match
+            return response.status(422).send('দুঃখিত, উপরের এবং নিচের পাসওয়ার্ড মিলছে না');
+        }
 
-        return ''
+        // Fetch user by mobile
+        const user = await User.query()
+            .select('id')
+            .where('mobile', data.mobile)
+            .where('user_type_id', data.type)
+            .where('verified', true)
+            .first();
+
+        // User could provide wrong mobile
+        if (!user) {
+            // User not found
+            return response.status(422).send('Sorry, something went wrong, please try later!');
+        }
+
+        const reset = await PasswordReset
+            .query()
+            .select('token', 'id')
+            .where('user_id', user.id)
+            .first();
+
+        if (!reset) {
+            // Token not found
+            return response.status(422).send('Sorry, something went wrong, please try later!');
+        }
+
+        // Verify token
+        if (!Hash.verify(data.token, reset.token)) {
+            // Token not found
+            return response.status(422).send('Sorry, something went wrong, please try later!');
+        }
+
+        await reset.delete();
+
+        user.password = data.password;
+        user.save();
+
+        return '';
     }
 
-    async updateType({request, auth, response}) {
-        const data = request.only(['type'])
+    async forgotPassword({request, response}) {
+        const data = request.only(['type', 'mobile']);
 
         const validation = await validate(data, {
-            type: 'required|integer|exists:institution_types,id'
-        })
+            type: 'required|in:1,2,3',
+            mobile: 'required|mobile'
+        });
 
+        // Validate request
         if (validation.fails()) {
-            return response.status(422).send('দুঃখিত আপনার তথ্যে ভুল আছে')
+            // Validation failed
+            return response.status(422).send('');
         }
 
-        await db.from('institutions')
-            .update({institution_type_id: data.type})
-            .where('user_id', auth.id)
+        // Fetch user by mobile
+        const user = await User.query()
+            .select('id')
+            .where('mobile', data.mobile)
+            .where('user_type_id', data.type)
+            .where('verified', true)
+            .first();
 
-        return ''
+        // User could provide wrong mobile
+        if (!user) {
+            // User not found
+            return response.status(422).send('');
+        }
+
+        // Fetch old verification
+        const oldVerification = await VerificationToken.query()
+            .select('id')
+            .where('user_id', user.id)
+            .where('type', 'password')
+            .first();
+
+        if (oldVerification) {
+            return {key: oldVerification.payload};
+        }
+
+
+        // Generate key
+        const payload = await Hash.make(crypto.randomBytes(20).toString('hex'));
+
+        // Generate token
+        const token = Math.floor(100000 + Math.random() * 900000);
+
+        // Save verification in database
+        await generateVerification(user.id, 'password', payload, true, token);
+
+        // Send SMS
+
+        await sendSMS(data.mobile, `Your password reset code from khidmat is ${token}`);
+
+        return {key: payload};
+    }
+
+    async profile({request, auth}) {
+        const data = await Promise.all([
+            db.select('payload', 'type', 'last_send', 'try', 'auto_delete')
+                .from('verification_tokens')
+                .where('type', 'email')
+                .orWhere('type', 'mobile')
+                .where('user_id', auth.id),
+            User.query()
+                .select('mobile', 'email', 'description', 'address', 'verified')
+                .leftJoin('institutions', 'user_id', 'users.id')
+                .where('users.id', auth.id)
+                .first()
+        ]);
+
+        const info = data[1].$attributes;
+
+
+        if (!info.verified) {
+            info.mobile = null;
+        }
+        delete info.verified;
+
+
+        const response = {
+            pending: {
+                email: null,
+                mobile: null
+            },
+            info
+        };
+
+        data[0].forEach(item => response.pending[item.type] = {
+            value: item.payload,
+            lastSend: item.last_send,
+            maximumReached: item.try > 10 && item.auto_delete
+        });
+
+        return response;
     }
 
     static async exists(column, value, type) {
@@ -632,16 +641,16 @@ class UserController {
         // when user will try to add his/her email in the dashboard, program will
         // check the email that time
         if (!value) {
-            return false
+            return false;
         }
 
         const count = await User.query()
             .where(column, value)
             .where('user_type_id', type)
-            .count('id as total')
+            .count('id as total');
 
-        return !!count[0].total
+        return !!count[0].total;
     }
 }
 
-module.exports = UserController
+module.exports = UserController;

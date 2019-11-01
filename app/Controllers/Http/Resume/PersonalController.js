@@ -1,6 +1,7 @@
 'use strict'
 
 const Resume = use('App/Models/Resume')
+const db = use('Database')
 const {validate} = use('Validator')
 
 const rules = {
@@ -26,6 +27,16 @@ class PersonalController {
             return response.status(422).send('')
         }
 
+        const name = data.name
+
+        delete data.name
+
+        if(name) {
+            await db.from('users')
+                .where('id', auth.id)
+                .update('name', request.input('name'))
+        }
+
         await Resume
             .query()
             .where('user_id', auth.id)
@@ -35,9 +46,15 @@ class PersonalController {
     }
 
     async index({auth}) {
-        return await Resume
-            .query()
-            .select(Object.keys(rules))
+        const cols = Object.keys(rules)
+
+        cols[cols.indexOf('name')] = 'u.name'
+        cols[cols.indexOf('mobile')] = 'r.mobile'
+        cols[cols.indexOf('email')] = 'r.email'
+
+        return await db.select(cols)
+            .from('resumes as r')
+            .join('users as u', 'u.id', 'r.user_id')
             .where('user_id', auth.id)
             .first()
     }

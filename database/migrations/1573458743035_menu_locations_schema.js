@@ -3,18 +3,18 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema');
 
-class PositionsSchema extends Schema {
+class MenuLocationsSchema extends Schema {
     up() {
-        this.create('positions', (table) => {
+        this.create('menu_locations', (table) => {
             table.increments();
-            table.string('name', 100);
+            table.string('name');
             table.timestamps();
         });
     }
 
     down() {
-        this.drop('positions');
+        this.drop('menu_locations');
     }
 }
 
-module.exports = PositionsSchema;
+module.exports = MenuLocationsSchema;

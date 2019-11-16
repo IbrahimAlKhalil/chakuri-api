@@ -249,13 +249,13 @@ class VerificationController {
         // Validate request
         if (validation.fails()) {
             // Validation failed
-            return response.status(422).send('');
+            return response.status(422).send('ভেরিফিকেশন কোডের ফরমেট সঠিক নয়');
         }
 
 
         // Fetch user by mobile
         const user = await User.query()
-            .select('id', 'name', 'photo')
+            .select('id', 'name')
             .where('mobile', data.mobile)
             .where('user_type_id', data.type)
             .where('verified', true)

@@ -9,6 +9,7 @@ const crypto = require('crypto');
 const fetch = require('node-fetch');
 const FormData = require('form-data');
 const db = use('Database');
+const {validate} = use('Validator');
 
 const helpers = {
     truncateMobile(mobile) {
@@ -46,7 +47,7 @@ const helpers = {
     },
 
     async generateToken(userId, newUser) {
-       const {zeroPrefix} = helpers;
+        const {zeroPrefix} = helpers;
 
         // Check whether the user has already a token alive
         const now = new Date(Date.now() - Env.get('TOKEN_LIFETIME'));
@@ -153,7 +154,9 @@ const helpers = {
         await Notification.create(payload);
     },
 
-    moderators: [],
+    async moderators() {
+        return JSON.parse(await redisClient.getAsync('moderators'));
+    },
 
     async loadModerators() {
         const users = await db.query()
@@ -164,6 +167,8 @@ const helpers = {
             .where('user_type_id', 3)
             .where('disabled', 0);
 
+        const moderators = [];
+
         for (const user of users) {
             const permissions = await db.query()
                 .distinct('p.name')
@@ -172,18 +177,30 @@ const helpers = {
                 .join('permissions as p', 'p.id', 'rp.permission_id')
                 .where('ru.user_id', user.id);
 
-            helpers.moderators.push({
+            moderators.push({
                 id: user.id,
                 admin: user.role === 'Admin',
                 permissions: permissions.map(item => item.name)
             });
         }
+
+        await redisClient.setAsync('moderators', JSON.stringify(moderators));
     },
 
-    removeModerator(id) {
+    async loadSettings() {
+        const settings = await db.table('settings');
+
+        for (const setting of settings) {
+            await redisClient.setAsync(`setting-${setting.name}`, setting.value);
+        }
+    },
+
+    async removeModerator(id) {
         let key;
 
-        helpers.moderators.some((moderator, index) => {
+        const moderators = await helpers.moderators();
+
+        moderators.some((moderator, index) => {
             const ok = moderator.id === id;
 
             if (ok) {
@@ -194,205 +211,94 @@ const helpers = {
         });
 
         if (key) {
-            helpers.moderators.splice(key, 1);
+            moderators.splice(key, 1);
+        }
+
+        await redisClient.setAsync('moderators', JSON.stringify(moderators));
+    },
+
+    async addModerator(moderator) {
+        const moderators = await helpers.moderators();
+
+        moderators.push(moderator);
+
+        await redisClient.setAsync('moderators', JSON.stringify(moderators));
+    },
+
+    async buildSearchQuery(request, cols, query, call) {
+        const keyword = request.input('keyword');
+
+        if (!keyword) {
+            return;
+        }
+
+        if (call) {
+            await call(query);
+        }
+
+        const keywords = keyword.trim().split(' ').join('|');
+
+        let conditions = '';
+
+        cols.forEach((col, index) => {
+            conditions += `${col} regexp ?`;
+
+            if (index !== cols.length - 1) {
+                conditions += ' or ';
+            }
+        });
+
+        query.whereRaw(`(${conditions})`, new Array(cols.length).fill(keywords));
+    },
+
+    async paginate(request, query) {
+        const page = Number(request.input('page', 1));
+        const perPage = Number(request.input('perPage', 6));
+        const take = request.input('take', perPage);
+
+        const pagination = await query.paginate(page || 1, perPage);
+
+        if (take !== perPage) {
+            const {length} = pagination.data;
+
+            const start = length - take;
+
+            pagination.data = pagination.data.slice(start < 1 ? 0 : start, length);
+        }
+
+        return pagination;
+    },
+
+    async update(request, fields, table, id) {
+        const updateData = {};
+
+        fields.forEach(field => {
+            const data = request.input(field);
+
+            if (data) {
+                updateData[field] = data;
+            }
+        });
+
+        if (Object.keys(updateData).length) {
+            await db.query()
+                .from(table)
+                .where('id', id)
+                .update(updateData);
         }
     },
 
-    addModerator(moderator) {
-        helpers.moderators.push(moderator);
-    }
+    async validateIndex(request, fields = [], rules = {}) {
+        const validation = await validate(request.only(['perPage', 'page', 'take', 'keyword', ...fields]), {
+            perPage: 'integer|max:30',
+            page: 'integer|min:1',
+            take: 'integer|max:30',
+            keyword: 'string',
+            ...rules
+        });
+
+        return !validation.fails();
+    },
 };
 
 module.exports = helpers;
-
-/*exports.truncateMobile = function (mobile) {
-    if (mobile.match(/^\+880/)) {
-        return mobile.slice(3);
-    }
-
-    return mobile;
-};
-
-exports.randomNumber = function (maximum = 10, minimum = 1) {
-    return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
-};
-
-exports.putStringAt = function (source, str, index) {
-    return `${source.slice(0, index)}${str}${source.slice(index)}`;
-};
-
-const zeroPrefix = function (num) {
-    if (num < 10) {
-        return `0${num}`;
-    }
-
-    return num.toString();
-};
-
-exports.zeroPrefix = zeroPrefix;
-
-exports.formatJwt = function (userId, token) {
-    return {
-        userId,
-        jwt: {
-            access_token: token,
-            expires_in: 3600
-        }
-    };
-};
-
-exports.generateToken = async function (userId, newUser) {
-    // Check whether the user has already a token alive
-    const now = new Date(Date.now() - Env.get('TOKEN_LIFETIME'));
-
-    if (!newUser) {
-        const oldToken = await Token.query()
-            .where(
-                'updated_at',
-                '>',
-                `${now.getFullYear()}-${zeroPrefix(now.getMonth() + 1)}-${zeroPrefix(now.getDate())} ${zeroPrefix(now.getHours())}:${zeroPrefix(now.getMinutes())}:${zeroPrefix(now.getSeconds())}`
-            )
-            .where('user_id', userId)
-            .first();
-
-        if (oldToken) {
-            return Encryption.decrypt(oldToken.key);
-        }
-    }
-
-
-    const token = new Token;
-    token.user_id = userId;
-    await token.save();
-
-    const key = jwt.sign({
-        keyid: token.id,
-    }, Env.get('APP_KEY'));
-
-    token.key = Encryption.encrypt(key);
-    await token.save();
-
-    return key;
-};
-
-exports.enToBn = function (enNums) {
-    const str = enNums.toString();
-    const translations = {
-        0: '০',
-        1: '১',
-        2: '২',
-        3: '৩',
-        4: '৪',
-        5: '৫',
-        6: '৬',
-        7: '৭',
-        8: '৮',
-        9: '৯',
-    };
-
-    return str.replace(/\d/gm, (match) => {
-        return translations[match];
-    });
-};
-
-exports.generateVerification = async function (userId, type, payload, autoDelete = true, token = null) {
-// Create verification token
-    const verification = new VerificationToken;
-    verification.user_id = userId;
-    verification.type = type;
-    verification.auto_delete = autoDelete;
-    verification.payload = payload;
-    verification.last_send = Date.now();
-    await verification.save();
-
-    verification.token = token || crypto.randomBytes(20).toString('hex') + verification.id;
-    await verification.save();
-
-
-    return Promise.resolve(verification);
-};
-
-exports.sendSMS = async function (contacts, msg) {
-    if (Env.get('NODE_ENV') === 'development') {
-        return;
-    }
-
-    const body = new FormData;
-    const data = {
-        api_key: Env.get('SMS_API_KEY'),
-        type: 'text',
-        contacts,
-        senderid: Env.get('SMS_SENDER_ID'),
-        msg,
-        method: 'api'
-    };
-
-    for (let key in data) {
-        body.append(key, data[key]);
-    }
-
-    await fetch(`http://portal.smsinbd.com/smsapi`, {
-        method: 'POST',
-        body
-    });
-};
-
-exports.wait = duration => {
-    return new Promise(resolve => {
-        setTimeout(resolve, duration);
-    });
-};
-
-exports.notify = async function (payload) {
-    await Notification.create(payload);
-};
-
-
-const moderators = [];
-exports.moderators = moderators;
-
-exports.loadModerators = async function () {
-    const users = await db.query()
-        .select('u.id', 'r.name as role')
-        .from('users as u')
-        .join('role_user as ru', 'ru.user_id', 'u.id')
-        .join('roles as r', 'r.id', 'ru.role_id')
-        .where('user_type_id', 3);
-
-    for (const user of users) {
-        const permissions = await db.query()
-            .distinct('p.name')
-            .from('role_user as ru')
-            .join('role_permission as rp', 'rp.role_id', 'ru.role_id')
-            .join('permissions as p', 'p.id', 'rp.permission_id')
-            .where('ru.user_id', user.id);
-
-        moderators.push({
-            id: user.id,
-            admin: user.role === 'admin',
-            permissions: permissions.map(item => item.name)
-        });
-    }
-};
-
-exports.removeModerator = function (id) {
-    let key;
-
-    moderators.some((moderator, index) => {
-        const ok = moderator.id === id;
-
-        if (ok) {
-            key = index;
-        }
-
-        return ok;
-    });
-
-    if (key) {
-        moderators.splice(key, 1);
-    }
-};
-
-exports.addModerator = function (moderator) {
-    moderators.push(moderator);
-};*/

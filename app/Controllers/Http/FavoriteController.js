@@ -1,66 +1,63 @@
-'use strict'
+'use strict';
 
-const {validate} = use('Validator')
-const db = use('Database')
-const Favorite = use('App/Models/Favorite')
+const {validate} = use('Validator');
+const db = use('Database');
+const Favorite = use('App/Models/Favorite');
 
 class FavoriteController {
     async index({auth, request}) {
-        const validation = await validate(request.only(['perPage', 'page']), {
-            perPage: 'integer|max:30',
-            page: 'integer|min:1'
-        })
+        const {validateIndex, buildSearchQuery, paginate} = require('../../helpers');
 
-        if (validation.fails()) {
-            return response.status(422).send()
+        if (!(await validateIndex(request))) {
+            return response.status(422).send();
         }
 
-        // TODO: Show only approved
-        return await db.select(
-            'jobs.id',
-            'experience_from',
-            'experience_to',
-            'salary_from',
-            'salary_to',
-            'deadline',
-            'positions.name as position',
-            'districts.name as district',
-            'thanas.name as thana',
-            'users.name as institute',
-            'files.id as logo'
-        )
-            .from('jobs')
-            .join('positions', 'jobs.position_id', 'positions.id')
-            .join('districts', 'jobs.district_id', 'districts.id')
-            .join('thanas', 'jobs.thana_id', 'thanas.id')
-            .join('users', 'jobs.user_id', 'users.id')
-            .join('favorites', 'jobs.id', 'favorites.job_id')
-            .leftJoin('file_user', 'jobs.user_id', 'file_user.user_id')
-            .leftJoin('files', 'file_user.file_id', 'files.id')
-            .where('favorites.user_id', auth.id)
-            .paginate(request.input('page', 1), request.input('perPage', 10))
+        const query = db.query().from('jobs');
+
+        query.from('favorites as fa')
+            .select(
+                'j.id', 'u.name as institute', 'f.name as logo', 'j.special',
+                'd.name as district', 't.name as thana', 'p.name as position',
+                'j.salary_from', 'j.salary_to', 'j.created_at',
+                'j.deadline', 'j.experience_from', 'j.experience_to'
+            )
+            .distinct()
+            .join('jobs as j', 'j.id', 'fa.job_id')
+            .join('positions as p', 'j.position_id', 'p.id')
+            .join('users as u', 'u.id', 'j.user_id')
+            .join('districts as d', 'j.district_id', 'd.id')
+            .join('thanas as t', 'j.thana_id', 't.id')
+            .where('fa.user_id', auth.id)
+            .whereRaw('deadline > NOW()')
+            .leftJoin('files as f', 'u.photo', 'f.id')
+            .orderBy('fa.created_at', 'DESC');
+
+
+        await buildSearchQuery(request, ['u.name', 'p.name', 'd.name', 't.name'], query);
+
+        return await paginate(request, query);
     }
 
     async store({request, response, auth}) {
         const validation = await validate(request.only(['id']), {
             id: 'integer'
-        })
+        });
 
 
         if (validation.fails()) {
-            return response.status(422).send('কিছু ভুল হয়েছে আবার চেষ্টা করুন')
+            return response.status(422).send('কিছু ভুল হয়েছে আবার চেষ্টা করুন');
         }
 
-        const id = request.input('id')
+        const id = request.input('id');
 
         const old = await db.select('id')
             .from('favorites')
             .where('user_id', auth.id)
             .where('job_id', id)
-            .delete()
+            .delete();
 
         if (old) {
-            return ''
+            return '';
         }
 
 
@@ -75,22 +72,22 @@ class FavoriteController {
             // TODO: Change approved
             .where('deadline', '>=', new Date().toISOString())
             .where('id', id)
-            .first()
+            .first();
 
         if (!job) {
             // Job doesn't exist
-            return response.status(422).send('')
+            return response.status(422).send('');
         }
 
-        const favorite = new Favorite
+        const favorite = new Favorite;
 
-        favorite.job_id = id
-        favorite.user_id = auth.id
+        favorite.job_id = id;
+        favorite.user_id = auth.id;
 
-        await favorite.save()
+        await favorite.save();
 
-        return ''
+        return '';
     }
 }
 
-module.exports = FavoriteController
+module.exports = FavoriteController;

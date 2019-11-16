@@ -1,5 +1,5 @@
-'use strict'
-const db = use('Database')
+'use strict';
+const db = use('Database');
 
 class DistrictController {
     async index({request}) {
@@ -8,16 +8,16 @@ class DistrictController {
                 .forPage(
                     request.input('page', 1),
                     request.input('per-page', 10)
-                )
+                );
         }
 
-        return await db.from('districts')
+        return await db.from('districts');
     }
 
     async show({params}) {
         return await db.from('districts')
             .where('id', params.id)
-            .first()
+            .first();
     }
 
     async byDivision({params, request}) {
@@ -27,11 +27,11 @@ class DistrictController {
                 .forPage(
                     request.input('page', 1),
                     request.input('per-page', 10)
-                )
+                );
         }
 
         return await db.from('districts').where('division_id', params.divisionId);
     }
 }
 
-module.exports = DistrictController
+module.exports = DistrictController;

@@ -5,22 +5,17 @@ const Helpers = use('Helpers');
 
 class FileController {
 
-    async show({params, auth, response}) {
-        const file = await db.select('name', 'file_type_id', 'user_id')
+    async show({params, response}) {
+        const file = await db.select('name')
             .from('files')
-            .join('file_user', 'file_user.file_id', 'files.id')
-            .where('files.id', params.id)
+            .where('id', params.id)
             .first();
 
         if (!file) {
             return response.status(404).send();
         }
 
-        switch (file.file_type_id) {
-            // Profile pic
-            case 1:
-                return response.download(Helpers.publicPath(`files/${file.user_id}/${file.name}`));
-        }
+        return response.download(Helpers.publicPath(`files/${file.name}`));
     }
 }
 

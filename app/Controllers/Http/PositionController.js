@@ -1,14 +1,12 @@
-'use strict'
+'use strict';
 
-const db = use('Database')
+const db = use('Database');
 
 class PositionController {
     async index() {
-        const positions = await db.from('positions')
-            .select('id', 'category_id', 'name')
-
-        return positions
+        return await db.from('positions')
+            .select('id', 'name');
     }
 }
 
-module.exports = PositionController
+module.exports = PositionController;

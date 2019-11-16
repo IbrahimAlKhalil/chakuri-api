@@ -6,26 +6,34 @@ const User = use('App/Models/User');
 
 class ModeratorController {
     async index({request, response}) {
-        const validation = await validate(request.only(['perPage', 'page', 'take']), {
-            perPage: 'integer|max:30',
-            page: 'integer|min:1',
-            take: 'integer|max:30'
-        });
 
-        if (validation.fails()) {
+        const {validateIndex, buildSearchQuery, paginate} = require('../../../../helpers');
+
+        if (!(await validateIndex(request, ['show'], {show: 'in:enabled,disabled'}))) {
             return response.status(422).send();
         }
 
-        const page = Number(request.input('page', 1));
-        const perPage = Number(request.input('perPage', 6));
 
-        const pagination = await db.table('users')
-            .where('user_type_id', 3)
-            .paginate(page || 1, perPage);
+        const query = db.query();
 
-        const take = request.input('take', perPage);
+        query.from('users as u')
+            .distinct()
+            .select('u.id', 'user_type_id', 'f.name as photo', 'mobile', 'email', 'u.name', 'disabled')
+            .leftJoin('files as f', 'u.photo', 'f.id')
+            .where('user_type_id', 3);
 
-        pagination.data = pagination.data.slice(pagination.data.length - take, pagination.data.length);
+        const show = request.input('show');
+
+        if (show) {
+            query.where('disabled', show === 'disabled' ? 1 : 0);
+        }
+
+        await buildSearchQuery(request, ['u.name', 'r.name', 'email', 'mobile'], query, query => {
+            query.leftJoin('role_user as ru', 'u.id', 'ru.user_id')
+                .leftJoin('roles as r', 'ru.role_id', 'r.id');
+        });
+
+        const pagination = await paginate(request, query);
 
         // Load roles and permissions
         const roles = await db.query()
@@ -39,27 +47,11 @@ class ModeratorController {
             .whereIn('ru.user_id', pagination.data.map(item => item.id));
 
         pagination.data.forEach(item => {
-            const indexes = [];
-
-            item.roles = roles.filter((role, index) => {
-                if (role.userId === item.id) {
-                    indexes.push(index);
-                }
-
-                return role.userId === item.id;
-            }).map(item => ({id: item.id, name: item.name}));
-
-            indexes.forEach(index => roles.slice(index, 1));
+            item.roles = roles.filter(role => role.userId === item.id)
+                .map(item => ({id: item.id, name: item.name}));
         });
 
         return pagination;
-    }
-
-    async count() {
-        return await db.table('users')
-            .where('user_type_id', 3)
-            .count('id as count')
-            .first();
     }
 
     async store({request, response}) {
@@ -82,7 +74,7 @@ class ModeratorController {
             return response.status(422).send();
         }
 
-        const {generateVerification, sendSMS, addModerator} = require('../../../helpers');
+        const {generateVerification, sendSMS, addModerator} = require('../../../../helpers');
 
         // Create user
         const user = await User.create(
@@ -109,7 +101,7 @@ class ModeratorController {
             .whereIn('rp.role_id', data.roles.map(id => id));
 
         // Cache moderator
-        addModerator({
+        await addModerator({
             id: user.id,
             permissions: permissions.map(p => p.name)
         });
@@ -138,6 +130,56 @@ class ModeratorController {
         return user;
     }
 
+    async update({request, params, response}) {
+        const data = request.only(['roles']);
+
+        const validation = await validate(data, {
+            roles: 'required|array'
+        });
+
+        if (validation.fails()) {
+            return response.status(422).send();
+        }
+
+        if (!data.roles.length || data.roles.includes('1')) {
+            // At least one role should be selected
+            // There can only be one admin
+            return response.status(422).send();
+        }
+
+        // Get current roles
+
+        const roles = await db.query()
+            .select('r.id')
+            .from('roles as r')
+            .join('role_user as ru', 'r.id', 'ru.role_id')
+            .where('ru.user_id', params.id);
+
+        const oldRoleIds = roles.map(role => role.id.toString());
+
+        const shouldBeRemoved = oldRoleIds.filter(id => !data.roles.includes(id));
+        const shouldBeAdded = data.roles.filter(id => !oldRoleIds.includes(id));
+
+        if (!shouldBeAdded.length && !shouldBeRemoved.length) {
+            return false;
+        }
+
+        // remove
+        await db.query()
+            .from('role_user')
+            .whereIn('role_id', shouldBeRemoved)
+            .where('user_id', params.id)
+            .delete();
+
+        // Insert
+        await db.from('role_user').insert(shouldBeAdded.map(role => ({
+            role_id: role,
+            user_id: params.id
+        })));
+
+        return '';
+    }
+
     async destroy({params, response, auth}) {
 
         if (params.id === auth.id) {
@@ -155,22 +197,39 @@ class ModeratorController {
             return response.status(422).send();
         }
 
-        const admin = await db.query()
+        const roles = await db.query()
             .from('role_user')
-            .where('role_id', 1)
-            .where('user_id', params.id)
-            .first();
+            .where('user_id', params.id);
 
 
-        if (admin) {
+        if (roles.some(role => role.role_id === 1)) {
             // No body can remove admin
             return response.status(422).send();
         }
 
 
+        const {removeModerator, addModerator} = require('../../../../helpers');
+
+        if (user.disabled) {
+            // Get permissions
+            const permissions = await db.query()
+                .from('permissions as p')
+                .distinct('name')
+                .join('role_permission as rp', 'p.id', 'rp.permission_id')
+                .whereIn('rp.role_id', roles.map(role => role.role_id));
+
+            // Cache moderator
+            await addModerator({
+                id: user.id,
+                permissions: permissions.map(p => p.name)
+            });
+        } else {
+            await removeModerator(user.id);
+        }
+
         await User.query()
             .update({
-                disabled: 1
+                disabled: !user.disabled
             })
             .where('id', user.id);
 

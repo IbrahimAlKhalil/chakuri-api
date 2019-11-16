@@ -126,11 +126,12 @@ class AuthManager {
             return null;
         }
 
-        const columns = ['u.name', 'u.id', 'u.user_type_id as type', 'u.photo', ...cols];
+        const columns = ['u.name', 'u.id', 'u.user_type_id as type', 'f.name as photo', ...cols];
 
         if (!this.cache) {
             const user = this.cache = await User.query()
                 .from('users as u')
+                .leftJoin('files as f', 'u.photo', 'f.id')
                 .select(columns)
                 .where('u.id', this.id)
                 .first();

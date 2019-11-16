@@ -28,7 +28,110 @@ const rules = {
 };
 
 class JobController {
-    async store({request, response, auth}) {
+    constructor() {
+        this.table = 'jobs';
+    }
+
+    async index({request, response, auth}) {
+        const {validateIndex, buildSearchQuery, paginate} = require('../../helpers');
+
+        if (!(await validateIndex(request))) {
+            return response.status(422).send();
+        }
+
+        const query = db.query()
+            .from(`${this.table} as j`)
+            .select('j.id', 'p.name as position', 'd.name as district', 't.name as thana', 'deadline', 'j.created_at', 'village', 'j.approved', 'j.rejected', 'j.special', 'rj.message')
+            .join('positions as p', 'j.position_id', 'p.id')
+            .join('districts as d', 'j.district_id', 'd.id')
+            .join('thanas as t', 'j.thana_id', 't.id')
+            .leftJoin('rejected_jobs as rj', 'j.id', 'rj.job_id')
+            .where('j.user_id', auth.id)
+            .orderBy('j.created_at', 'DESC');
+
+        switch (request.input('show', 'all')) {
+            case 'pending':
+                query.where('j.rejected', 0)
+                    .where('j.approved', 0);
+                break;
+            case 'rejected':
+                query.where('j.rejected', 1);
+                break;
+            case 'approved':
+                query.where('j.approved', 1);
+        }
+
+        await buildSearchQuery(request, ['p.name', 'd.name', 't.name', 'village'], query);
+
+        const pagination = await paginate(request, query);
+
+        // Load applicant count
+        const applicants = Array.from(
+            await db.query()
+                .select('*')
+                .count('id as count')
+                .from('applications')
+                .groupBy('job_id')
+                .whereIn('job_id', pagination.data.map(item => item.id))
+        );
+
+        pagination.data.forEach(item => {
+            let removeIndex;
+
+            applicants.some((applicant, index) => {
+                const ok = applicant.job_id === item.id;
+
+                if (ok) {
+                    removeIndex = index;
+                    item.applicants = applicant.count;
+                }
+
+                return ok;
+            });
+
+            if (removeIndex) {
+                applicants.splice(removeIndex, 1);
+            }
+        });
+
+        return pagination;
+    }
+
+    async show({auth, params, response}) {
+        const data = await db.raw(`
+          select j.id, concat(p.name, ' - ', j.village, ', ', t.name, ', ', d.name) as name
+          from jobs j
+                 join thanas t on j.thana_id = t.id
+                 join districts d on j.district_id = d.id
+                 join positions p on j.position_id = p.id
+          where j.id = ?
+            and j.user_id = ?
+        `, [params.id, auth.id]);
+
+        if (!data[0].length) {
+            return response.status(404).send('');
+        }
+
+        return data[0][0];
+    }
+
+    async edit({auth, params, response}) {
+        const job = await db.query()
+            .select(Object.keys(rules))
+            .from(this.table)
+            .where('id', params.id)
+            .where('user_id', auth.id)
+            .first();
+
+
+        if (!job) {
+            return response.status(404).send('');
+        }
+
+        return job;
+    }
+
+    async update({request, response, auth, params}) {
 
         const data = request.only(Object.keys(rules));
 
@@ -38,19 +141,43 @@ class JobController {
             return response.status(422).send('');
         }
 
-        data.user_id = auth.id;
-        data.negotiable = data.negotiable ? 1 : 0;
 
-        const job = new Job;
+        const job = await Job.find(params.id);
+
+        if (job.user_id !== auth.id) {
+            return response.status(404).send('');
+        }
+
+        data.negotiable = data.negotiable ? 1 : 0;
 
         for (const key in data) {
             job[key] = data[key];
         }
 
+        job.approved = 0;
+
         await job.save();
 
-        const {moderators, randomNumber, notify} = require('../../helpers');
+        // Delete old job request
+        await db.query()
+            .from('job_requests')
+            .where('job_id', job.id)
+            .delete();
 
+        await this.notifyModerator(
+            job,
+            await auth.user(),
+            await this.createJobRequest(job)
+        );
+
+
+        return job.id;
+    }
+
+    async createJobRequest(job) {
+        const {moderators: getMods, randomNumber} = require('../../helpers');
+
+        const moderators = await getMods();
 
         const admins = [];
 
@@ -104,8 +231,12 @@ class JobController {
             moderator: mod.id
         });
 
-        // The institution
-        const user = await auth.user();
+        return mod;
+    }
+
+    async notifyModerator(job, user, mod) {
+        const {notify} = require('../../helpers');
+
         const room = io.to(`u-${mod.id}`);
 
 
@@ -141,120 +272,51 @@ class JobController {
             user_id: mod.id,
             title: 'A job',
             message: `has been published! by ${user.name}`,
-            link: `type:new-job|id:${job.id}`,
+            link: JSON.stringify({
+                type: 'new-job',
+                id: job.id
+            }),
             pic: user.photo,
             seen: false
         });
-
-        return 'আমরা আপনার বিজ্ঞাপন পর্যালোচনা করছি, দয়া করে অপেক্ষা করুন।';
     }
 
-    async index({auth, request}) {
-        const validation = await validate(request.only(['perPage', 'page']), {
-            perPage: 'integer|max:30',
-            page: 'integer|min:1'
-        });
+    async store({request, response, auth}) {
+
+        const data = request.only(Object.keys(rules));
+
+        const validation = await validate(data, rules);
 
         if (validation.fails()) {
-            return response.status(422).send();
+            return response.status(422).send('');
         }
 
-        const page = Number(request.input('page', 1));
-        const perPage = Number(request.input('perPage', 6));
+        data.user_id = auth.id;
+        data.negotiable = data.negotiable ? 1 : 0;
 
-        return await db.from('jobs as j')
-            .select('j.id', 'p.name as position', 'd.name as district', 't.name as thana', 'deadline', 'j.created_at', 'village', 'j.approved')
-            .count('a.id as applicants')
-            .join('positions as p', 'j.position_id', 'p.id')
-            .join('districts as d', 'j.district_id', 'd.id')
-            .join('thanas as t', 'j.thana_id', 't.id')
-            .leftJoin('applications as a', 'j.id', 'a.job_id')
-            .where('j.user_id', auth.id)
-            .groupBy('j.id')
-            .orderBy('j.created_at', 'DESC')
-            .paginate(page || 1, perPage);
+        const job = new Job;
+
+        for (const key in data) {
+            job[key] = data[key];
+        }
+
+        await job.save();
+
+        await this.notifyModerator(
+            job,
+            await auth.user(),
+            await this.createJobRequest(job)
+        );
+
+        return job.id;
     }
 
-    async show({auth, params, response}) {
-        const data = await db.raw(`
-          select j.id, concat(p.name, ' - ', j.village, ', ', t.name, ', ', d.name) as name
-          from jobs j
-                 join thanas t on j.thana_id = t.id
-                 join districts d on j.district_id = d.id
-                 join positions p on j.position_id = p.id
-          where j.id = ?
-            and j.user_id = ?
-        `, [params.id, auth.id]);
-
-        if (!data[0].length) {
-            return response.status(404).send('');
+    async destroy({params, response}) {
+        try {
+            await db.query().from(this.table).where('id', params.id).delete();
+        } catch (e) {
+            return response.status(422).send('');
         }
-
-        return data[0][0];
-    }
-
-    async getApplications({auth, request, response, params}) {
-        const validation = await validate(request.all(), {
-            page: 'integer|min:1',
-            shortlist: 'boolean',
-            keyword: 'string',
-            perPage: 'integer|max:30'
-        });
-
-        if (validation.fails()) {
-            console.log(validation);
-            return response.status(422).send();
-        }
-
-        const query = db.query();
-
-        query.select('u.name', 'u.photo', 'u.id as user_id', 'a.created_at')
-            .distinct('a.id')
-            .from('applications as a')
-            .join('users as u', 'u.id', 'a.user_id')
-            .join('resumes as r', 'r.user_id', 'a.user_id')
-            .leftJoin('districts as d', 'd.id', 'r.district')
-            .leftJoin('thanas as t', 't.id', 'r.thana')
-            .leftJoin('districts as pd', 'd.id', 'r.present_district')
-            .leftJoin('thanas as pt', 't.id', 'r.present_thana')
-            .leftJoin('resume_educations as re', 're.user_id', 'a.user_id')
-            .leftJoin('resume_experiences as rex', 'rex.user_id', 'a.user_id')
-            .leftJoin('resume_trainings as rt', 'rt.user_id', 'a.user_id')
-            .where('a.job_id', params.id);
-
-        if (request.input('shortlist')) {
-            query.where('a.shortlist', 1);
-        }
-
-        const keyword = request.input('keyword');
-
-        if (keyword) {
-            const keywords = keyword.trim().split(' ').join('|');
-            const cols = [
-                'u.name', 'u.mobile', 'u.email',
-                'r.gender', 'r.mobile', 'r.email', 'r.marital_status', 'r.nationality',
-                'd.name', 't.name', 'village', 'pd.name', 'pt.name', 'present_village',
-                're.madrasa', 'rex.designation', 'rt.title', 'rt.topics',
-                'rt.institute'
-            ];
-
-            let conditions = '';
-
-            cols.forEach((col, index) => {
-                conditions += `${col} regexp ?`;
-
-                if (index !== cols.length - 1) {
-                    conditions += ' or ';
-                }
-            });
-
-            query.whereRaw(`(${conditions})`, new Array(cols.length).fill(keywords));
-        }
-
-        const page = Number(request.input('page', 1));
-        const perPage = Number(request.input('perPage', 8));
-
-        return await query.paginate(page, perPage);
     }
 }
 

@@ -19,82 +19,68 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route');
 
-Route.group(() => {
-    /************ Common *************/
-    Route.get('/time', 'CommonController.time');
-    Route.get('/institute-jobs-count', 'CommonController.institutionCount');
-    Route.get('/favorite-and-applied/:jobId', 'CommonController.favoriteAndApplied')
-        .middleware('auth')
-        .middleware('employee');
+/************ Common *************/
+Route.get('/time', 'CommonController.time');
+Route.get('/institute-jobs-count', 'CommonController.institutionCount');
+Route.get('/favorite-and-applied/:jobId', 'CommonController.favoriteAndApplied')
+    .middleware('auth')
+    .middleware('employee');
 
 
 // Registration
-    Route.post('/register', 'UserController.register').middleware('guest');
+Route.post('/register', 'UserController.register').middleware('guest');
 
-    /****************** Job filter ********************/
+/****************** Job filter ********************/
 
-    Route.post('/job-filter/filter', 'JobFilterController.filter');
-    Route.resource('/job-filter', 'JobFilterController').only(['index', 'show']);
-
-
-    /******************* Files *******************/
-
-    Route.get('files/:id', 'FileController.show');
+Route.post('/job-filter/filter', 'JobFilterController.filter');
+Route.resource('/job-filter', 'JobFilterController').only(['index', 'show']);
 
 
-    /**************** Positions ******************/
-    Route.resource('/positions', 'PositionController')
-        .only(['store', 'destroy', 'update'])
-        .middleware('auth');
-    Route.get('/positions', 'PositionController.index');
+/******************* Files *******************/
+
+// Route.get('files/:id', 'FileController.show');
 
 
-    Route.post('/applications/shortlist/:id', 'ApplicationController.shortlist')
-        .middleware('institute');
-    Route.resource('/applications', 'ApplicationController')
-        .only(['index', 'store'])
-        .middleware('auth')
-        .middleware('employee');
+/**************** Positions ******************/
+Route.resource('/positions', 'PositionController')
+    .only(['store', 'destroy', 'update'])
+    .middleware('auth');
+Route.get('/positions', 'PositionController.index');
 
-    Route.resource('/favorites', 'FavoriteController')
-        .only(['index', 'store'])
-        .middleware('auth')
-        .middleware('employee');
+Route.resource('/applications', 'ApplicationController')
+    .only(['index', 'store'])
+    .middleware('auth')
+    .middleware('employee');
 
+Route.resource('/favorites', 'FavoriteController')
+    .only(['index', 'store'])
+    .middleware('auth')
+    .middleware('employee');
 
-    Route.get('show-resume', 'ResumeController.showResume')
-        .middleware('auth')
-        .middleware('institute');
-
-
-    /******* Validation ********/
-    Route.post('/mobile-exists', 'UserController.userExists');
+Route.get('/setting/:name', 'CommonController.setting');
+Route.get('/menu', 'CommonController.menu');
 
 
-    /******* Division/District/Thana *******/
-    Route.get('/districts/by-division/:divisionId', 'DistrictController.byDivision');
-    Route.get('/thanas/by-district/:districtId', 'ThanaController.byDistrict');
-    Route.get('/divisions', 'DivisionController.index');
-    Route.get('/districts', 'DistrictController.index');
-
-    Route.resource('/divisions', 'ThanaController').only(['store', 'destroy', 'update']).middleware('auth');
-    Route.resource('/districts', 'DistrictController').only(['store', 'destroy', 'update']).middleware('auth');
-    Route.resource('/thanas', 'ThanaController').only(['store', 'destroy', 'update']).middleware('auth');
-
-    Route.get('/email-verification/:token', 'VerificationController.email').as('email-verification');
-    Route.post('/forgot-password', 'UserController.forgotPassword').middleware('guest');
-    Route.post('/verify-password-token', 'VerificationController.password').middleware('guest');
-    Route.post('/reset-password', 'UserController.resetPassword').middleware('guest');
-});
+/******* Validation ********/
+Route.post('/mobile-exists', 'UserController.userExists');
 
 
-/****************** Job ******************/
+/******* Division/District/Thana *******/
+Route.get('/districts/by-division/:divisionId', 'DistrictController.byDivision');
+Route.get('/thanas/by-district/:districtId', 'ThanaController.byDistrict');
+Route.get('/divisions', 'DivisionController.index');
+Route.get('/districts', 'DistrictController.index');
 
-Route.group(() => {
-    Route.resource('/jobs', 'JobController')
-        .only(['store', 'destroy', 'update', 'index', 'show']);
-    Route.get('/jobs/:id/applications', 'JobController.getApplications');
-}).middleware('auth').middleware('institute');
+Route.resource('/divisions', 'ThanaController').only(['store', 'destroy', 'update']).middleware('auth');
+Route.resource('/districts', 'DistrictController').only(['store', 'destroy', 'update']).middleware('auth');
+Route.resource('/thanas', 'ThanaController').only(['store', 'destroy', 'update']).middleware('auth');
+
+Route.get('/email-verification/:token', 'VerificationController.email').as('email-verification');
+Route.post('/forgot-password', 'UserController.forgotPassword').middleware('guest');
+Route.post('/verify-password-token', 'VerificationController.password').middleware('guest');
+Route.post('/reset-password', 'UserController.resetPassword').middleware('guest');
+Route.get('/pages/:id', 'CommonController.show');
+Route.get('/categories', 'CommonController.categories');
 
 /***************** Resume ******************/
 Route.group(() => {
@@ -136,22 +122,75 @@ Route.group(() => {
     Route.get('/notifications/unread-count', 'NotificationController.unreadCount');
     Route.post('/notifications/:id', 'NotificationController.seen');
     Route.get('/activities/notificationClick', 'ActivityController.notificationClick');
-}).middleware('auth');
+
+    Route.resource('/jobs', 'JobController').middleware('institute');
+    Route.resource('/job-applications', 'JobApplicationController')
+        .only(['index', 'destroy', 'show', 'update'])
+        .middleware('institute');
+})
+    .middleware('auth');
 
 
 Route.group(() => {
-    Route.get('/job-requests', 'JobController.index').middleware('moderator:job-requests');
-    Route.get('/job-requests/count', 'JobController.count').middleware('moderator:job-requests');
-    Route.post('/job-requests', 'JobController.action').middleware('moderator:job-requests');
+    Route.get('/job-requests', 'JobController.index')
+        .middleware('moderator:job-requests');
+    Route.post('/job-requests', 'JobController.action')
+        .middleware('moderator:job-requests');
+    Route.resource('/roles', 'RoleController').middleware('moderator:roles');
 
-    Route.get('/moderators', 'ModeratorController.index').middleware('moderator:moderators');
-    Route.get('/moderators/count', 'ModeratorController.count').middleware('moderator:moderators');
-    Route.post('/moderators', 'ModeratorController.store').middleware('moderator:moderators');
-    Route.delete('/moderators/:id', 'ModeratorController.destroy').middleware('moderator:moderators');
+    Route.get('/permissions', 'PermissionController.index').middleware('moderator:roles,moderators');
+    Route.get('/roles-all', 'RoleController.all').middleware('moderator:roles,moderators');
+    Route.get('/divisions-all', 'DivisionController.all').middleware('moderator:geolocation');
+    Route.get('/districts-all', 'DistrictController.all').middleware('moderator:geolocation');
 
-    Route.get('/roles', 'RoleController.index').middleware('moderator:moderators');
-    Route.get('/roles/count', 'RoleController.count').middleware('moderator:moderators');
+    Route.resource('/moderators', 'ModeratorController')
+        .only(['index', 'store', 'update', 'destroy'])
+        .middleware('moderator:moderators');
+
+    Route.resource('/users', 'UserController')
+        .middleware('moderator:users')
+        .only(['index', 'destroy']);
+
+    Route.resource('/positions', 'PositionController')
+        .only(['index', 'store', 'update', 'destroy'])
+        .middleware('moderator:positions');
+
+    Route.resource('/institute-types', 'InstituteTypeController')
+        .only(['index', 'store', 'update', 'destroy'])
+        .middleware('moderator:institute-types');
+
+    Route.resource('/categories', 'CategoryController')
+        .only(['index', 'store', 'update', 'destroy'])
+        .middleware('moderator:categories');
+
+    Route.resource('/divisions', 'DivisionController')
+        .middleware('moderator:geolocation');
+
+    Route.resource('/districts', 'DistrictController')
+        .middleware('moderator:geolocation');
+
+    Route.resource('/thanas', 'ThanaController')
+        .middleware('moderator:geolocation');
+
+    Route.resource('/pages', 'PageController')
+        .middleware('moderator:pages');
+
+    Route.resource('/menus', 'MenuController')
+        .middleware('moderator:menu');
+
+    Route.resource('/menu-items', 'MenuItemController')
+        .middleware('moderator:menu');
+
+    Route.post('/menu-items/reorder', 'MenuItemController.reorder')
+        .middleware('moderator:menu');
+
+    Route.resource('/settings', 'SettingController')
+        .middleware('moderator:settings');
+
+    Route.resource('/menu-locations', 'MenuLocationController')
+        .only(['index'])
+        .middleware('moderator:menu');
 })
-    .namespace('Dashboard')
+    .namespace('Dashboard/Admin')
     .prefix('dashboard')
     .middleware('auth');

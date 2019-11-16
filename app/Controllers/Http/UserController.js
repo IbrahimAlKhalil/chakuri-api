@@ -331,7 +331,7 @@ class UserController {
         await photo.move(Helpers.publicPath(`files/${auth.id}`), {name});
 
         const file = new File;
-        file.name = name;
+        file.name = `${auth.id}/${name}`;
         file.mime_type = photo.headers['content-type'];
         file.file_type_id = 1;
         await file.save();
@@ -368,7 +368,7 @@ class UserController {
         }
 
 
-        return file.id;
+        return file.name;
     }
 
     async updateDescription({request, auth, response}) {
@@ -445,16 +445,16 @@ class UserController {
                 .select(
                     'i.category_id',
                     'i.institution_type_id as type_id',
-                    'c.display_name as category',
-                    't.display_name as type'
+                    'c.name as category',
+                    't.name as type'
                 )
                 .leftJoin('categories as c', 'i.category_id', 'c.id')
                 .leftJoin('institution_types as t', 'i.institution_type_id', 't.id')
                 .first(),
             db.from('categories')
-                .select('id', 'display_name as name'),
+                .select('id', 'name'),
             db.from('institution_types')
-                .select('id', 'display_name as name')
+                .select('id', 'name')
         ]);
 
         return {

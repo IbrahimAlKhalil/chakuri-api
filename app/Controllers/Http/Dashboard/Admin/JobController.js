@@ -8,114 +8,133 @@ const JobRequest = use('App/Models/JobRequest');
 
 class JobController {
     async index({request, auth, response}) {
-        const validation = await validate(request.only(['perPage', 'page', 'take']), {
-            perPage: 'integer|max:30',
-            page: 'integer|min:1',
-            take: 'integer|max:30'
-        });
+        const {validateIndex, buildSearchQuery, paginate} = require('../../../../helpers');
 
-        if (validation.fails()) {
+        if (!(await validateIndex(request))) {
             return response.status(422).send();
         }
 
-        const page = Number(request.input('page', 1));
-        const perPage = Number(request.input('perPage', 6));
+        const query = db.query();
 
-        // TODO: Serve all jobs without any condition if user is admins
-
-        const pagination = await db.from('job_requests as jr')
+        query.from('job_requests as jr')
             .select(
-                'j.id', 'u.name as institute', 'u.photo as logo', 'j.special',
+                'j.id', 'u.name as institute', 'f.name as logo', 'j.special',
                 'd.name as district', 't.name as thana', 'p.name as position',
                 'j.salary_from', 'j.salary_to', 'j.created_at',
                 'j.deadline', 'j.experience_from', 'j.experience_to'
             )
+            .distinct()
             .join('jobs as j', 'j.id', 'jr.job_id')
             .join('positions as p', 'j.position_id', 'p.id')
             .join('users as u', 'u.id', 'j.user_id')
             .join('districts as d', 'j.district_id', 'd.id')
             .join('thanas as t', 'j.thana_id', 't.id')
-            .where('jr.moderator', auth.id)
+            .leftJoin('files as f', 'u.photo', 'f.id')
             .where('j.approved', 0)
             .where('j.rejected', 0)
-            .orderBy('j.created_at', 'DESC')
-            .paginate(page || 1, perPage);
-
-        const take = request.input('take', perPage);
-
-        pagination.data = pagination.data.slice(pagination.data.length - take, pagination.data.length);
-
-        return pagination;
-    }
-
-    async count({auth}) {
-        return await db.from('job_requests as jr')
-            .join('jobs as j', 'j.id', 'jr.job_id')
-            .join('positions as p', 'j.position_id', 'p.id')
-            .join('users as u', 'u.id', 'j.user_id')
-            .join('districts as d', 'j.district_id', 'd.id')
-            .join('thanas as t', 'j.thana_id', 't.id')
-            .where('jr.moderator', auth.id)
-            .where('j.approved', 0)
-            .count('jr.id as count')
-            .first();
-    }
-
-    async action({request, response, auth}) {
-        const {notify} = require('../../../helpers');
-
-        const validation = await validate(request.only(['type', 'id', 'cause']), {
-            type: 'required|in:approve,reject',
-            id: 'required|integer|exists:jobs,id',
-            cause: 'string|max:8000'
-        });
+            .orderBy('j.created_at', 'DESC');
 
         const moderator = await auth.user();
 
-        const jobRequest = await JobRequest.query()
-            .from('job_requests')
-            .where('job_id', request.input('id'))
-            .where('moderator', auth.id)
-            .first();
-
-        if (!jobRequest || !moderator.roles.includes('Admin')) {
-            return response.status(422).send();
+        if (!moderator.roles.includes('Admin')) {
+            query.where('jr.moderator', auth.id);
         }
+
+
+        await buildSearchQuery(request, ['u.name', 'p.name', 'd.name', 't.name'], query);
+
+        return await paginate(request, query);
+    }
+
+    async action({request, auth, response}) {
+        const {notify} = require('../../../../helpers');
+
+        const validation = await validate(request.only(['type', 'id', 'cause']), {
+            type: 'required|in:approve,reject',
+            id: 'required|integer',
+            cause: 'string|max:8000'
+        });
+
 
         if (validation.fails()) {
             return response.status(422).send();
         }
 
+        const id = Number(request.input('id'));
+
+        const jobRequest = await JobRequest.query()
+            .from('job_requests')
+            .where('job_id', id)
+            .first();
+
+        if (!jobRequest) {
+            return response.status(422).send();
+        }
+
+
+        if (jobRequest.job_id !== id) {
+            return response.status(422).send();
+        }
+
+
         const job = await Job.find(request.input('id'));
 
+        // Admin can delete or approve any job request
+        const moderator = await auth.user();
+        if (jobRequest.moderator !== auth.id && !moderator.roles.includes('Admin')) {
+            return response.status(422).send();
+        }
+
+
+        // Delete previous rejected_job
+        await db.query()
+            .from('rejected_jobs')
+            .where('job_id', id)
+            .delete();
 
         if (request.input('type') === 'approve') {
-            job.approved = 1;
-            await job.save();
+            await db.query()
+                .from('jobs')
+                .where('id', id)
+                .update({
+                    approved: 1,
+                    rejected: 0
+                });
 
             await notify({
                 user_id: job.user_id,
                 title: 'আপনার বিজ্ঞাপনটি',
                 message: 'অনুমোদন দেয়া হয়েছে',
                 seen: 0,
-                link: `type:job-approved|id:${job.id}`
+                link: JSON.stringify({
+                    type: 'job-approved',
+                    id: id
+                })
             });
         } else {
+
             const rejected = new RejectedJob();
-            rejected.job_id = job.id;
+            rejected.job_id = id;
             rejected.message = request.input('cause');
 
             await rejected.save();
 
-            job.rejected = 1;
-            await job.save();
+            await db.query()
+                .from('jobs')
+                .where('id', id)
+                .update({
+                    rejected: 1
+                });
 
             await notify({
                 user_id: job.user_id,
                 title: 'আপনার বিজ্ঞাপনটি',
                 message: 'প্রত্যাখ্যান করা হয়েছে',
                 seen: 0,
-                link: `type:job-rejected|id:${job.id}`
+                link: JSON.stringify({
+                    type: 'job-rejected',
+                    id: id
+                })
             });
         }
     }

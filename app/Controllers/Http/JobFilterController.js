@@ -33,7 +33,7 @@ class JobFilterController {
             'd.name as district',
             't.name as thana',
             'u.name as institute',
-            'f.id as logo',
+            'f.name as logo',
             'j.salary_from',
             'j.salary_to'
         )
@@ -84,20 +84,10 @@ class JobFilterController {
         const keyword = request.input('keyword');
 
         if (keyword) {
-            const keywords = keyword.trim().split(' ').join('|');
+            const {buildSearchQuery} = require('../../helpers');
             const cols = ['p.name', 'j.responsibilities', 'j.additional', 'j.village', 'd.name', 't.name', 'u.name'];
 
-            let conditions = '';
-
-            cols.forEach((col, index) => {
-                conditions += `${col} regexp ?`;
-
-                if (index !== cols.length - 1) {
-                    conditions += ' or ';
-                }
-            });
-
-            query.whereRaw(`(${conditions})`, new Array(cols.length).fill(keywords));
+            buildSearchQuery(keyword, cols, query);
         }
 
         const page = Number(request.input('page', 1));
@@ -111,7 +101,8 @@ class JobFilterController {
 
     async index({request, response}) {
         const validation = await validate(request.only(['perPage']), {
-            perPage: 'integer|max:30'
+            perPage: 'integer|max:30',
+            special: 'in:yes'
         });
 
         if (validation.fails()) {
@@ -131,15 +122,16 @@ class JobFilterController {
             'districts.name as district',
             'thanas.name as thana',
             'users.name as institute',
-            'files.id as logo'
+            'files.name as logo'
         )
             .from('jobs')
             .join('positions', 'jobs.position_id', 'positions.id')
             .join('districts', 'jobs.district_id', 'districts.id')
             .join('thanas', 'jobs.thana_id', 'thanas.id')
             .join('users', 'jobs.user_id', 'users.id')
-            .leftJoin('file_user', 'jobs.user_id', 'file_user.user_id')
-            .leftJoin('files', 'file_user.file_id', 'files.id')
+            .where('jobs.approved', 1)
+            .where('jobs.special', Number(request.input('special', 'no') === 'yes'))
+            .leftJoin('files', 'users.photo', 'files.id')
             .limit(request.input('perPage', 10));
     }
 

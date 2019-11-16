@@ -1,5 +1,4 @@
 'use strict';
-const notify = require('../../helpers').notify;
 const {validate} = use('Validator');
 const Notification = use('App/Models/Notification');
 const db = use('Database');
@@ -19,9 +18,10 @@ class NotificationController {
 
         return await Notification
             .query()
-            .select(['id', 'message', 'link', 'pic', 'created_at', 'seen', 'title'])
+            .select('notifications.id', 'message', 'link', 'f.name as pic', 'notifications.created_at', 'seen', 'title')
+            .leftJoin('files as f', 'pic', 'f.id')
             .where('user_id', auth.id)
-            .orderBy('created_at', 'DESC')
+            .orderBy('notifications.created_at', 'DESC')
             .forPage(data.page, data.perPage)
             .fetch();
     }

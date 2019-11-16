@@ -59,12 +59,10 @@ class ProductionSeeder {
             /**** Insert institution types ****/
             db.from('institution_types').insert([
                 {
-                    name: 'governmental',
-                    display_name: 'সরকারি'
+                    name: 'সরকারি'
                 },
                 {
-                    name: 'non-governmental',
-                    display_name: 'বেসরকারি'
+                    name: 'বেসরকারি'
                 }
             ]),
 
@@ -72,13 +70,11 @@ class ProductionSeeder {
 
             db.from('categories').insert([
                 {
-                    name: 'masjid',
-                    display_name: 'মসজিদ',
+                    name: 'মসজিদ',
                     icon: 'fas fa-mosque'
                 },
                 {
-                    name: 'madrasa',
-                    display_name: 'মাদ্রাসা',
+                    name: 'মাদ্রাসা',
                     icon: 'fas fa-school'
                 }
             ])
@@ -88,55 +84,39 @@ class ProductionSeeder {
         /****** Positions ******/
         await db.from('positions').insert([
             {
-                category_id: 1,
                 name: 'খতিব'
             },
             {
-                category_id: 1,
                 name: 'ইমাম'
             },
             {
-                category_id: 1,
                 name: 'মুয়াজ্জিন'
             },
             {
-                category_id: 1,
                 name: 'হাফেজ সাহেব (তারাবি)'
             },
             {
-                category_id: 1,
                 name: 'খাদেম'
             },
             {
-                category_id: 2,
                 name: 'কারি সাহেব'
             },
             {
-                category_id: 2,
                 name: 'শিক্ষক (হিফজ বিভাগ)'
             },
             {
-                category_id: 2,
-                name: 'শিক্ষক (হিফজ বিভাগ)'
-            },
-            {
-                category_id: 2,
                 name: 'হিসাব রক্ষক'
             },
             {
-                category_id: 2,
                 name: 'শিক্ষক (কিতাব বিভাগ)'
             },
             {
-                category_id: 2,
                 name: 'জেনারেল শিক্ষক'
             },
             {
-                category_id: 2,
                 name: 'শিক্ষক (ইফতা বিভাগ)'
             },
             {
-                category_id: 2,
                 name: 'নাজিমে তালিমাত'
             },
         ]);
@@ -177,8 +157,8 @@ class ProductionSeeder {
                     display_name: 'Add/Modify Roles'
                 },
                 {
-                    name: 'posts',
-                    display_name: 'Creating Posts/Pages'
+                    name: 'pages',
+                    display_name: 'Create/Update Pages'
                 },
                 {
                     name: 'menu',
@@ -186,7 +166,7 @@ class ProductionSeeder {
                 },
                 {
                     name: 'categories',
-                    display_name: 'Add/Modify Job Categories And Positions'
+                    display_name: 'Add/Modify Institute Categories'
                 },
                 {
                     name: 'geolocation',
@@ -197,12 +177,20 @@ class ProductionSeeder {
                     display_name: 'Modify Application\'s Settings'
                 },
                 {
-                    name: 'files',
-                    display_name: 'Upload/Delete Files'
+                    name: 'institute-types',
+                    display_name: 'Add/Modify Institution Types'
                 },
                 {
-                    name: 'institution-types',
-                    display_name: 'Add/Modify Institution Types'
+                    name: 'categories',
+                    display_name: 'Add/Modify Institute Categories'
+                },
+                {
+                    name: 'positions',
+                    display_name: 'Add/Modify Job Positions (Designation)'
+                },
+                {
+                    name: 'users',
+                    display_name: 'Manage Users'
                 }
             ]),
 
@@ -217,6 +205,9 @@ class ProductionSeeder {
                 },
                 {
                     name: 'post'
+                },
+                {
+                    name: 'logo'
                 }
             ])
         ]);
@@ -226,6 +217,64 @@ class ProductionSeeder {
                 role_id: 1,
                 permission_id: 1
             }
+        ]);
+
+
+        await db.from('menu_locations')
+            .insert([
+                {
+                    name: 'header',
+                },
+                {
+                    name: 'footer-1'
+                },
+                {
+                    name: 'footer-2'
+                }
+            ]);
+
+
+        await Promise.all([
+            db.from('files')
+                .insert([
+                    {
+                        name: 'settings/logo.svg',
+                        file_type_id: 4,
+                        mime_type: 'image/svg+xml'
+                    }
+                ]),
+            db.from('settings')
+                .insert([
+                    {
+                        name: 'title',
+                        label: 'Title',
+                        type: 'text',
+                        value: 'KhidmatBD'
+                    },
+                    {
+                        name: 'description',
+                        label: 'Description',
+                        type: 'textarea',
+                        value: 'KhidmatBD'
+                    },
+                    {
+                        name: 'copyright',
+                        label: 'Copyright',
+                        type: 'text',
+                        value: '© Copyright KhidmatBD all rights reserved'
+                    },
+                    {
+                        name: 'logo',
+                        label: 'Logo',
+                        type: 'image',
+                        value: 1
+                    }, {
+                        name: 'minPassword',
+                        label: 'Minimum Password Length',
+                        type: 'number',
+                        value: 8
+                    },
+                ])
         ]);
 
 

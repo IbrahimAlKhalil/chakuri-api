@@ -11,12 +11,8 @@ class PostsSchema extends Schema {
                 .unsigned()
                 .references('id')
                 .inTable('users').notNullable();
-            table.string('title');
+            table.text('title', 'mediumtext');
             table.text('content', 'longtext');
-            table.integer('image')
-                .unsigned()
-                .references('id')
-                .inTable('files');
             table.timestamps();
         });
     }

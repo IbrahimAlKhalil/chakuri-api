@@ -2,48 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3573a354-37c5-443d-be4c-4aaa1b776e61" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/RoleController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/migration.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/start/redis.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/e696f0d1-0c84-4875-91d7-d3ca1e6ce6e5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e696f0d1-0c84-4875-91d7-d3ca1e6ce6e5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e696f0d1-0c84-4875-91d7-d3ca1e6ce6e5/storage_v2/_src_/schema/chakuri.vTsKLA.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e696f0d1-0c84-4875-91d7-d3ca1e6ce6e5/storage_v2/_src_/schema/chakuri.vTsKLA.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/AuthManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/AuthManager.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Controllers/Http/ApplicationController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/ApplicationController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/CommonController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/CommonController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/JobController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/JobController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/ModeratorController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/ModeratorController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/RoleController.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/DistrictController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/DistrictController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/FavoriteController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/FavoriteController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/FileController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/FileController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Controllers/Http/JobController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/JobController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/JobFilterController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/JobFilterController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/NotificationController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/NotificationController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Controllers/Http/PositionController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/PositionController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/Resume/AddressController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/Resume/AddressController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/ResumeController.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/ThanaController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/ThanaController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/UserController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/UserController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/VerificationController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/VerificationController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/JobRequest.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/JobRequest.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/helpers.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/helpers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/1503250034299_file_user_schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/1503250034299_file_user_schema.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/1561628867777_role_permission_schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/1561628867777_role_permission_schema.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/1561632531527_villages_schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/1561632531527_villages_schema.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/1561636095351_institution_types_schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/1561636095351_institution_types_schema.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/1561636095352_categories_schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/1561636095352_categories_schema.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/1561636099908_positions_schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/1561636099908_positions_schema.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/1561886296144_posts_schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/1561886296144_posts_schema.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/seeds/ProductionSeeder.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/ProductionSeeder.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start/hooks.js" beforeDir="false" afterPath="$PROJECT_DIR$/start/hooks.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/start/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/start/routes.js" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/node_modules/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -86,285 +56,36 @@
     </expand>
     <select />
   </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/start/routes.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2132">
-              <caret line="82" column="53" selection-start-line="82" selection-start-column="53" selection-end-line="82" selection-end-column="53" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Controllers/Http/JobController.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1456">
-              <caret line="58" column="22" selection-start-line="58" selection-start-column="22" selection-end-line="58" selection-end-column="22" />
-              <folding>
-                <element signature="n#!!block;n#constructor#0;n#JobController#0" />
-                <element signature="n#!!block;n#show#0;n#JobController#0" />
-                <element signature="n#!!block;n#edit#0;n#JobController#0" />
-                <element signature="n#!!block;n#update#0;n#JobController#0" />
-                <element signature="n#!!block;n#createJobRequest#0;n#JobController#0" />
-                <element signature="n#!!block;n#notifyModerator#0;n#JobController#0" />
-                <element signature="n#!!block;n#destroy#0;n#JobController#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/SettingController.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="52">
-              <caret line="2" selection-start-line="2" selection-end-line="2" selection-end-column="27" />
-              <folding>
-                <element signature="n#!!block;n#constructor#0;n#SettingController#0" />
-                <element signature="n#!!block;n#index#0;n#SettingController#0" />
-                <element signature="n#!!block;n#update#0;n#SettingController#0" />
-                <element signature="n#!!block;n#handleFile#0;n#SettingController#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/Controllers/Http/CommonController.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/database/migrations/migration.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="91" column="40" lean-forward="true" selection-start-line="91" selection-start-column="40" selection-end-line="91" selection-end-column="40" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/database/seeds/ProductionSeeder.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6708">
-              <caret line="258" column="11" selection-start-line="258" selection-start-column="11" selection-end-line="258" selection-end-column="11" />
-              <folding>
-                <element signature="n#!!block;n#clean#0;n#!!block;n#run#0;n#ProductionSeeder#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>districtCOn</find>
-      <find>jobContro</find>
-      <find>shortli</find>
-      <find>application</find>
-      <find>general</find>
-      <find>userController</find>
-      <find>generalUser</find>
-      <find>genera</find>
-      <find>applicatio</find>
-      <find>showRes</find>
-      <find>jobApp</find>
-      <find>resumeCOn</find>
-      <find>files</find>
-      <find>view</find>
-      <find>f.id</find>
-      <find>photo</find>
-      <find>f.user</find>
-      <find>files.id</find>
-      <find>notify</find>
-      <find>move</find>
-      <find>jobControll</find>
-      <find>console</find>
-      <find>favo</find>
-      <find>fr</find>
-      <find>jr</find>
-      <find>cons</find>
-      <find>settings</find>
-      <find>pages</find>
-      <find>artic</find>
-      <find>menu_items</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>InstitutionTypes</replace>
-      <replace>Institutions</replace>
-      <replace>this.id</replace>
-      <replace>resumes</replace>
-      <replace>পাসওয়ার্ডটি</replace>
-      <replace>resume_experiences</replace>
-      <replace>this.jwt</replace>
-      <replace>this.Env</replace>
-      <replace>this.Token</replace>
-      <replace>this.VerificationToken</replace>
-      <replace>this.Notification</replace>
-      <replace>this.Encryption</replace>
-      <replace>this.crypto</replace>
-      <replace>this.fetch</replace>
-      <replace>this.FormData</replace>
-      <replace>this.db</replace>
-      <replace>this.zeroPrefix</replace>
-      <replace>this.moderators</replace>
-      <replace>this.checkCredentials</replace>
-      <replace>this.isMobile</replace>
-      <replace>category</replace>
-      <replace>institute-type</replace>
-      <replace>institute_types</replace>
-      <replace>institution_types</replace>
-      <replace>Pages</replace>
-      <replace>this.createTableIfNotExists</replace>
-    </replaceStrings>
-    <dirStrings>
-      <dir>$PROJECT_DIR$/config</dir>
-      <dir>$PROJECT_DIR$/providers</dir>
-      <dir>$PROJECT_DIR$/start</dir>
-      <dir>$PROJECT_DIR$/app/Controllers</dir>
-      <dir>$PROJECT_DIR$/database</dir>
-      <dir>$PROJECT_DIR$/database/migrations</dir>
-      <dir>$PROJECT_DIR$/app</dir>
-    </dirStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/database/migrations/1460417755867_file_type_schema.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Dashboard/UserController.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1561886296144_posts_schema.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Dashboard/PageController.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1573458634632_menu_schema.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1573458743035_menu_locations_schema.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1503250034299_file_user_schema.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1503250034279_users_schema.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1460417755866_clients_schema.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Dashboard/MenuLocationController.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1573458744642_menu_schema.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Dashboard/MenuController.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1573458750396_menu_items_schema.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Dashboard/MenuItemController.js" />
-        <option value="$PROJECT_DIR$/start/socket.js" />
-        <option value="$PROJECT_DIR$/start/redis.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Dashboard/ModeratorController.js" />
-        <option value="$PROJECT_DIR$/start/settings.js" />
-        <option value="$PROJECT_DIR$/start/hooks.js" />
-        <option value="$PROJECT_DIR$/database/migrations/1573458760874_settings_schema.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Dashboard/SettingController.js" />
-        <option value="$PROJECT_DIR$/app/helpers.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/ThanaController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Dashboard/GeneralUser/Resume/AddressController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/DistrictController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Dashboard/JobController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Dashboard/GeneralUser/JobController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Dashboard/GeneralUser/ApplicationController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/ResumeController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/FileController.js" />
-        <option value="$PROJECT_DIR$/start/app.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/VerificationController.js" />
-        <option value="$PROJECT_DIR$/app/AuthManager.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/ModeratorController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/UserController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/JobApplicationController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/NotificationController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/UserController.js" />
-        <option value="$PROJECT_DIR$/app/Models/JobRequest.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/JobController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/JobController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/ApplicationController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/FavoriteController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/JobFilterController.js" />
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/e696f0d1-0c84-4875-91d7-d3ca1e6ce6e5/console.sql" />
-        <option value="$PROJECT_DIR$/database/seeds/ProductionSeeder.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/SettingController.js" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/PageController.js" />
-        <option value="$PROJECT_DIR$/start/routes.js" />
-        <option value="$PROJECT_DIR$/database/migrations/migration.sql" />
-        <option value="$PROJECT_DIR$/app/Controllers/Http/CommonController.js" />
-      </list>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="$PROJECT_DIR$/.idea" />
+      </set>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="54" />
-    <option name="y" value="27" />
-    <option name="width" value="1361" />
-    <option name="height" value="782" />
-  </component>
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="chakuri-api" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chakuri-api" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chakuri-api" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chakuri-api" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chakuri-api" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chakuri-api" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chakuri-api" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chakuri-api" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
-              <item name="Http" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chakuri-api" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chakuri-api" type="462c0819:PsiDirectoryNode" />
-              <item name="database" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chakuri-api" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chakuri-api" type="462c0819:PsiDirectoryNode" />
-              <item name="database" type="462c0819:PsiDirectoryNode" />
-              <item name="migrations" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chakuri-api" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chakuri-api" type="462c0819:PsiDirectoryNode" />
-              <item name="database" type="462c0819:PsiDirectoryNode" />
-              <item name="seeds" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
+  <component name="ProjectId" id="1UQJGISkldtSLoXWRn5ili56qJN" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="mariadb" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="database.console.LAST_STATE" value="false" />
+    <property name="editor.config.ad.shown" value="true" />
     <property name="javascript.nodejs.core.library.configured.version" value="8.10.0" />
     <property name="last.edited.regexp" value="12321231321312321321231231" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../chakuri-admin" />
-    <property name="nodejs_interpreter_path" value="$USER_HOME$/.nvm/versions/node/v10.15.3/bin/node" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../admin" />
+    <property name="nodejs_interpreter_path" value="$USER_HOME$/.nvm/versions/node/v13.2.0/bin/node" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="nodejs_package_manager_path" value="yarn" />
-    <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="settings.nodejs" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
@@ -379,18 +100,6 @@
       <recent name="$PROJECT_DIR$/app/Middleware" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
   <component name="RunManager" selected="Node.js.JobController.js">
     <configuration name="JobController.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/app/Controllers/Http/JobController.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
@@ -404,6 +113,18 @@
         <item itemvalue="Node.js.RoleController.js" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -582,481 +303,36 @@
       <workItem from="1573792776932" duration="3679000" />
       <workItem from="1573809091380" duration="20501000" />
       <workItem from="1573835401432" duration="918000" />
+      <workItem from="1574947608003" duration="258000" />
+      <workItem from="1575001999961" duration="613000" />
+      <workItem from="1575282790541" duration="10000" />
+      <workItem from="1575284059982" duration="984000" />
+      <workItem from="1575365747913" duration="2961000" />
+      <workItem from="1575372895008" duration="740000" />
+      <workItem from="1575375828343" duration="1131000" />
+      <workItem from="1575432990355" duration="11000" />
+      <workItem from="1575459773437" duration="1543000" />
+      <workItem from="1575519930011" duration="4896000" />
+      <workItem from="1575532356388" duration="682000" />
+      <workItem from="1575606416959" duration="5012000" />
     </task>
     <servers />
-  </component>
-  <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1026589000" />
-  </component>
-  <component name="ToolWindowManager">
-    <frame x="67" y="27" width="1533" height="873" extended-state="6" />
-    <editor active="true" />
-    <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16677874" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.50409836" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.329235" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3989071" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.07513661" />
-      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="TypeScript" order="12" />
-      <window_info anchor="bottom" id="GraphQL" order="13" />
-      <window_info anchor="bottom" id="Database Console" order="14" weight="0.38934427" />
-      <window_info anchor="bottom" id="SQL Generator" order="15" weight="1.0" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Database" order="3" weight="0.2400807" />
-    </layout>
-    <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25722983" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" order="8" />
-      <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" weight="0.26860842" />
-      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="TypeScript" order="12" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Database" order="3" />
-    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/database/migrations/1503250034279_users_schema.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="6" column="10" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/e696f0d1-0c84-4875-91d7-d3ca1e6ce6e5/console_4.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="10" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/e696f0d1-0c84-4875-91d7-d3ca1e6ce6e5/console_2.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="421">
-          <caret line="512" selection-start-line="512" selection-end-line="512" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/e696f0d1-0c84-4875-91d7-d3ca1e6ce6e5/console_3.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-650">
-          <caret line="8" column="31" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://e696f0d1-0c84-4875-91d7-d3ca1e6ce6e5/schema/chakuri/table/menu_locations.sql" />
-    <entry file="das://e696f0d1-0c84-4875-91d7-d3ca1e6ce6e5/schema/chakuri/table/menu_items.sql" />
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/e696f0d1-0c84-4875-91d7-d3ca1e6ce6e5/console_5.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="10" lean-forward="true" selection-end-line="550" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/PageController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="3" column="21" selection-end-line="92" />
-          <folding>
-            <element signature="n#!!block;n#constructor#0;n#PageController#0" />
-            <element signature="n#!!block;n#index#0;n#PageController#0" />
-            <element signature="n#!!block;n#store#0;n#PageController#0" />
-            <element signature="n#!!block;n#update#0;n#PageController#0" />
-            <element signature="n#!!block;n#destroy#0;n#PageController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/MenuLocationController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/1573458744642_menu_schema.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="15" column="34" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/1573458743035_menu_locations_schema.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="9" column="33" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/DistrictController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="24" column="37" selection-end-line="106" />
-          <folding>
-            <element signature="n#!!block;n#constructor#0;n#DistrictController#0" />
-            <element signature="n#!!block;n#show#0;n#DistrictController#0" />
-            <element signature="n#!!block;n#index#0;n#DistrictController#0" />
-            <element signature="n#!!block;n#store#0;n#DistrictController#0" />
-            <element signature="n#!!block;n#update#0;n#DistrictController#0" />
-            <element signature="n#!!block;n#destroy#0;n#DistrictController#0" />
-            <element signature="n#!!block;n#all#0;n#DistrictController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/1573458750396_menu_items_schema.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="17" column="28" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/ThanaController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="68" lean-forward="true" selection-start-line="68" selection-end-line="68" />
-          <folding>
-            <element signature="n#!!block;n#constructor#0;n#ThanaController#0" />
-            <element signature="n#!!block;n#index#0;n#ThanaController#0" />
-            <element signature="n#!!block;n#destroy#0;n#ThanaController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/CategoryController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="52">
-          <caret line="26" column="8" selection-start-line="26" selection-start-column="8" selection-end-line="31" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/start/socket.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="4" column="54" selection-start-line="4" selection-start-column="50" selection-end-line="4" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/start/redis.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="6" column="44" lean-forward="true" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/start/settings.js" />
-    <entry file="file://$PROJECT_DIR$/database/migrations/1573458760874_settings_schema.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="12" column="33" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/files/settings/logo.jpeg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/start/hooks.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="11" column="67" selection-start-line="11" selection-start-column="67" selection-end-line="11" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.env">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/MenuController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="90" column="4" lean-forward="true" selection-start-line="90" selection-start-column="4" selection-end-line="96" selection-end-column="5" />
-          <folding>
-            <element signature="n#!!block;n#constructor#0;n#MenuController#0" />
-            <element signature="n#!!block;n#index#0;n#MenuController#0" />
-            <element signature="n#!!block;n#store#0;n#MenuController#0" />
-            <element signature="n#!!block;n#update#0;n#MenuController#0" />
-            <element signature="n#!!block;n#destroy#0;n#MenuController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/ThanaController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-          <folding>
-            <element signature="n#!!block;n#index#0;n#ThanaController#0" />
-            <element signature="n#!!block;n#show#0;n#ThanaController#0" />
-            <element signature="n#!!block;n#byDistrict#0;n#ThanaController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/Resume/AddressController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="27" column="16" selection-start-line="27" selection-start-column="16" selection-end-line="27" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/DistrictController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="20" column="5" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
-          <folding>
-            <element signature="n#!!block;n#index#0;n#DistrictController#0" />
-            <element signature="n#!!block;n#show#0;n#DistrictController#0" />
-            <element signature="n#!!block;n#byDivision#0;n#DistrictController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/ResumeController.js" />
-    <entry file="file://$PROJECT_DIR$/public/files/2/1566212854689.jpeg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/FileController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="13" column="18" lean-forward="true" selection-start-line="13" selection-start-column="18" selection-end-line="13" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/start/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="14" column="49" lean-forward="true" selection-start-line="14" selection-start-column="49" selection-end-line="14" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/helpers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="5" column="41" lean-forward="true" selection-start-line="5" selection-start-column="41" selection-end-line="5" selection-end-column="41" />
-          <folding>
-            <element signature="e#476#591#0" />
-            <element signature="e#638#723#0" />
-            <element signature="e#762#841#0" />
-            <element signature="e#864#967#0" />
-            <element signature="e#999#1157#0" />
-            <element signature="e#1201#2213#0" />
-            <element signature="e#2235#2624#0" />
-            <element signature="e#2714#3222#0" />
-            <element signature="e#3258#3802#0" />
-            <element signature="e#3824#3926#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/Notification.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="13" column="5" lean-forward="true" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/NotificationController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="22" column="38" lean-forward="true" selection-start-line="22" selection-start-column="38" selection-end-line="22" selection-end-column="38" />
-          <folding>
-            <element signature="n#!!block;n#unreadCount#0;n#NotificationController#0" />
-            <element signature="n#!!block;n#seen#0;n#NotificationController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/JobRequest.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="5" column="32" selection-start-line="5" selection-start-column="32" selection-end-line="5" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/AuthManager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3588">
-          <caret line="138" column="15" selection-start-line="138" selection-start-column="15" selection-end-line="138" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/UserController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="315" column="9" selection-start-line="315" selection-start-column="9" selection-end-line="315" selection-end-column="9" />
-          <folding>
-            <element signature="n#!!block;n#register#0;n#UserController#0" />
-            <element signature="n#!!block;n#userExists#0;n#UserController#0" />
-            <element signature="n#!!block;n#updateName#0;n#UserController#0" />
-            <element signature="n#!!block;n#updateMobile#0;n#UserController#0" />
-            <element signature="n#!!block;n#updatePassword#0;n#UserController#0" />
-            <element signature="n#!!block;n#updateDescription#0;n#UserController#0" />
-            <element signature="n#!!block;n#updateAddress#0;n#UserController#0" />
-            <element signature="n#!!block;n#updateCategory#0;n#UserController#0" />
-            <element signature="n#!!block;n#updateType#0;n#UserController#0" />
-            <element signature="n#!!block;n#getCategoryAndType#0;n#UserController#0" />
-            <element signature="n#!!block;n#resetPassword#0;n#UserController#0" />
-            <element signature="n#!!block;n#profile#0;n#UserController#0" />
-            <element signature="n#!!block;n#exists#0;n#UserController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/JobController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
-          <caret line="43" column="8" selection-start-line="43" selection-start-column="8" selection-end-line="43" selection-end-column="89" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/ApplicationController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="501">
-          <caret line="30" column="12" lean-forward="true" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="41" />
-          <folding>
-            <element signature="n#!!block;n#store#0;n#ApplicationController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/FavoriteController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="30" column="41" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/JobFilterController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="113" column="6" lean-forward="true" selection-start-line="113" selection-start-column="6" selection-end-line="113" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/e696f0d1-0c84-4875-91d7-d3ca1e6ce6e5/console.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="3" column="15" selection-start-line="3" selection-start-column="15" selection-end-line="3" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/MenuItemController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
-          <folding>
-            <element signature="n#!!block;n#reorder#0;n#MenuItemController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/ModeratorController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1430">
-          <caret line="102" column="14" selection-start-line="102" selection-start-column="14" selection-end-line="102" selection-end-column="14" />
-          <folding>
-            <element signature="n#!!block;n#index#0;n#ModeratorController#0" />
-            <element signature="n#!!block;n#update#0;n#ModeratorController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/JobApplicationController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1222">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
-          <folding>
-            <element signature="n#!!block;n#destroy#0;n#JobApplicationController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/PageController.js" />
-    <entry file="file://$PROJECT_DIR$/start/routes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2132">
-          <caret line="82" column="53" selection-start-line="82" selection-start-column="53" selection-end-line="82" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/JobController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1456">
-          <caret line="58" column="22" selection-start-line="58" selection-start-column="22" selection-end-line="58" selection-end-column="22" />
-          <folding>
-            <element signature="n#!!block;n#constructor#0;n#JobController#0" />
-            <element signature="n#!!block;n#show#0;n#JobController#0" />
-            <element signature="n#!!block;n#edit#0;n#JobController#0" />
-            <element signature="n#!!block;n#update#0;n#JobController#0" />
-            <element signature="n#!!block;n#createJobRequest#0;n#JobController#0" />
-            <element signature="n#!!block;n#notifyModerator#0;n#JobController#0" />
-            <element signature="n#!!block;n#destroy#0;n#JobController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/SettingController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="52">
-          <caret line="2" selection-start-line="2" selection-end-line="2" selection-end-column="27" />
-          <folding>
-            <element signature="n#!!block;n#constructor#0;n#SettingController#0" />
-            <element signature="n#!!block;n#index#0;n#SettingController#0" />
-            <element signature="n#!!block;n#update#0;n#SettingController#0" />
-            <element signature="n#!!block;n#handleFile#0;n#SettingController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/seeds/ProductionSeeder.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6708">
-          <caret line="258" column="11" selection-start-line="258" selection-start-column="11" selection-end-line="258" selection-end-column="11" />
-          <folding>
-            <element signature="n#!!block;n#clean#0;n#!!block;n#run#0;n#ProductionSeeder#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/migration.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="91" column="40" lean-forward="true" selection-start-line="91" selection-start-column="40" selection-end-line="91" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Controllers/Http/CommonController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
+  <component name="WindowStateProjectService">
+    <state x="616" y="221" width="424" height="482" key="FileChooserDialogImpl" timestamp="1575614123765">
+      <screen x="67" y="27" width="1533" height="873" />
+    </state>
+    <state x="616" y="221" width="424" height="482" key="FileChooserDialogImpl/67.27.1533.873@67.27.1533.873" timestamp="1575614123765" />
+    <state x="322" y="98" key="SettingsEditor" timestamp="1575282799575">
+      <screen x="67" y="27" width="1533" height="873" />
+    </state>
+    <state x="322" y="98" key="SettingsEditor/67.27.1533.873@67.27.1533.873" timestamp="1575282799575" />
+    <state x="471" y="43" width="724" height="840" key="find.popup" timestamp="1575613641854">
+      <screen x="67" y="27" width="1533" height="873" />
+    </state>
+    <state x="471" y="43" width="724" height="840" key="find.popup/67.27.1533.873@67.27.1533.873" timestamp="1575613641854" />
   </component>
 </project>

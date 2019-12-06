@@ -19,310 +19,316 @@ const User = use('App/Models/User');
 const Env = use('Env');
 
 class ProductionSeeder {
-    async run() {
+  async run() {
 
-        await Promise.all([
+    await Promise.all([
 
-            /**** Seed user_types ****/
-            db.from('user_types').insert([
-                {
-                    name: 'employee'
-                },
-                {
-                    name: 'institution'
-                },
-                {
-                    name: 'moderator'
-                }
-            ]),
+      /**** Seed user_types ****/
+      db.from('user_types').insert([
+        {
+          name: 'employee',
+        },
+        {
+          name: 'institution',
+        },
+        {
+          name: 'moderator',
+        },
+      ]),
 
-            /**** Insert clients ****/
+      /**** Insert clients ****/
 
-            db.from('clients').insert([
-                {
-                    name: 'web'
-                },
-                {
-                    name: 'mobile'
-                }
-            ]),
+      db.from('clients').insert([
+        {
+          name: 'web',
+        },
+        {
+          name: 'mobile',
+        },
+      ]),
 
-            /**** Insert roles ****/
-            db.from('roles').insert([
-                {
-                    name: 'Admin',
-                    writable: false
-                }
-            ]),
-
-
-            /**** Insert institution types ****/
-            db.from('institution_types').insert([
-                {
-                    name: 'সরকারি'
-                },
-                {
-                    name: 'বেসরকারি'
-                }
-            ]),
-
-            /*** Insert categories ***/
-
-            db.from('categories').insert([
-                {
-                    name: 'মসজিদ',
-                    icon: 'fas fa-mosque'
-                },
-                {
-                    name: 'মাদ্রাসা',
-                    icon: 'fas fa-school'
-                }
-            ])
-        ]);
+      /**** Insert roles ****/
+      db.from('roles').insert([
+        {
+          name: 'Admin',
+          writable: false,
+        },
+      ]),
 
 
-        /****** Positions ******/
-        await db.from('positions').insert([
-            {
-                name: 'খতিব'
-            },
-            {
-                name: 'ইমাম'
-            },
-            {
-                name: 'মুয়াজ্জিন'
-            },
-            {
-                name: 'হাফেজ সাহেব (তারাবি)'
-            },
-            {
-                name: 'খাদেম'
-            },
-            {
-                name: 'কারি সাহেব'
-            },
-            {
-                name: 'শিক্ষক (হিফজ বিভাগ)'
-            },
-            {
-                name: 'হিসাব রক্ষক'
-            },
-            {
-                name: 'শিক্ষক (কিতাব বিভাগ)'
-            },
-            {
-                name: 'জেনারেল শিক্ষক'
-            },
-            {
-                name: 'শিক্ষক (ইফতা বিভাগ)'
-            },
-            {
-                name: 'নাজিমে তালিমাত'
-            },
-        ]);
+      /**** Insert institution types ****/
+      db.from('institution_types').insert([
+        {
+          name: 'সরকারি',
+        },
+        {
+          name: 'বেসরকারি',
+        },
+      ]),
+
+      /*** Insert categories ***/
+
+      db.from('categories').insert([
+        {
+          name: 'মসজিদ',
+          icon: 'fas fa-mosque',
+        },
+        {
+          name: 'মাদ্রাসা',
+          icon: 'fas fa-school',
+        },
+      ]),
+    ]);
 
 
-        /**** Create admin account ****/
-        const user = new User;
-        user.user_type_id = 3;
-        user.name = 'Ibrahim Al Khalil';
-        user.mobile = '01923615718';
-        user.email = 'hm.ibrahimalkhalil@gmail.com';
-        user.password = '12345678';
-        await user.save();
-
-        await Promise.all([
-            db.from('role_user').insert([
-                {
-                    user_id: user.id,
-                    role_id: 1
-                }
-            ]),
-
-            db.from('permissions').insert([
-                {
-                    name: 'all',
-                    display_name: 'All'
-                },
-                {
-                    name: 'job-requests',
-                    display_name: 'Review And Approve/Reject Job Request'
-                },
-                {
-                    name: 'moderators',
-                    display_name: 'Add/Modify Moderators'
-                },
-                {
-                    name: 'roles',
-                    display_name: 'Add/Modify Roles'
-                },
-                {
-                    name: 'pages',
-                    display_name: 'Create/Update Pages'
-                },
-                {
-                    name: 'menu',
-                    display_name: 'Add/Modify Menu Items'
-                },
-                {
-                    name: 'categories',
-                    display_name: 'Add/Modify Institute Categories'
-                },
-                {
-                    name: 'geolocation',
-                    display_name: 'Add/Modify Geolocation'
-                },
-                {
-                    name: 'settings',
-                    display_name: 'Modify Application\'s Settings'
-                },
-                {
-                    name: 'institute-types',
-                    display_name: 'Add/Modify Institution Types'
-                },
-                {
-                    name: 'categories',
-                    display_name: 'Add/Modify Institute Categories'
-                },
-                {
-                    name: 'positions',
-                    display_name: 'Add/Modify Job Positions (Designation)'
-                },
-                {
-                    name: 'users',
-                    display_name: 'Manage Users'
-                }
-            ]),
-
-            generateToken(user.id, true),
-
-            db.from('file_types').insert([
-                {
-                    name: 'profile_pic',
-                },
-                {
-                    name: 'resume'
-                },
-                {
-                    name: 'post'
-                },
-                {
-                    name: 'logo'
-                }
-            ])
-        ]);
-
-        await db.from('role_permission').insert([
-            {
-                role_id: 1,
-                permission_id: 1
-            }
-        ]);
+    /****** Positions ******/
+    await db.from('positions').insert([
+      {
+        name: 'খতিব',
+      },
+      {
+        name: 'ইমাম',
+      },
+      {
+        name: 'মুয়াজ্জিন',
+      },
+      {
+        name: 'হাফেজ সাহেব (তারাবি)',
+      },
+      {
+        name: 'খাদেম',
+      },
+      {
+        name: 'কারি সাহেব',
+      },
+      {
+        name: 'শিক্ষক (হিফজ বিভাগ)',
+      },
+      {
+        name: 'হিসাব রক্ষক',
+      },
+      {
+        name: 'শিক্ষক (কিতাব বিভাগ)',
+      },
+      {
+        name: 'জেনারেল শিক্ষক',
+      },
+      {
+        name: 'শিক্ষক (ইফতা বিভাগ)',
+      },
+      {
+        name: 'নাজিমে তালিমাত',
+      },
+    ]);
 
 
-        await db.from('menu_locations')
-            .insert([
-                {
-                    name: 'header',
-                },
-                {
-                    name: 'footer-1'
-                },
-                {
-                    name: 'footer-2'
-                }
-            ]);
+    /**** Create admin account ****/
+    const user = new User;
+    user.user_type_id = 3;
+    user.name = 'Ibrahim Al Khalil';
+    user.mobile = '01923615718';
+    user.email = 'hm.ibrahimalkhalil@gmail.com';
+    user.password = '12345678';
+    await user.save();
+
+    await Promise.all([
+      db.from('role_user').insert([
+        {
+          user_id: user.id,
+          role_id: 1,
+        },
+      ]),
+
+      db.from('permissions').insert([
+        {
+          name: 'all',
+          display_name: 'All',
+        },
+        {
+          name: 'job-requests',
+          display_name: 'Review And Approve/Reject Job Request',
+        },
+        {
+          name: 'moderators',
+          display_name: 'Add/Modify Moderators',
+        },
+        {
+          name: 'roles',
+          display_name: 'Add/Modify Roles',
+        },
+        {
+          name: 'pages',
+          display_name: 'Create/Update Pages',
+        },
+        {
+          name: 'menu',
+          display_name: 'Add/Modify Menu Items',
+        },
+        {
+          name: 'categories',
+          display_name: 'Add/Modify Institute Categories',
+        },
+        {
+          name: 'geolocation',
+          display_name: 'Add/Modify Geolocation',
+        },
+        {
+          name: 'settings',
+          display_name: 'Modify Application\'s Settings',
+        },
+        {
+          name: 'institute-types',
+          display_name: 'Add/Modify Institution Types',
+        },
+        {
+          name: 'categories',
+          display_name: 'Add/Modify Institute Categories',
+        },
+        {
+          name: 'positions',
+          display_name: 'Add/Modify Job Positions (Designation)',
+        },
+        {
+          name: 'users',
+          display_name: 'Manage Users',
+        },
+      ]),
+
+      generateToken(user.id, true),
+
+      db.from('file_types').insert([
+        {
+          name: 'profile_pic',
+        },
+        {
+          name: 'resume',
+        },
+        {
+          name: 'post',
+        },
+        {
+          name: 'logo',
+        },
+      ]),
+    ]);
+
+    await db.from('role_permission').insert([
+      {
+        role_id: 1,
+        permission_id: 1,
+      },
+    ]);
 
 
-        await Promise.all([
-            db.from('files')
-                .insert([
-                    {
-                        name: 'settings/logo.svg',
-                        file_type_id: 4,
-                        mime_type: 'image/svg+xml'
-                    }
-                ]),
-            db.from('settings')
-                .insert([
-                    {
-                        name: 'title',
-                        label: 'Title',
-                        type: 'text',
-                        value: 'KhidmatBD'
-                    },
-                    {
-                        name: 'description',
-                        label: 'Description',
-                        type: 'textarea',
-                        value: 'KhidmatBD'
-                    },
-                    {
-                        name: 'copyright',
-                        label: 'Copyright',
-                        type: 'text',
-                        value: '© Copyright KhidmatBD all rights reserved'
-                    },
-                    {
-                        name: 'logo',
-                        label: 'Logo',
-                        type: 'image',
-                        value: 1
-                    }, {
-                        name: 'minPassword',
-                        label: 'Minimum Password Length',
-                        type: 'number',
-                        value: 8
-                    },
-                ])
-        ]);
+    await db.from('menu_locations')
+      .insert([
+        {
+          name: 'header',
+        },
+        {
+          name: 'footer-1',
+        },
+        {
+          name: 'footer-2',
+        },
+      ]);
 
 
-        // Insert places
-        let divisions = require('./divisions');
-        const districts = require('./districts');
-        const thanas = require('./thanas');
+    await Promise.all([
+      db.from('files')
+        .insert([
+          {
+            name: 'settings/logo.svg',
+            file_type_id: 4,
+            mime_type: 'image/svg+xml',
+          },
+        ]),
+      db.from('settings')
+        .insert([
+          {
+            name: 'title',
+            label: 'Title',
+            type: 'text',
+            value: 'KhidmatBD',
+          },
+          {
+            name: 'description',
+            label: 'Description',
+            type: 'textarea',
+            value: 'KhidmatBD',
+          },
+          {
+            name: 'copyright',
+            label: 'Copyright',
+            type: 'text',
+            value: '© Copyright KhidmatBD all rights reserved',
+          },
+          {
+            name: 'logo',
+            label: 'Logo',
+            type: 'image',
+            value: 1,
+          }, {
+            name: 'minPassword',
+            label: 'Minimum Password Length',
+            type: 'number',
+            value: 8,
+          },
+          {
+            name: 'special-job-info-page-link',
+            label: 'Special Job Info Page',
+            type: 'text',
+            value: '',
+          },
+        ]),
+    ]);
 
-        function clean(data) {
-            data.forEach(data => {
-                data.name = data.bn_name;
 
-                delete data.bn_name;
-            });
-        }
+    // Insert places
+    let divisions = require('./divisions');
+    const districts = require('./districts');
+    const thanas = require('./thanas');
 
-        [divisions, districts, thanas].forEach(clean);
+    function clean(data) {
+      data.forEach(data => {
+        data.name = data.bn_name;
 
-        await db.from('divisions').insert(divisions);
-        await db.from('districts').insert(districts);
-        await db.from('thanas').insert(thanas);
-
-        // Enable event scheduler
-
-        await db.raw(`SET GLOBAL event_scheduler = ON;`);
-
-
-        // Add mysql event for deleting expired tokens
-
-
-        await Promise.all([
-            db.raw(
-                `CREATE EVENT IF NOT EXISTS AutoDeleteExpiredTokens 
-            ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 DAY 
-            ON COMPLETION PRESERVE 
-            DO 
-            DELETE FROM ${Env.get('DB_DATABASE')}.tokens WHERE updated_at < DATE_SUB(NOW(), INTERVAL 5 HOUR)`
-            ),
-
-            db.raw(`
-            CREATE EVENT IF NOT EXISTS AutoDeleteExpiredVerificationTokens 
-            ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 HOUR 
-            ON COMPLETION PRESERVE 
-            DO 
-            DELETE FROM ${Env.get('DB_DATABASE')}.verification_tokens WHERE auto_delete = 1 and created_at < DATE_SUB(NOW(), INTERVAL 1 HOUR)
-            `)
-        ]);
+        delete data.bn_name;
+      });
     }
+
+    [divisions, districts, thanas].forEach(clean);
+
+    await db.from('divisions').insert(divisions);
+    await db.from('districts').insert(districts);
+    await db.from('thanas').insert(thanas);
+
+    // Enable event scheduler
+
+    await db.raw(`SET GLOBAL event_scheduler = ON;`);
+
+
+    // Add mysql event for deleting expired tokens
+
+
+    await Promise.all([
+      db.raw(
+        `CREATE EVENT IF NOT EXISTS AutoDeleteExpiredTokens
+            ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 DAY
+            ON COMPLETION PRESERVE
+            DO
+            DELETE FROM ${Env.get('DB_DATABASE')}.tokens WHERE updated_at < DATE_SUB(NOW(), INTERVAL 5 HOUR)`,
+      ),
+
+      db.raw(`
+            CREATE EVENT IF NOT EXISTS AutoDeleteExpiredVerificationTokens
+            ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 HOUR
+            ON COMPLETION PRESERVE
+            DO
+            DELETE FROM ${Env.get('DB_DATABASE')}.verification_tokens WHERE auto_delete = 1 and created_at < DATE_SUB(NOW(), INTERVAL 1 HOUR)
+            `),
+    ]);
+  }
 }
 
 module.exports = ProductionSeeder;

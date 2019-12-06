@@ -90,9 +90,7 @@ class ApplicationController {
 
         await application.save();
 
-        const user = await auth.user();
-
-        console.log(user);
+        const user = await auth.user(['f.id as photoId']);
 
         const {notify} = require('../../helpers');
 
@@ -101,7 +99,7 @@ class ApplicationController {
             title: user.name,
             message: `${job.name}  পদের জন্য আবেদন করেছেন`,
             seen: 0,
-            pic: user.photo,
+            pic: user.photoId,
             link: JSON.stringify({
                 type: 'applied',
                 id: application.id

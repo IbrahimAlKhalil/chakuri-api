@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="@localhost">
-  <database-model serializer="dbm" dbms="MARIADB" family-id="MARIADB" format-version="4.14">
+  <database-model serializer="dbm" dbms="MARIADB" family-id="MARIADB" format-version="4.17">
     <root id="1">
       <ServerVersion>10.1.41</ServerVersion>
-      <Dbms>MARIADB</Dbms>
       <DefaultEngine>InnoDB</DefaultEngine>
       <DefaultCasing>exact</DefaultCasing>
     </root>
@@ -15,7 +14,6 @@
     </schema>
     <schema id="4" parent="1" name="chakuri">
       <Current>1</Current>
-      <Visible>1</Visible>
       <Collation>utf8mb4_general_ci</Collation>
     </schema>
     <schema id="5" parent="1" name="dreamworld">

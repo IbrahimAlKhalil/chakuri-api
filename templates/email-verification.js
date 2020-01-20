@@ -1,11 +1,11 @@
 module.exports = function (data) {
-    return `
+  return `
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>Verify your email address</title>
+  <title>আপনার ইমেল ঠিকানা যাচাই করুন</title>
   <style type="text/css" rel="stylesheet" media="all">
     /* Base ------------------------------ */
     *:not(br):not(tr):not(html) {
@@ -42,16 +42,13 @@ module.exports = function (data) {
       padding: 25px 0;
       text-align: center;
     }
-    .email-masthead_logo {
-      max-width: 400px;
-      border: 0;
-    }
     .email-masthead_name {
-      font-size: 16px;
+      font-size: 32px;
       font-weight: bold;
       color: #839197;
-      text-decoration: none;
+      text-decoration: none !important;
       text-shadow: 0 1px 0 white;
+      text-align: center;
     }
     /* Body ------------------------------ */
     .email-body {
@@ -132,26 +129,21 @@ module.exports = function (data) {
     .button {
       display: inline-block;
       width: 200px;
-      background-color: #414EF9;
+      background-color: #ee6305;
       border-radius: 3px;
-      color: #ffffff;
+      color: #ffffff !important;
       font-size: 15px;
       line-height: 45px;
       text-align: center;
-      text-decoration: none;
+      text-decoration: none !important;
       -webkit-text-size-adjust: none;
       mso-hide: all;
     }
-    .button--green {
-      background-color: #28DB67;
-    }
-    .button--red {
-      background-color: #FF3665;
-    }
     .button--blue {
-      background-color: #3d7fff;
+      background-color: #ee6305;
       padding: 10px;
-      color: #fff;
+      color: #ffffff !important;
+      text-decoration: none;
     }
     /*Media Queries ------------------------------ */
     @media only screen and (max-width: 600px) {
@@ -174,8 +166,8 @@ module.exports = function (data) {
         <table class="email-content" width="100%" cellpadding="0" cellspacing="0">
           <!-- Logo -->
           <tr>
-            <td class="email-masthead">
-              <a class="email-masthead_name">${data.company}</a>
+            <td class="email-masthead" align="center">
+              <a class="email-masthead_name" href="https://khidmatbd.com">${data.company}</a>
             </td>
           </tr>
           <!-- Email Body -->
@@ -185,8 +177,8 @@ module.exports = function (data) {
                 <!-- Body content -->
                 <tr>
                   <td class="content-cell">
-                    <h1>Verify your email address</h1>
-                    <p>${data.message}</p>
+                    <h1 align="center" style="text-align: center">আপনার ইমেল ঠিকানা যাচাই করুন</h1>
+                    <p style="text-align: center" align="center">${data.message}</p>
                     <!-- Action -->
                     <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0">
                       <tr>
@@ -197,18 +189,18 @@ module.exports = function (data) {
                             <w:anchorlock/>
                             <center style="color:#ffffff;font-family:sans-serif;font-size:15px;">Verify Email</center>
                           </v:roundrect><![endif]-->
-                            <a href="${data.action}" class="button button--blue">Verify Email</a>
+                            <a href="${data.action}" class="button button--blue">এখানে ক্লিক করুন</a>
                           </div>
                         </td>
                       </tr>
                     </table>
-                    <p>Thanks,<br>The ${data.company} Team</p>
+                    <!--<p>Thanks,<br>The ${data.company} Team</p>-->
                     <!-- Sub copy -->
                     <table class="body-sub">
                       <tr>
                         <td>
-                          <p class="sub">If you’re having trouble clicking the button, copy and paste the URL below into your web browser.
-                          </p>
+                          <!--<p class="sub">If you’re having trouble clicking the button, copy and paste the URL below into your web browser.
+                          </p>-->
                           <p class="sub"><a href="${data.action}">${data.action}</a></p>
                         </td>
                       </tr>

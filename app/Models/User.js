@@ -7,33 +7,34 @@ const Model = use('Model');
 const Hash = use('Hash');
 
 class User extends Model {
-    setMobile(mobile) {
-        const {truncateMobile} = require('../helpers');
+  setMobile(mobile) {
+    const {truncateMobile, bnToEn} = require('../helpers');
 
-        return truncateMobile(mobile);
-    }
+    return truncateMobile(bnToEn(mobile));
+  }
 
-    tokens() {
-        return this.hasMany('App/Models/Token');
-    }
-/*
-    roles() {
-        return this.belongsToMany('App/Models/Role');
-    }*/
+  tokens() {
+    return this.hasMany('App/Models/Token');
+  }
 
-    static boot() {
-        super.boot();
+  /*
+      roles() {
+          return this.belongsToMany('App/Models/Role');
+      }*/
 
-        /**
-         * A hook to hash the user password before saving
-         * it to the database.
-         */
-        this.addHook('beforeSave', async (userInstance) => {
-            if (userInstance.dirty.password) {
-                userInstance.password = await Hash.make(userInstance.password);
-            }
-        });
-    }
+  static boot() {
+    super.boot();
+
+    /**
+     * A hook to hash the user password before saving
+     * it to the database.
+     */
+    this.addHook('beforeSave', async (userInstance) => {
+      if (userInstance.dirty.password) {
+        userInstance.password = await Hash.make(userInstance.password);
+      }
+    });
+  }
 }
 
 module.exports = User;

@@ -209,6 +209,9 @@ class ProductionSeeder {
         {
           name: 'logo',
         },
+        {
+          name: 'other',
+        },
       ]),
     ]);
 
@@ -241,6 +244,10 @@ class ProductionSeeder {
             name: 'settings/logo.svg',
             file_type_id: 4,
             mime_type: 'image/svg+xml',
+          }, {
+            name: 'settings/banner.jpg',
+            file_type_id: 5,
+            mime_type: 'image/jpeg',
           },
         ]),
       db.from('settings')
@@ -277,6 +284,18 @@ class ProductionSeeder {
           {
             name: 'special-job-info-page-link',
             label: 'Special Job Info Page',
+            type: 'text',
+            value: '',
+          },
+          {
+            name: 'terms-and-conditions-page',
+            label: 'Terms & Conditions Page',
+            type: 'text',
+            value: '',
+          },
+          {
+            name: 'privacy-policy-page',
+            label: 'Privacy Policy Page',
             type: 'text',
             value: '',
           },

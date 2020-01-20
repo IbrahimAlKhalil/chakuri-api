@@ -87,7 +87,7 @@ class JobFilterController {
             const {buildSearchQuery} = require('../../helpers');
             const cols = ['p.name', 'j.responsibilities', 'j.additional', 'j.village', 'd.name', 't.name', 'u.name'];
 
-            buildSearchQuery(keyword, cols, query);
+            await buildSearchQuery(keyword, cols, query);
         }
 
         const page = Number(request.input('page', 1));
@@ -138,7 +138,7 @@ class JobFilterController {
     async show({request, params, response, auth}) {
         const user = await auth.user();
 
-        if (user.type === 3 && (user.permissions.includes('all') || user.permissions.includes('job-requests'))) {
+        if (user && user.type === 3 && (user.permissions.includes('all') || user.permissions.includes('job-requests'))) {
             const job = await db.raw(`
               select j.id,
                      j.user_id,

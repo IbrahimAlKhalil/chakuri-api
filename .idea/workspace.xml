@@ -3,15 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="3573a354-37c5-443d-be4c-4aaa1b776e61" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/AuthManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/AuthManager.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/SettingController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/SettingController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/JobFilterController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/JobFilterController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/UserController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/UserController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/VerificationController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/VerificationController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/helpers.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/helpers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/ProductionSeeder.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/ProductionSeeder.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/email-verification.js" beforeDir="false" afterPath="$PROJECT_DIR$/templates/email-verification.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +73,7 @@
     <property name="editor.config.ad.shown" value="true" />
     <property name="javascript.nodejs.core.library.configured.version" value="8.10.0" />
     <property name="last.edited.regexp" value="12321231321312321321231231" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../client" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../admin" />
     <property name="nodejs_interpreter_path" value="$USER_HOME$/.nvm/versions/node/v13.2.0/bin/node" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -328,30 +322,47 @@
       <workItem from="1577948180033" duration="247000" />
       <workItem from="1577948597571" duration="1444000" />
       <workItem from="1578302544912" duration="26000" />
-      <workItem from="1579517664523" duration="2847000" />
+      <workItem from="1579517664523" duration="2964000" />
+      <workItem from="1579608864029" duration="1067000" />
     </task>
+    <task id="LOCAL-00001" summary="Allow Bangla mobile number">
+      <created>1579522306892</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1579522306893</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Allow Bangla mobile number" />
+    <option name="LAST_COMMIT_MESSAGE" value="Allow Bangla mobile number" />
   </component>
   <component name="WindowStateProjectService">
     <state x="516" y="191" width="624" height="542" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1575865013647">
       <screen x="67" y="27" width="1533" height="873" />
     </state>
     <state x="516" y="191" width="624" height="542" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/67.27.1533.873@67.27.1533.873" timestamp="1575865013647" />
-    <state x="396" y="27" width="864" height="871" key="CommitChangelistDialog2" timestamp="1579522280693">
+    <state x="396" y="27" width="864" height="871" key="CommitChangelistDialog2" timestamp="1579522306493">
       <screen x="67" y="27" width="1533" height="873" />
     </state>
-    <state x="396" y="27" width="864" height="871" key="CommitChangelistDialog2/67.27.1533.873@67.27.1533.873" timestamp="1579522280693" />
-    <state x="616" y="221" width="424" height="482" key="FileChooserDialogImpl" timestamp="1579517701868">
+    <state x="396" y="27" width="864" height="871" key="CommitChangelistDialog2/67.27.1533.873@67.27.1533.873" timestamp="1579522306493" />
+    <state x="616" y="221" width="424" height="482" key="FileChooserDialogImpl" timestamp="1579610211943">
       <screen x="67" y="27" width="1533" height="873" />
     </state>
-    <state x="616" y="221" width="424" height="482" key="FileChooserDialogImpl/67.27.1533.873@67.27.1533.873" timestamp="1579517701868" />
+    <state x="616" y="221" width="424" height="482" key="FileChooserDialogImpl/67.27.1533.873@67.27.1533.873" timestamp="1579610211943" />
     <state x="322" y="98" key="SettingsEditor" timestamp="1575282799575">
       <screen x="67" y="27" width="1533" height="873" />
     </state>
     <state x="322" y="98" key="SettingsEditor/67.27.1533.873@67.27.1533.873" timestamp="1575282799575" />
+    <state x="428" y="195" width="800" height="534" key="Vcs.Push.Dialog.v2" timestamp="1579522309051">
+      <screen x="67" y="27" width="1533" height="873" />
+    </state>
+    <state x="428" y="195" width="800" height="534" key="Vcs.Push.Dialog.v2/67.27.1533.873@67.27.1533.873" timestamp="1579522309051" />
     <state x="471" y="43" width="724" height="855" key="find.popup" timestamp="1578302568077">
       <screen x="67" y="27" width="1533" height="873" />
     </state>

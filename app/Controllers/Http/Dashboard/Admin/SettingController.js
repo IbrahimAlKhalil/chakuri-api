@@ -75,7 +75,7 @@ class SettingController {
 
   async handleFile({request, params, auth, setting}) {
     const photo = request.file('value');
-    const name = `${setting.name}.${photo.subtype}`;
+    const name = `${require('md5')(photo)}.${photo.subtype}`;
 
     const file = new File;
     file.name = `settings/${name}`;

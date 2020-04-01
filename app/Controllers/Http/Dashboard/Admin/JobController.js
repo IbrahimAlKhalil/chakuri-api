@@ -3,141 +3,170 @@
 const {validate} = use('Validator');
 const db = use('Database');
 const Job = use('App/Models/Job');
-const RejectedJob = use('App/Models/RejectedJob');
-const JobRequest = use('App/Models/JobRequest');
+
+const rules = {
+  position_id: 'required|integer|exists:positions,id',
+  vacancy: 'max:9999999',
+  salary_from: 'max:999999999999',
+  salary_to: 'max:99999999999',
+  negotiable: 'boolean',
+  special: 'boolean',
+  nature: 'in:1,2',
+  responsibilities: 'string|max:5000',
+  deadline: `required|date|after:${new Date(Date.now() + 4.32e+7)}`,
+  district_id: 'required|integer|exists:districts,id',
+  thana_id: 'required|integer|exists:thanas,id',
+  village: 'required|string|max:150',
+  experience_from: 'integer|max:9999999',
+  experience_to: 'max:9999999',
+  education: 'max:500',
+  gender: 'in:1,2,3',
+  age_from: 'max:999999999',
+  age_to: 'max:999999999',
+  additional: 'string|max:5000',
+  how_to_apply: 'required|string|max:5000',
+  institute_name: 'required|string|max:200',
+};
 
 class JobController {
-    async index({request, auth, response}) {
-        const {validateIndex, buildSearchQuery, paginate} = require('../../../../helpers');
+  constructor() {
+    this.table = 'jobs';
+  }
 
-        if (!(await validateIndex(request))) {
-            return response.status(422).send();
-        }
+  async index({request, response, auth}) {
+    const {validateIndex, buildSearchQuery, paginate} = require('../../../../helpers');
 
-        const query = db.query();
-
-        query.from('job_requests as jr')
-            .select(
-                'j.id', 'u.name as institute', 'f.name as logo', 'j.special',
-                'd.name as district', 't.name as thana', 'p.name as position',
-                'j.salary_from', 'j.salary_to', 'j.created_at',
-                'j.deadline', 'j.experience_from', 'j.experience_to'
-            )
-            .distinct()
-            .join('jobs as j', 'j.id', 'jr.job_id')
-            .join('positions as p', 'j.position_id', 'p.id')
-            .join('users as u', 'u.id', 'j.user_id')
-            .join('districts as d', 'j.district_id', 'd.id')
-            .join('thanas as t', 'j.thana_id', 't.id')
-            .leftJoin('files as f', 'u.photo', 'f.id')
-            .where('j.approved', 0)
-            .where('j.rejected', 0)
-            .orderBy('j.created_at', 'DESC');
-
-        const moderator = await auth.user();
-
-        if (!moderator.roles.includes('Admin')) {
-            query.where('jr.moderator', auth.id);
-        }
-
-
-        await buildSearchQuery(request, ['u.name', 'p.name', 'd.name', 't.name'], query);
-
-        return await paginate(request, query);
+    if (!(await validateIndex(request))) {
+      return response.status(422).send();
     }
 
-    async action({request, auth, response}) {
-        const {notify} = require('../../../../helpers');
+    const query = db.query()
+      .from(`${this.table} as j`)
+      .select('j.id', 'p.name as position', 'd.name as district', 't.name as thana', 'deadline', 'j.created_at', 'village', 'j.special')
+      .join('positions as p', 'j.position_id', 'p.id')
+      .join('districts as d', 'j.district_id', 'd.id')
+      .join('thanas as t', 'j.thana_id', 't.id')
+      .where('j.admin_job', 1)
+      .orderBy('j.created_at', 'DESC');
 
-        const validation = await validate(request.only(['type', 'id', 'cause']), {
-            type: 'required|in:approve,reject',
-            id: 'required|integer',
-            cause: 'string|max:8000'
-        });
-
-
-        if (validation.fails()) {
-            return response.status(422).send();
-        }
-
-        const id = Number(request.input('id'));
-
-        const jobRequest = await JobRequest.query()
-            .from('job_requests')
-            .where('job_id', id)
-            .first();
-
-        if (!jobRequest) {
-            return response.status(422).send();
-        }
-
-
-        if (jobRequest.job_id !== id) {
-            return response.status(422).send();
-        }
-
-
-        const job = await Job.find(request.input('id'));
-
-        // Admin can delete or approve any job request
-        const moderator = await auth.user();
-        if (jobRequest.moderator !== auth.id && !moderator.roles.includes('Admin')) {
-            return response.status(422).send();
-        }
-
-
-        // Delete previous rejected_job
-        await db.query()
-            .from('rejected_jobs')
-            .where('job_id', id)
-            .delete();
-
-        if (request.input('type') === 'approve') {
-            await db.query()
-                .from('jobs')
-                .where('id', id)
-                .update({
-                    approved: 1,
-                    rejected: 0
-                });
-
-            await notify({
-                user_id: job.user_id,
-                title: 'আপনার বিজ্ঞাপনটি',
-                message: 'অনুমোদন দেয়া হয়েছে',
-                seen: 0,
-                link: JSON.stringify({
-                    type: 'job-approved',
-                    id: id
-                })
-            });
-        } else {
-
-            const rejected = new RejectedJob();
-            rejected.job_id = id;
-            rejected.message = request.input('cause');
-
-            await rejected.save();
-
-            await db.query()
-                .from('jobs')
-                .where('id', id)
-                .update({
-                    rejected: 1
-                });
-
-            await notify({
-                user_id: job.user_id,
-                title: 'আপনার বিজ্ঞাপনটি',
-                message: 'প্রত্যাখ্যান করা হয়েছে',
-                seen: 0,
-                link: JSON.stringify({
-                    type: 'job-rejected',
-                    id: id
-                })
-            });
-        }
+    if (request.input('show') === 'mine') {
+      query.where('j.user_id', auth.id);
     }
+
+    await buildSearchQuery(request, ['p.name', 'd.name', 't.name', 'village'], query);
+
+    const pagination = await paginate(request, query);
+
+    // Load applicant count
+    const applicants = Array.from(
+      await db.query()
+        .select('*')
+        .count('id as count')
+        .from('applications')
+        .groupBy('job_id')
+        .whereIn('job_id', pagination.data.map(item => item.id)),
+    );
+
+    pagination.data.forEach(item => {
+      let removeIndex;
+
+      applicants.some((applicant, index) => {
+        const ok = applicant.job_id === item.id;
+
+        if (ok) {
+          removeIndex = index;
+          item.applicants = applicant.count;
+        }
+
+        return ok;
+      });
+
+      if (removeIndex) {
+        applicants.splice(removeIndex, 1);
+      }
+    });
+
+    return pagination;
+  }
+
+  async store({request, response, auth}) {
+
+    const data = request.only(Object.keys(rules));
+
+    const validation = await validate(data, rules);
+
+    data.admin_job = 1;
+    data.approved = 1;
+
+    if (validation.fails()) {
+      return response.status(422).send('');
+    }
+
+    data.user_id = auth.id;
+    data.negotiable = data.negotiable ? 1 : 0;
+
+    const job = new Job;
+
+    for (const key in data) {
+      job[key] = data[key];
+    }
+
+    await job.save();
+
+    return job.id;
+  }
+
+  async edit({params, response}) {
+    const job = await db.query()
+      .select(Object.keys(rules))
+      .from(this.table)
+      .where('id', params.id)
+      .where('admin_job', 1)
+      .first();
+
+
+    if (!job) {
+      return response.status(404).send('');
+    }
+
+    return job;
+  }
+
+  async update({request, response, auth, params}) {
+
+    const data = request.only(Object.keys(rules));
+
+    const validation = await validate(data, rules);
+
+    if (validation.fails()) {
+      return response.status(422).send('');
+    }
+
+
+    const job = await Job.query().where('admin_job', 1).where('id', params.id).first();
+
+    if (job.user_id !== auth.id) {
+      return response.status(404).send('');
+    }
+
+    data.negotiable = data.negotiable ? 1 : 0;
+
+    for (const key in data) {
+      job[key] = data[key];
+    }
+
+    await job.save();
+
+    return job.id;
+  }
+
+  async destroy({params, response}) {
+    try {
+      await db.query().from(this.table).where('id', params.id).where('admin_job', 1).delete();
+    } catch (e) {
+      return response.status(422).send('');
+    }
+  }
 }
 
 module.exports = JobController;

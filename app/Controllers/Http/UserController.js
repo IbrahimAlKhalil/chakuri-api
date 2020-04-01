@@ -297,7 +297,7 @@ class UserController {
 
 
     await User.query()
-      .update({password: request.input('pass')})
+      .update({password: await Hash.make(request.input('pass'))})
       .where('id', auth.id);
 
     return '';
@@ -591,17 +591,16 @@ class UserController {
 
     // Send SMS
 
-    await sendSMS(data.mobile, `Your password reset code from khidmat is ${token}`);
+    await sendSMS(data.mobile, `Your password reset code from Khidmat is ${token}`);
 
     return {key: payload};
   }
 
-  async profile({request, auth}) {
+  async profile({auth}) {
     const data = await Promise.all([
       db.select('payload', 'type', 'last_send', 'try', 'auto_delete')
         .from('verification_tokens')
-        .where('type', 'email')
-        .orWhere('type', 'mobile')
+        .whereIn('type', ['email', 'mobile'])
         .where('user_id', auth.id),
       User.query()
         .select('mobile', 'email', 'description', 'address', 'verified')

@@ -132,10 +132,13 @@ Route.group(() => {
 
 
 Route.group(() => {
-  Route.get('/job-requests', 'JobController.index')
+  Route.get('/job-requests', 'JobRequestController.index')
     .middleware('moderator:job-requests');
-  Route.post('/job-requests', 'JobController.action')
+  Route.post('/job-requests', 'JobRequestController.action')
     .middleware('moderator:job-requests');
+
+  Route.resource('/jobs', 'JobController').middleware('moderator:post-job');
+
   Route.resource('/roles', 'RoleController').middleware('moderator:roles');
 
   Route.get('/permissions', 'PermissionController.index').middleware('moderator:roles,moderators');

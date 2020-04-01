@@ -170,9 +170,9 @@ class JobFilterController {
                j.deadline,
                j.created_at,
                case j.gender
-                 when 1 then 'পুরুষ অথবা মহিলা'
-                 when 2 then 'পুরুষ'
-                 when 3 then 'মহিলা'
+                 when 1 then 'পুরুষ'
+                 when 2 then 'মহিলা'
+                 when 3 then 'পুরুষ অথবা মহিলা'
                  end                                         as gender,
                f.name                                        as logo,
                case j.admin_job
@@ -219,9 +219,9 @@ class JobFilterController {
              j.deadline,
              j.created_at,
              case j.gender
-               when 1 then 'পুরুষ অথবা মহিলা'
-               when 2 then 'পুরুষ'
-               when 3 then 'মহিলা'
+               when 1 then 'পুরুষ'
+               when 2 then 'মহিলা'
+               when 3 then 'পুরুষ অথবা মহিলা'
                end                                         as gender,
              f.name                                        as logo,
              case j.admin_job

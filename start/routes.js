@@ -33,6 +33,7 @@ Route.post('/register', 'UserController.register').middleware('guest');
 /****************** Job filter ********************/
 
 Route.post('/job-filter/filter', 'JobFilterController.filter');
+Route.get('/job-filter/special-jobs', 'JobFilterController.specialJobs');
 Route.resource('/job-filter', 'JobFilterController').only(['index', 'show']);
 
 

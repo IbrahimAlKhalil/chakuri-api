@@ -44,7 +44,7 @@ class JobFilterController {
       .join('districts as d', 'j.district_id', 'd.id')
       .join('thanas as t', 'j.thana_id', 't.id')
       .join('users as u', 'j.user_id', 'u.id')
-      .join('institutions as i', 'i.user_id', 'j.user_id')
+      .leftJoin('institutions as i', 'i.user_id', 'j.user_id')
       .leftJoin('file_user', 'j.user_id', 'file_user.user_id')
       .leftJoin('files as f', 'file_user.file_id', 'f.id')
       .where('j.approved', 1)
@@ -97,10 +97,8 @@ class JobFilterController {
     const page = Number(request.input('page', 1));
     const perPage = Number(request.input('perPage', 8));
 
-    /*const data =*/
-    return await query.paginate(page, perPage);
 
-    // return new Array(perPage).fill(data.rows[0])
+    return query.paginate(page, perPage);
   }
 
   async index({request, response}) {
@@ -136,7 +134,36 @@ class JobFilterController {
       .join('thanas', 'jobs.thana_id', 'thanas.id')
       .join('users', 'jobs.user_id', 'users.id')
       .where('jobs.approved', 1)
-      .where('jobs.special', Number(request.input('special', 'no') === 'yes'))
+      .leftJoin('files', 'users.photo', 'files.id')
+      .orderBy('jobs.updated_at', 'DESC')
+      .limit(request.input('perPage', 10));
+  }
+
+  async specialJobs({request, response}) {
+    const validation = await validate(request.only(['perPage']), {
+      perPage: 'integer|max:30',
+      special: 'in:yes',
+    });
+
+    if (validation.fails()) {
+      return response.status(422).send();
+    }
+
+    // TODO: Show only approved
+
+    return await db.select(
+      'jobs.id',
+      'institute_name',
+      'admin_job',
+      'positions.name as position',
+      'users.name as institute',
+      'files.name as logo',
+    )
+      .from('jobs')
+      .join('positions', 'jobs.position_id', 'positions.id')
+      .join('users', 'jobs.user_id', 'users.id')
+      .where('jobs.approved', 1)
+      .where('jobs.special', 1)
       .leftJoin('files', 'users.photo', 'files.id')
       .orderBy('jobs.updated_at', 'DESC')
       .limit(request.input('perPage', 10));

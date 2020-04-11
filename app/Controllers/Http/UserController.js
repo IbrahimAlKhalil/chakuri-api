@@ -47,6 +47,7 @@ class UserController {
       await Resume.create({
         user_id: user.id,
         mobile: user.mobile,
+        nationality: 'বাংলাদেশী',
       });
     } else if (type === 2) {
       await db.table('institutions')

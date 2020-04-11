@@ -439,7 +439,7 @@ class UserController {
     return '';
   }
 
-  async getCategoryAndType() {
+  async getCategoryAndType({auth}) {
     const data = await Promise.all([
       db.from('institutions as i')
         .select(
@@ -450,12 +450,15 @@ class UserController {
         )
         .leftJoin('categories as c', 'i.category_id', 'c.id')
         .leftJoin('institution_types as t', 'i.institution_type_id', 't.id')
+        .where('user_id', auth.id)
         .first(),
       db.from('categories')
         .select('id', 'name'),
       db.from('institution_types')
         .select('id', 'name'),
     ]);
+
+    console.log(data[0]);
 
     return {
       category: {

@@ -172,6 +172,7 @@ class JobFilterController {
   async show({params, response, auth}) {
     const user = await auth.user();
 
+    // Moderator
     if (user && user.type === 3 && (user.permissions.includes('all') || user.permissions.includes('job-requests'))) {
       const job = await db.raw(`
         select j.id,
@@ -232,6 +233,7 @@ class JobFilterController {
              j.education,
              j.age_from,
              j.age_to,
+             j.approved,
              j.experience_from,
              j.experience_to,
              j.negotiable,
@@ -264,10 +266,15 @@ class JobFilterController {
              left join file_user fu on u.id = fu.user_id
              left join files f on fu.file_id = f.id
       where j.id = ?
-        and j.approved = 1
     `, [params.id]);
 
-    if (job[0].length) {
+    // Institute
+    if (job[0].length && user && user.id === job[0][0].user_id) {
+      return job[0][0];
+    }
+
+    // User
+    if (job[0].length && job[0][0].approved === 1) {
       return job[0][0];
     }
 

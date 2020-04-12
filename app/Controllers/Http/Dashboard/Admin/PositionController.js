@@ -4,71 +4,93 @@ const db = use('Database');
 const {validate} = use('Validator');
 
 class PositionController {
-    constructor() {
-        this.table = 'positions'
+  constructor() {
+    this.table = 'positions'
+  }
+
+  async index({request, response}) {
+    const {validateIndex, buildSearchQuery, paginate} = require('../../../../helpers');
+
+    if (!(await validateIndex(request))) {
+      return response.status(422).send();
     }
 
-    async index({request, response}) {
-        const {validateIndex, buildSearchQuery, paginate} = require('../../../../helpers');
+    const query = db.query().from(this.table).orderBy('order');
 
-        if (!(await validateIndex(request))) {
-            return response.status(422).send();
-        }
+    await buildSearchQuery(request, ['name'], query);
 
-        const query = db.query().from(this.table);
+    return await paginate(request, query);
+  }
 
-        await buildSearchQuery(request, ['name'], query);
+  async store({request, response}) {
+    const data = request.only(['name']);
 
-        return await paginate(request, query);
+    const validation = await validate(data, {
+      name: 'required|string|max:190'
+    });
+
+    if (validation.fails()) {
+      return response.status(422).send();
     }
 
-    async store({request, response}) {
-        const data = request.only(['name']);
+    // Create position
+    const ids = await db.query()
+      .from(this.table)
+      .insert(data);
 
-        const validation = await validate(data, {
-            name: 'required|string|max:190'
-        });
+    return {
+      id: ids[0],
+      name: data.name
+    };
+  }
 
-        if (validation.fails()) {
-            return response.status(422).send();
-        }
+  async update({request, params, response}) {
+    const fields = ['name'];
 
-        // Create position
-        const ids = await db.query()
-            .from(this.table)
-            .insert(data);
+    const data = request.only(fields);
 
-        return {
-            id: ids[0],
-            name: data.name
-        };
+    const validation = await validate(data, {
+      name: 'string|max:190'
+    });
+
+    if (validation.fails()) {
+      return response.status(422).send();
     }
 
-    async update({request, params, response}) {
-        const fields = ['name'];
+    const {update} = require('../../../../helpers');
 
-        const data = request.only(fields);
+    await update(request, fields, this.table, params.id);
+  }
 
-        const validation = await validate(data, {
-            name: 'string|max:190'
-        });
+  async destroy({params, response}) {
+    try {
+      await db.query().from(this.table).where('id', params.id).delete();
+    } catch (e) {
+      return response.status(422).send('');
+    }
+  }
 
-        if (validation.fails()) {
-            return response.status(422).send();
-        }
+  async reorder({request}) {
+    const data = request.only(['orders']);
 
-        const {update} = require('../../../../helpers');
+    const validation = await validate(data, {
+      orders: 'required|array',
+    });
 
-        await update(request, fields, this.table, params.id);
+    if (validation.fails()) {
+      return response.status(422).send();
     }
 
-    async destroy({params, response}) {
-        try {
-            await db.query().from(this.table).where('id', params.id).delete();
-        } catch (e) {
-            return response.status(422).send('');
-        }
-    }
+    const filtered = data.orders.filter(item => !isNaN(Number(item.order)) && !isNaN(Number(item.id)));
+
+    await Promise.all(filtered.map(
+      item => db.from(this.table).where('id', item.id).update({
+        order: item.order
+      })
+    ));
+
+    return '';
+  }
 }
 
 module.exports = PositionController;

@@ -155,6 +155,9 @@ Route.group(() => {
     .middleware('moderator:users')
     .only(['index', 'destroy']);
 
+  Route.post('/positions/reorder', 'PositionController.reorder')
+    .middleware('moderator:positions');
+
   Route.resource('/positions', 'PositionController')
     .only(['index', 'store', 'update', 'destroy'])
     .middleware('moderator:positions');

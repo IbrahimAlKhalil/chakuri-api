@@ -293,7 +293,12 @@ class JobController {
     }
 
     data.user_id = auth.id;
-    data.negotiable = data.negotiable ? 1 : 0;
+
+    const booleans = ['negotiable', 'special'];
+
+    booleans.forEach(item => {
+      data[item] = data[item] ? 1 : 0;
+    })
 
     const job = new Job;
 

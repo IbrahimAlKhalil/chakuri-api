@@ -459,8 +459,6 @@ class UserController {
         .select('id', 'name'),
     ]);
 
-    console.log(data[0]);
-
     return {
       category: {
         options: data[1],

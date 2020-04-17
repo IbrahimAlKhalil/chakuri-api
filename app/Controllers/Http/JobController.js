@@ -1,6 +1,6 @@
 'use strict';
 
-const {validate} = use('Validator');
+const { validate } = use('Validator');
 const db = use('Database');
 const Job = use('App/Models/Job');
 const JobRequest = use('App/Models/JobRequest');
@@ -33,8 +33,8 @@ class JobController {
     this.table = 'jobs';
   }
 
-  async index({request, response, auth}) {
-    const {validateIndex, buildSearchQuery, paginate} = require('../../helpers');
+  async index({ request, response, auth }) {
+    const { validateIndex, buildSearchQuery, paginate } = require('../../helpers');
 
     if (!(await validateIndex(request))) {
       return response.status(422).send();
@@ -98,7 +98,7 @@ class JobController {
     return pagination;
   }
 
-  async show({auth, params, response}) {
+  async show({ auth, params, response }) {
     const data = await db.raw(`
       select j.id, concat(p.name, ' - ', j.village, ', ', t.name, ', ', d.name) as name
       from jobs j
@@ -116,7 +116,9 @@ class JobController {
     return data[0][0];
   }
 
-  async edit({auth, params, response}) {
+  async edit({ auth, params, response }) {
+    const { zeroPrefix } = require('../../helpers');
+
     const job = await db.query()
       .select(Object.keys(rules))
       .from(this.table)
@@ -129,10 +131,15 @@ class JobController {
       return response.status(404).send('');
     }
 
+    const d = new Date(job.deadline);
+
+    job.deadline = `${d.getFullYear()}-${zeroPrefix(d.getMonth() + 1)}-${zeroPrefix(d.getDate())}`
+
+
     return job;
   }
 
-  async update({request, response, auth, params}) {
+  async update({ request, response, auth, params }) {
 
     const data = request.only(Object.keys(rules));
 
@@ -176,7 +183,7 @@ class JobController {
   }
 
   async createJobRequest(job) {
-    const {moderators: getMods, randomNumber} = require('../../helpers');
+    const { moderators: getMods, randomNumber } = require('../../helpers');
 
     const moderators = await getMods();
 
@@ -186,7 +193,7 @@ class JobController {
     // TODO: Add option to dashboard to enable admin notification about new job
     // TODO: Add option to admin broadcast which will send every job to admins online
     const permittedMods = moderators.filter(mod => {
-      const {permissions} = mod;
+      const { permissions } = mod;
 
       // Push admin to admin array for late use
       if (mod.admin) {
@@ -236,7 +243,7 @@ class JobController {
   }
 
   async notifyModerator(job, user, mod) {
-    const {notify} = require('../../helpers');
+    const { notify } = require('../../helpers');
 
     const room = io.to(`u-${mod.id}`);
 
@@ -282,7 +289,7 @@ class JobController {
     });
   }
 
-  async store({request, response, auth}) {
+  async store({ request, response, auth }) {
 
     const data = request.only(Object.keys(rules));
 
@@ -317,7 +324,7 @@ class JobController {
     return job.id;
   }
 
-  async destroy({params, response}) {
+  async destroy({ params, response }) {
     try {
       await db.query().from(this.table).where('id', params.id).delete();
     } catch (e) {

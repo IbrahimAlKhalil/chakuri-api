@@ -45,8 +45,7 @@ class JobFilterController {
       .join('thanas as t', 'j.thana_id', 't.id')
       .join('users as u', 'j.user_id', 'u.id')
       .leftJoin('institutions as i', 'i.user_id', 'j.user_id')
-      .leftJoin('file_user', 'j.user_id', 'file_user.user_id')
-      .leftJoin('files as f', 'file_user.file_id', 'f.id')
+      .leftJoin('files as f', 'f.id', 'u.photo')
       .where('j.approved', 1)
       .orderBy('j.updated_at', 'DESC');
 

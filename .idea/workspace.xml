@@ -21,6 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3573a354-37c5-443d-be4c-4aaa1b776e61" name="Default Changelist" comment="fix: institute can't preview pending jobs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/JobFilterController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/JobFilterController.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -346,6 +347,8 @@
       <workItem from="1586234538638" duration="626000" />
       <workItem from="1586615694944" duration="3047000" />
       <workItem from="1586649143497" duration="7327000" />
+      <workItem from="1587485096836" duration="1868000" />
+      <workItem from="1587791074444" duration="5170000" />
     </task>
     <task id="LOCAL-00001" summary="Allow Bangla mobile number">
       <created>1579522306892</created>

@@ -75,13 +75,15 @@ class SettingController {
 
   async handleFile({request, params, auth, setting}) {
     const photo = request.file('value');
-    const name = `${require('md5')(photo)}.${photo.subtype}`;
 
     const file = new File;
-    file.name = `settings/${name}`;
     file.mime_type = photo.headers['content-type'];
     file.file_type_id = 4;
     await file.save();
+
+    const name = `${file.id}.${photo.subtype}`;
+
+    file.name = `settings/${name}`;
 
     const oldFile = await db.query()
       .from('files as f')

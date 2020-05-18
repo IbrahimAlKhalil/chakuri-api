@@ -1,32 +1,8 @@
 'use strict';
 
-const {validate} = use('Validator');
+const createJob = require('../../../../create-job/create');
+const updateJob = require('../../../../create-job/update');
 const db = use('Database');
-const Job = use('App/Models/Job');
-
-const rules = {
-  position_id: 'required|integer|exists:positions,id',
-  vacancy: 'max:9999999',
-  salary_from: 'max:999999999999',
-  salary_to: 'max:99999999999',
-  negotiable: 'in:1,0',
-  special: 'in:1,0',
-  nature: 'in:1,2',
-  responsibilities: 'string|max:5000',
-  deadline: `required|date|after:${new Date(Date.now() + 4.32e+7)}`,
-  district_id: 'required|integer|exists:districts,id',
-  thana_id: 'required|integer|exists:thanas,id',
-  village: 'required|string|max:150',
-  experience_from: 'integer|max:9999999',
-  experience_to: 'max:9999999',
-  education: 'max:500',
-  gender: 'in:1,2,3',
-  age_from: 'max:999999999',
-  age_to: 'max:999999999',
-  additional: 'string|max:5000',
-  how_to_apply: 'required|string|max:5000',
-  institute_name: 'required|string|max:200',
-};
 
 class JobController {
   constructor() {
@@ -47,6 +23,7 @@ class JobController {
       .join('districts as d', 'j.district_id', 'd.id')
       .join('thanas as t', 'j.thana_id', 't.id')
       .where('j.admin_job', 1)
+      .where('j.rejected', 0)
       .orderBy('j.created_at', 'DESC');
 
     if (request.input('show') === 'mine') {
@@ -90,35 +67,25 @@ class JobController {
   }
 
   async store({request, response, auth}) {
+    const user = await auth.user(['f.id as photoId']);
 
-    const data = request.only(Object.keys(rules));
+    const jobId = await createJob(
+      request,
+      response,
+      user,
+      user.roles.includes('Admin'),
+      true
+    )
 
-    const validation = await validate(data, rules);
-
-    data.admin_job = 1;
-    data.approved = 1;
-
-    if (validation.fails()) {
+    if (!jobId) {
       return response.status(422).send('');
     }
 
-    data.user_id = auth.id;
-    data.negotiable = data.negotiable ? 1 : 0;
-
-    const job = new Job;
-
-    for (const key in data) {
-      job[key] = data[key];
-    }
-
-    await job.save();
-
-    return job.id;
+    return jobId;
   }
 
   async edit({params, response}) {
     const job = await db.query()
-      .select(Object.keys(rules))
       .from(this.table)
       .where('id', params.id)
       .where('admin_job', 1)
@@ -133,31 +100,23 @@ class JobController {
   }
 
   async update({request, response, auth, params}) {
+    const user = await auth.user(['f.id as photoId']);
 
-    const data = request.only(Object.keys(rules));
+    const jobId = await updateJob(
+      request,
+      response,
+      params.id,
+      user,
+      user.roles.includes('Admin'),
+      false,
+      true
+    );
 
-    const validation = await validate(data, rules);
-
-    if (validation.fails()) {
+    if (!jobId) {
       return response.status(422).send('');
     }
 
-
-    const job = await Job.query().where('admin_job', 1).where('id', params.id).first();
-
-    if (job.user_id !== auth.id) {
-      return response.status(404).send('');
-    }
-
-    data.negotiable = data.negotiable ? 1 : 0;
-
-    for (const key in data) {
-      job[key] = data[key];
-    }
-
-    await job.save();
-
-    return job.id;
+    return jobId;
   }
 
   async destroy({params, response}) {

@@ -206,7 +206,8 @@ class JobFilterController {
                  when 0 then u.name
                  when 1 then j.institute_name
                  end                                         as institute,
-               p.name                                        as position
+               p.name                                        as position,
+               jr.moderator as assignee
         from jobs j
                join positions p on j.position_id = p.id
                join districts d on j.district_id = d.id
@@ -214,6 +215,7 @@ class JobFilterController {
                join users u on j.user_id = u.id
                left join file_user fu on u.id = fu.user_id
                left join files f on fu.file_id = f.id
+               left join job_requests jr on j.id = jr.job_id
         where j.id = ?
       `, [params.id]);
 

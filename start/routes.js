@@ -22,6 +22,7 @@ const Route = use('Route');
 /************ Common *************/
 Route.get('/time', 'CommonController.time');
 Route.get('/institute-jobs-count', 'CommonController.institutionCount');
+Route.get('/banners', 'CommonController.banners');
 Route.get('/favorite-and-applied/:jobId', 'CommonController.favoriteAndApplied')
   .middleware('auth')
   .middleware('employee');
@@ -124,6 +125,7 @@ Route.group(() => {
   Route.post('/notifications/:id', 'NotificationController.seen');
   Route.get('/activities/notificationClick', 'ActivityController.notificationClick');
 
+  Route.get('/jobs/can-store', 'JobController.canStore').middleware('institute');
   Route.resource('/jobs', 'JobController').middleware('institute');
   Route.resource('/job-applications', 'JobApplicationController')
     .only(['index', 'destroy', 'show', 'update'])
@@ -136,6 +138,8 @@ Route.group(() => {
   Route.get('/job-requests', 'JobRequestController.index')
     .middleware('moderator:job-requests');
   Route.post('/job-requests', 'JobRequestController.action')
+    .middleware('moderator:job-requests');
+  Route.post('/job-requests/assign/:id', 'JobRequestController.assign')
     .middleware('moderator:job-requests');
 
   Route.resource('/jobs', 'JobController').middleware('moderator:post-job');
@@ -184,6 +188,16 @@ Route.group(() => {
 
   Route.resource('/menus', 'MenuController')
     .middleware('moderator:menu');
+
+  Route.resource('/banners', 'BannerController')
+    .only(['index', 'store', 'update', 'destroy'])
+    .middleware('moderator:banner');
+  Route.post('/banners/reorder', 'BannerController.reorder')
+    .middleware('moderator:banner');
+
+  Route.resource('/banner-places', 'BannerPlaceController')
+    .only(['index'])
+    .middleware('moderator:banner');
 
   Route.resource('/menu-items', 'MenuItemController')
     .middleware('moderator:menu');

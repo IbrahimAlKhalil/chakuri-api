@@ -10,6 +10,7 @@ const Hash = use('Hash');
 const Route = use('Route');
 const {validate} = use('Validator');
 const crypto = require('crypto');
+const Event = use('Event')
 const emailTemplate = require('../../../templates/email-verification');
 
 
@@ -142,7 +143,12 @@ class VerificationController {
       return response.status(422).send('');
     }
 
-    await sendSMS(verification.payload, `Your verification code from Khidmat is ${verification.token}`);
+    Event.fire('send-sms', {
+      mobile: verification.payload,
+      message: `আপনার ভেরিফিকেশন কোড হচ্ছেঃ ${verification.token}
+
+খিদমাত বিডি।`
+    });
 
     verification.last_send = Date.now();
     await verification.save();
@@ -203,7 +209,12 @@ class VerificationController {
         await VerificationController.sendMail(verification.token, data.payload, request);
         break;
       default:
-        await sendSMS(data.payload, `Your verification code from KhidmatBD is ${verification.token}`);
+        Event.fire('send-sms', {
+          mobile: data.payload,
+          message: `আপনার ভেরিফিকেশন কোড হচ্ছেঃ ${verification.token}
+
+খিদমাত বিডি।`
+        });
     }
 
     verification.last_send = Date.now();

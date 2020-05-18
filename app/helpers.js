@@ -6,10 +6,9 @@ const VerificationToken = use('App/Models/VerificationToken');
 const Notification = use('App/Models/Notification');
 const Encryption = use('Encryption');
 const crypto = require('crypto');
-const fetch = require('node-fetch');
-const FormData = require('form-data');
 const db = use('Database');
 const {validate} = use('Validator');
+const io = require('../start/socket');
 
 const helpers = {
   truncateMobile(mobile) {
@@ -139,31 +138,6 @@ const helpers = {
     return Promise.resolve(verification);
   },
 
-  async sendSMS(contacts, msg) {
-    if (Env.get('NODE_ENV') === 'development') {
-      return;
-    }
-
-    const body = new FormData;
-    const data = {
-      api_key: Env.get('SMS_API_KEY'),
-      type: 'text',
-      contacts,
-      senderid: Env.get('SMS_SENDER_ID'),
-      msg,
-      method: 'api',
-    };
-
-    for (let key in data) {
-      body.append(key, data[key]);
-    }
-
-    await fetch(`http://portal.smsinbd.com/smsapi`, {
-      method: 'POST',
-      body,
-    });
-  },
-
   wait(duration) {
     return new Promise(resolve => {
       setTimeout(resolve, duration);
@@ -171,7 +145,9 @@ const helpers = {
   },
 
   async notify(payload) {
-    await Notification.create(payload);
+    const notification = await Notification.create(payload);
+
+    io.to('u-' + notification.user_id).emit('n', notification);
   },
 
   async moderators() {

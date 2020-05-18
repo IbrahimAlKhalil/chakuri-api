@@ -12,6 +12,7 @@ const {validate} = use('Validator');
 const Hash = use('Hash');
 const Route = use('Route');
 const Mail = use('Mail');
+const Event = use('Event')
 const crypto = require('crypto');
 const emailTemplate = require('../../../templates/email-verification');
 const {truncateMobile, generateVerification, sendSMS, bnToEn} = require('../../helpers');
@@ -60,8 +61,12 @@ class UserController {
 
 
     // Send verification code
-    await sendSMS(user.mobile, `Your verification code from Khidmat is ${verification.token}`);
+    Event.fire('send-sms', {
+      mobile: data.mobile,
+      message: `আপনার ভেরিফিকেশন কোড হচ্ছেঃ ${verification.token}
 
+খিদমাত বিডি।`
+    });
 
     // Attempt to login
     return await auth.login(
@@ -266,7 +271,12 @@ class UserController {
     await verification.save();
 
     // Send message
-    await sendSMS(verification.payload, `Your verification code from Khidmat is ${verification.token}`);
+    Event.fire('send-sms', {
+      mobile: verification.payload,
+      message: `আপনার ভেরিফিকেশন কোড হচ্ছেঃ ${verification.token}
+
+খিদমাত বিডি।`
+    })
 
     return '';
   }
@@ -593,7 +603,12 @@ class UserController {
 
     // Send SMS
 
-    await sendSMS(data.mobile, `Your password reset code from Khidmat is ${token}`);
+    Event.fire('send-sms', {
+      mobile: data.mobile,
+      message: `আপনার ভেরিফিকেশন কোড হচ্ছেঃ ${token}
+
+খিদমাত বিডি।`
+    });
 
     return {key: payload};
   }

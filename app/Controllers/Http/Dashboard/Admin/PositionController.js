@@ -70,7 +70,7 @@ class PositionController {
     }
   }
 
-  async reorder({request}) {
+  async reorder({request, response}) {
     const data = request.only(['orders']);
 
     const validation = await validate(data, {

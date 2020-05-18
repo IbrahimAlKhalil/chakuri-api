@@ -4,119 +4,119 @@ const db = use('Database');
 const {validate} = use('Validator');
 
 class MenuItemController {
-    constructor() {
-        this.table = 'menu_items';
+  constructor() {
+    this.table = 'menu_items';
+  }
+
+  async index({request, response}) {
+    const {validateIndex, buildSearchQuery, paginate} = require('../../../../helpers');
+
+    const fields = ['parent'];
+    const rules = {
+      parent: 'integer'
+    };
+
+    if (!(await validateIndex(request, fields, rules))) {
+      return response.status(422).send();
     }
 
-    async index({request, response}) {
-        const {validateIndex, buildSearchQuery, paginate} = require('../../../../helpers');
+    const query = db.query()
+      .from(this.table)
+      .orderBy('order');
 
-        const fields = ['parent'];
-        const rules = {
-            parent: 'integer'
-        };
+    const parent = Number(request.input('parent'));
 
-        if (!(await validateIndex(request, fields, rules))) {
-            return response.status(422).send();
-        }
-
-        const query = db.query()
-            .from(this.table)
-            .orderBy('order');
-
-        const parent = Number(request.input('parent'));
-
-        if (parent) {
-            query.where('menu_id', parent);
-        }
-
-        await buildSearchQuery(request, ['label', 'type', 'link'], query);
-
-        return await paginate(request, query);
+    if (parent) {
+      query.where('menu_id', parent);
     }
 
-    async store({request, response}) {
-        const data = request.only(['label', 'menu_id', 'type', 'link']);
+    await buildSearchQuery(request, ['label', 'type', 'link'], query);
 
-        const validation = await validate(data, {
-            label: 'required|string|max:190',
-            menu_id: 'required|integer|exists:menus,id',
-            type: 'required|in:page,custom',
-            link: 'required|string|max:1000'
-        });
+    return await paginate(request, query);
+  }
 
-        if (validation.fails()) {
-            return response.status(422).send();
-        }
+  async store({request, response}) {
+    const data = request.only(['label', 'menu_id', 'type', 'link']);
 
-        // Set order
-        const items = await db.table('menu_items')
-            .count('id as count')
-            .where('menu_id', data.menu_id)
-            .first();
+    const validation = await validate(data, {
+      label: 'required|string|max:190',
+      menu_id: 'required|integer|exists:menus,id',
+      type: 'required|in:page,custom',
+      link: 'required|string|max:1000'
+    });
 
-        data.order = items.count + 1;
-
-        // Create category
-        const ids = await db.query()
-            .from(this.table)
-            .insert(data);
-
-        return {
-            id: ids[0],
-            ...data
-        };
+    if (validation.fails()) {
+      return response.status(422).send();
     }
 
-    async update({request, params, response}) {
-        const fields = ['label', 'type', 'link'];
+    // Set order
+    const items = await db.table('menu_items')
+      .count('id as count')
+      .where('menu_id', data.menu_id)
+      .first();
 
-        const data = request.only(fields);
+    data.order = items.count + 1;
 
-        const validation = await validate(data, {
-            label: 'string|max:190',
-            type: 'string|in:page,custom',
-            link: 'string|max:1000'
-        });
+    // Create category
+    const ids = await db.query()
+      .from(this.table)
+      .insert(data);
 
-        if (validation.fails()) {
-            return response.status(422).send();
-        }
+    return {
+      id: ids[0],
+      ...data
+    };
+  }
 
-        const {update} = require('../../../../helpers');
+  async update({request, params, response}) {
+    const fields = ['label', 'type', 'link'];
 
-        await update(request, fields, this.table, params.id);
+    const data = request.only(fields);
+
+    const validation = await validate(data, {
+      label: 'string|max:190',
+      type: 'string|in:page,custom',
+      link: 'string|max:1000'
+    });
+
+    if (validation.fails()) {
+      return response.status(422).send();
     }
 
-    async destroy({params, response}) {
-        try {
-            await db.query().from(this.table).where('id', params.id).delete();
-        } catch (e) {
-            return response.status(422).send('');
-        }
+    const {update} = require('../../../../helpers');
+
+    await update(request, fields, this.table, params.id);
+  }
+
+  async destroy({params, response}) {
+    try {
+      await db.query().from(this.table).where('id', params.id).delete();
+    } catch (e) {
+      return response.status(422).send('');
+    }
+  }
+
+  async reorder({request, response}) {
+    const data = request.only(['orders']);
+
+    const validation = await validate(data, {
+      orders: 'required|array',
+    });
+
+    if (validation.fails()) {
+      return response.status(422).send();
     }
 
-    async reorder({request}) {
-        const data = request.only(['orders']);
+    const filtered = data.orders.filter(item => !isNaN(Number(item.order)) && !isNaN(Number(item.id)));
 
-        const validation = await validate(data, {
-            orders: 'required|array',
-        });
+    await Promise.all(filtered.map(
+      item => db.from('menu_items').where('id', item.id).update({
+        order: item.order
+      })
+    ));
 
-        if (validation.fails()) {
-            return response.status(422).send();
-        }
-
-        const filtered = data.orders.filter(item => !isNaN(Number(item.order)) && !isNaN(Number(item.id)));
-
-        await Promise.all(filtered.map(
-            item => db.from('menu_items').where('id', item.id).update({
-                order: item.order
-            })
-        ));
-
-        return '';
-    }
+    return '';
+  }
 }
 
 module.exports = MenuItemController;

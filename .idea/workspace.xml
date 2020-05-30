@@ -19,33 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3573a354-37c5-443d-be4c-4aaa1b776e61" name="Default Changelist" comment="fix: job shows multiple times">
-      <change afterPath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/BannerController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/BannerPlaceController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/create-job/admin-job-rules.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/create-job/create.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/create-job/default-rules.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/create-job/find-reviewers.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/create-job/notify.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/create-job/set-props.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/create-job/update.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/start/events.js" afterDir="false" />
+    <list default="true" id="3573a354-37c5-443d-be4c-4aaa1b776e61" name="Default Changelist" comment="feat: add banner management functionality">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/ApplicationController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/ApplicationController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Controllers/Http/CommonController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/CommonController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/JobController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/JobController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/JobRequestController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/JobRequestController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/MenuItemController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/MenuItemController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/ModeratorController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/ModeratorController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/PositionController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/PositionController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/SettingController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/SettingController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/JobController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/JobController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/JobFilterController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/JobFilterController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/UserController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/UserController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/VerificationController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/VerificationController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Notification.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Notification.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/helpers.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/helpers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/start/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -390,7 +367,9 @@
       <workItem from="1589725860252" duration="12630000" />
       <workItem from="1589808562888" duration="1115000" />
       <workItem from="1589811057675" duration="785000" />
-      <workItem from="1589814262667" duration="7436000" />
+      <workItem from="1589814262667" duration="8068000" />
+      <workItem from="1590768371423" duration="22000" />
+      <workItem from="1590768406835" duration="87000" />
     </task>
     <task id="LOCAL-00001" summary="Allow Bangla mobile number">
       <created>1579522306892</created>
@@ -455,7 +434,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587804318512</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="feat: add banner management functionality">
+      <created>1589835891689</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1589835891689</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -483,7 +469,8 @@
     <MESSAGE value="fix: can't save job because of boolean value" />
     <MESSAGE value="fix: institute can't preview pending jobs" />
     <MESSAGE value="fix: job shows multiple times" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: job shows multiple times" />
+    <MESSAGE value="feat: add banner management functionality" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add banner management functionality" />
   </component>
   <component name="WindowStateProjectService">
     <state x="516" y="191" width="624" height="542" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1586061517409">
@@ -502,10 +489,10 @@
       <screen x="56" y="27" width="1310" height="741" />
     </state>
     <state x="464" y="81" width="483" height="640" key="RollbackChangesDialog/56.27.1310.741@56.27.1310.741" timestamp="1586669247053" />
-    <state x="364" y="170" width="802" height="543" key="Vcs.Push.Dialog.v2" timestamp="1586654380702">
+    <state x="364" y="170" width="802" height="543" key="Vcs.Push.Dialog.v2" timestamp="1589835898378">
       <screen x="56" y="27" width="1310" height="741" />
     </state>
-    <state x="364" y="170" width="802" height="543" key="Vcs.Push.Dialog.v2/56.27.1310.741@56.27.1310.741" timestamp="1586654380702" />
+    <state x="364" y="170" width="802" height="543" key="Vcs.Push.Dialog.v2/56.27.1310.741@56.27.1310.741" timestamp="1589835898378" />
     <state x="428" y="195" width="800" height="534" key="Vcs.Push.Dialog.v2/67.27.1533.873@67.27.1533.873" timestamp="1585742320026" />
     <state x="552" y="121" width="552" height="683" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1584963666993">
       <screen x="67" y="27" width="1533" height="873" />

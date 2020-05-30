@@ -10,7 +10,7 @@ class CommonController {
   async institutionCount() {
     const counts = await Promise.all([
       db.from('institutions').count('id as count'),
-      db.from('jobs').where('approved', 0).count('id as count')
+      db.from('jobs').where('approved', 1).count('id as count')
     ]);
 
 

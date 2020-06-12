@@ -191,36 +191,6 @@ const helpers = {
     }
   },
 
-  async removeModerator(id) {
-    let key;
-
-    const moderators = await helpers.moderators();
-
-    moderators.some((moderator, index) => {
-      const ok = moderator.id === id;
-
-      if (ok) {
-        key = index;
-      }
-
-      return ok;
-    });
-
-    if (key) {
-      moderators.splice(key, 1);
-    }
-
-    await redisClient.setAsync('moderators', JSON.stringify(moderators));
-  },
-
-  async addModerator(moderator) {
-    const moderators = await helpers.moderators();
-
-    moderators.push(moderator);
-
-    await redisClient.setAsync('moderators', JSON.stringify(moderators));
-  },
-
   async buildSearchQuery(request, cols, query, call) {
     const keyword = request.input('keyword');
 

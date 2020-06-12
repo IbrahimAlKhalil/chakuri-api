@@ -75,7 +75,7 @@ class ModeratorController {
       return response.status(422).send();
     }
 
-    const {generateVerification, sendSMS, addModerator} = require('../../../../helpers');
+    const {generateVerification, loadModerators} = require('../../../../helpers');
 
     // Create user
     const user = await User.create(
@@ -101,12 +101,6 @@ class ModeratorController {
       .join('role_permission as rp', 'p.id', 'rp.permission_id')
       .whereIn('rp.role_id', data.roles.map(id => id));
 
-    // Cache moderator
-    await addModerator({
-      id: user.id,
-      permissions: permissions.map(p => p.name)
-    });
-
     // Generate verification token
     const verification = await generateVerification(user.id, 'mobile', data.mobile, false, Math.floor(100000 + Math.random() * 900000));
 
@@ -131,6 +125,9 @@ class ModeratorController {
       .where('ru.user_id', user.id);
 
     user.roles = roles.map(item => ({id: item.id, name: item.name}));
+
+    // Cache moderator
+    await loadModerators();
 
     return user;
   }
@@ -182,7 +179,7 @@ class ModeratorController {
       user_id: params.id
     })));
 
-    return '';
+    return await require('../../../../helpers').loadModerators();
   }
 
   async destroy({params, response, auth}) {
@@ -213,32 +210,13 @@ class ModeratorController {
     }
 
 
-    const {removeModerator, addModerator} = require('../../../../helpers');
-
-    if (user.disabled) {
-      // Get permissions
-      const permissions = await db.query()
-        .from('permissions as p')
-        .distinct('name')
-        .join('role_permission as rp', 'p.id', 'rp.permission_id')
-        .whereIn('rp.role_id', roles.map(role => role.role_id));
-
-      // Cache moderator
-      await addModerator({
-        id: user.id,
-        permissions: permissions.map(p => p.name)
-      });
-    } else {
-      await removeModerator(user.id);
-    }
-
     await User.query()
       .update({
         disabled: !user.disabled
       })
       .where('id', user.id);
 
-    return '';
+    return await require('../../../../helpers').loadModerators();
   }
 }
 

@@ -37,27 +37,38 @@ class JobRequestController {
       .where('u.id', '!=', auth.id)
       .orderBy('j.created_at', 'DESC');
 
+    if (!(await this.canReviewAdminJob(auth))) {
+      query.where('j.admin_job', 0);
+    }
+
     await buildSearchQuery(request, ['u.name', 'p.name', 'd.name', 't.name'], query);
 
     return await paginate(request, query);
   }
 
   async assign({auth, response, params}) {
-    const reviewers = await findReviewers(auth.id);
     const {id} = params;
-
-    for (const reviewer of reviewers) {
-      const room = io.to(`u-${reviewer.id}`);
-
-      // Notify all the moderators who have been notified before about the request
-      room.emit('ja', id);
-    }
 
     // Check if the request is already assigned
     const jobRequest = await db.from('job_requests').where('job_id', id).first();
 
     if (jobRequest) {
       return response.status(422).send('This job is already assigned to someone');
+    }
+
+    const job = await Job.find(id);
+
+    if (job.admin_job && !(await this.canReviewAdminJob(auth))) {
+      return response.status(422).send('You are not permitted to review jobs posted by a moderator');
+    }
+
+    const reviewers = await findReviewers(auth.id);
+
+    for (const reviewer of reviewers) {
+      const room = io.to(`u-${reviewer.id}`);
+
+      // Notify all the moderators who have been notified before about the request
+      room.emit('ja', id);
     }
 
     await JobRequest.create({
@@ -93,6 +104,10 @@ class JobRequestController {
     }
 
     const job = await Job.find(request.input('id'));
+
+    if (job.admin_job && !(await this.canReviewAdminJob(auth))) {
+      return response.status(422).send('You are not permitted to review jobs posted by a moderator');
+    }
 
     // Delete previous rejected_job
     await db.query()
@@ -149,6 +164,14 @@ class JobRequestController {
         }),
       });
     }
+  }
+
+  async canReviewAdminJob(auth) {
+    const {permissions, roles} = (await auth.user());
+
+    return roles.includes('Admin')
+      || permissions.includes('all')
+      || permissions.includes('review-admin-job');
   }
 }
 

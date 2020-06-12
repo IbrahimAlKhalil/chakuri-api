@@ -19,10 +19,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3573a354-37c5-443d-be4c-4aaa1b776e61" name="Default Changelist" comment="feat: add banner management functionality">
+    <list default="true" id="3573a354-37c5-443d-be4c-4aaa1b776e61" name="Default Changelist" comment="fix: show approved job count">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/CommonController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/CommonController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/JobRequestController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/JobRequestController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/ModeratorController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/ModeratorController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/RoleController.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin/RoleController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/create-job/find-reviewers.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/create-job/find-reviewers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/create-job/notify.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/create-job/notify.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/helpers.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/helpers.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,12 +83,13 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="TERMINAL_CUSTOM_COMMANDS_GOT_IT" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="database.console.LAST_STATE" value="false" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="javascript.nodejs.core.library.configured.version" value="13.12.0" />
     <property name="last.edited.regexp" value="12321231321312321321231231" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Controllers/Http/Dashboard/Admin" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../khidmat-client" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -370,6 +375,8 @@
       <workItem from="1589814262667" duration="8068000" />
       <workItem from="1590768371423" duration="22000" />
       <workItem from="1590768406835" duration="87000" />
+      <workItem from="1590823277309" duration="710000" />
+      <workItem from="1591949041335" duration="6713000" />
     </task>
     <task id="LOCAL-00001" summary="Allow Bangla mobile number">
       <created>1579522306892</created>
@@ -441,7 +448,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589835891689</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="fix: show approved job count">
+      <created>1590823342835</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1590823342835</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -470,7 +484,8 @@
     <MESSAGE value="fix: institute can't preview pending jobs" />
     <MESSAGE value="fix: job shows multiple times" />
     <MESSAGE value="feat: add banner management functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add banner management functionality" />
+    <MESSAGE value="fix: show approved job count" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: show approved job count" />
   </component>
   <component name="WindowStateProjectService">
     <state x="516" y="191" width="624" height="542" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1586061517409">
@@ -481,9 +496,10 @@
       <screen x="67" y="27" width="1533" height="873" />
     </state>
     <state x="396" y="27" width="864" height="871" key="CommitChangelistDialog2/67.27.1533.873@67.27.1533.873" timestamp="1585742318695" />
-    <state x="616" y="221" width="424" height="482" key="FileChooserDialogImpl" timestamp="1584964128528">
-      <screen x="67" y="27" width="1533" height="873" />
+    <state x="525" y="192" width="376" height="410" key="FileChooserDialogImpl" timestamp="1591949048041">
+      <screen x="56" y="27" width="1310" height="741" />
     </state>
+    <state x="525" y="192" width="376" height="410" key="FileChooserDialogImpl/56.27.1310.741@56.27.1310.741" timestamp="1591949048041" />
     <state x="616" y="221" width="424" height="482" key="FileChooserDialogImpl/67.27.1533.873@67.27.1533.873" timestamp="1584964128528" />
     <state x="464" y="81" width="483" height="640" key="RollbackChangesDialog" timestamp="1586669247053">
       <screen x="56" y="27" width="1310" height="741" />

@@ -4,7 +4,7 @@ const {notify} = require('../helpers');
 const db = use('Database');
 
 module.exports = async function (job, user) {
-  const moderators = await findReviewers(user.id);
+  const moderators = await findReviewers(user.id, job.admin_job);
 
   // Get position
   const extraInfo = await db.query()

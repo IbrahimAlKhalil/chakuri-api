@@ -11,3 +11,5 @@ RUN .env
 RUN npm install --quiet --production --no-audit --no-optional
 
 CMD ["node", "./server.js"]
+
+EXPOSE 5000

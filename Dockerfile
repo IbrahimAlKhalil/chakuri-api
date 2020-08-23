@@ -6,7 +6,7 @@ COPY package.json .
 
 COPY . .
 
-RUN touch .env
+RUN .env
 
 RUN npm install --quiet --production --no-audit --no-optional
 

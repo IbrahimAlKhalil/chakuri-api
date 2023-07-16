@@ -1,28 +1,40 @@
-# Adonis API application
+# Chakuri Project
 
-This is the boilerplate for creating an API server in AdonisJs, it comes pre-configured with.
+## Introduction
 
-1. Bodyparser
-2. Authentication
-3. CORS
-4. Lucid ORM
-5. Migrations and seeds
+Chakuri is an employment application designed for Islamic institutes, where Madrasas or Mosques can publish job vacancies, and individuals can apply for those positions. This project was initiated around five years ago and has undergone significant changes since then.
 
-## Setup
+The original implementation consisted of four separate parts: API, Website, Admin, and Mobile App. Over time, it became apparent that maintaining all these components as a lone developer was challenging, leading to the decision to rebuild and restructure the project using different technologies.
 
-Use the adonis command to install the blueprint
+Please note that the new implementation of this project, including the API, Admin, and both the Website and Mobile App, has been rebuilt with NestJS, Directus, and Flutter respectively. The source code for the new project is not public as it's a commercial project.
 
-```bash
-adonis new yardstick --api-only
-```
+This repository serves as a reference and allows interested developers to explore the original implementation of Chakuri. However, it's important to note that the old codebase may not be suitable for production use due to its outdated nature and potential mistakes.
 
-or manually clone the repo and then run `npm install`.
+## Repository Structure
 
+This repository consists of the following parts:
 
-### Migrations
+- **API** ([GitHub Link](https://github.com/IbrahimAlKhalil/chakuri-api)): This section contains the original implementation of the Chakuri API built with AdonisJS and MySQL. The API provided the backend functionality for job listings and applications.
 
-Run the following command to run startup migrations.
+- **Website** ([GitHub Link](https://github.com/IbrahimAlKhalil/chakuri-website)): Here, you can find the original implementation of the Chakuri Website. It was developed using Vue.js and served as the frontend application for users to browse and apply for available job positions.
 
-```js
-adonis migration:run
-```
+- **Admin** ([GitHub Link](https://github.com/IbrahimAlKhalil/chakuri-admin)): This section includes the original implementation of the Chakuri Admin panel. It was also developed using Vue.js and provided an interface for Madrasas or Mosques to manage job listings, review applications, and perform administrative tasks.
+
+- **Mobile App** ([GitHub Link](https://github.com/IbrahimAlKhalil/chakuri-mobile)): The Mobile App repository contains the original implementation of the Chakuri Mobile App, which was built as a hybrid application using Cordova. Users could access job listings and apply for positions through this mobile application.
+
+## License
+
+The source code in this repository is provided under the [CC BY-NC-ND 4.0 License](LICENSE). This license allows you to:
+
+- Share: Copy and redistribute the code in any medium or format.
+- Adapt: Remix, transform, and build upon the code.
+
+Under the following conditions:
+
+- Attribution: You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+- Non-Commercial: You may not use the code for commercial purposes.
+- No Derivatives: If you remix, transform, or build upon the code, you may not distribute the modified material.
+
+Please review the license file for more details.
+
+Please note that while the code is available for reference, it is strongly advised against using this old codebase in production environments due to its outdated nature and potential issues.

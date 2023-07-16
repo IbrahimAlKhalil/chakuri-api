@@ -24,7 +24,7 @@ This repository consists of the following parts:
 
 ## License
 
-The source code in this repository is provided under the [CC BY-NC-ND 4.0 License](LICENSE). This license allows you to:
+The source code in this repository is provided under the [CC BY-NC-ND 4.0 License](https://creativecommons.org/licenses/by-nc-nd/4.0). This license allows you to:
 
 - Share: Copy and redistribute the code in any medium or format.
 - Adapt: Remix, transform, and build upon the code.

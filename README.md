@@ -4,7 +4,7 @@
 
 Chakuri is an employment application designed for Islamic institutes, where Madrasas or Mosques can publish job vacancies, and individuals can apply for those positions. This project was initiated around five years ago and has undergone significant changes since then.
 
-The original implementation consisted of four separate parts: API, Website, Admin, and Mobile App. Over time, it became apparent that maintaining all these components as a lone developer was challenging, leading to the decision to rebuild and restructure the project using different technologies.
+The original implementation consisted of three separate parts: API, Website & Mobile App, and Admin. Over time, it became apparent that maintaining all these components was challenging, leading to the decision to rebuild and restructure the project using different technologies.
 
 Please note that the new implementation of this project, including the API, Admin, and both the Website and Mobile App, has been rebuilt with NestJS, Directus, and Flutter respectively. The source code for the new project is not public as it's a commercial project.
 
@@ -16,11 +16,9 @@ This repository consists of the following parts:
 
 - **API** ([GitHub Link](https://github.com/IbrahimAlKhalil/chakuri-api)): This section contains the original implementation of the Chakuri API built with AdonisJS and MySQL. The API provided the backend functionality for job listings and applications.
 
-- **Website** ([GitHub Link](https://github.com/IbrahimAlKhalil/chakuri-website)): Here, you can find the original implementation of the Chakuri Website. It was developed using Vue.js and served as the frontend application for users to browse and apply for available job positions.
+- **Website & Mobile App** ([GitHub Link](https://github.com/IbrahimAlKhalil/chakuri-frontend)): Here, you can find the original implementation of the Chakuri Website and the Chakuri Mobile App. It was developed using Vue.js and Cordova and served as the frontend application for users to browse and apply for available job positions.
 
 - **Admin** ([GitHub Link](https://github.com/IbrahimAlKhalil/chakuri-admin)): This section includes the original implementation of the Chakuri Admin panel. It was also developed using Vue.js and provided an interface for Madrasas or Mosques to manage job listings, review applications, and perform administrative tasks.
-
-- **Mobile App** ([GitHub Link](https://github.com/IbrahimAlKhalil/chakuri-mobile)): The Mobile App repository contains the original implementation of the Chakuri Mobile App, which was built as a hybrid application using Cordova. Users could access job listings and apply for positions through this mobile application.
 
 ## License
 
